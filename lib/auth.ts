@@ -5,7 +5,7 @@ import ResendProvider from 'next-auth/providers/resend'
 
 import { createDb } from '@/lib/db'
 
-import { accounts, sessions, users, verificationTokens } from './db/schema'
+import { accounts, sessions, users, userUsage, verificationTokens } from './db/schema'
 
 export const { handlers, signIn, signOut, auth } = NextAuth(() => {
   const db = createDb()
@@ -39,6 +39,15 @@ export const { handlers, signIn, signOut, auth } = NextAuth(() => {
           session.user.id = token.id as string
         }
         return session
+      }
+    },
+    events: {
+      createUser: async ({ user }) => {
+        await db.insert(userUsage).values({
+          userId: user.id!,
+          usedTokens: 0,
+          totalTokens: 1000
+        })
       }
     }
   }

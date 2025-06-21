@@ -82,6 +82,17 @@ export const authenticators = sqliteTable(
   })
 )
 
+export const userUsage = sqliteTable('userUsage', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id, { onDelete: 'cascade' }),
+  usedTokens: integer('usedTokens').notNull().default(0),
+  totalTokens: integer('totalTokens').notNull().default(0)
+})
+
 export const posts = sqliteTable('posts', {
   id: text('id')
     .primaryKey()
@@ -91,7 +102,7 @@ export const posts = sqliteTable('posts', {
   coverImageUrl: text('cover_image_url'),
   excerpt: text('excerpt').notNull(),
   content: text('content').notNull(),
-  locale: text('locale').notNull().default('en'), // Add locale field with default 'en'
+  locale: text('locale').notNull().default('en'),
   publishedAt: integer('published_at', { mode: 'timestamp_ms' }),
   createdAt: integer('created_at', { mode: 'timestamp_ms' })
     .default(sql`CURRENT_TIMESTAMP`)
