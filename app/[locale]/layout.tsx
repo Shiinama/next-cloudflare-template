@@ -64,6 +64,9 @@ export default async function RootLayout({
 
   return (
     <html lang={currentLocale?.code ?? 'en'} dir={currentLocale?.dir || 'ltr'} suppressHydrationWarning>
+      <head>
+        <script src="https://upgrade.chat/embed/embed.js" defer />
+      </head>
       <body className="antialiased">
         <NextTopLoader />
         <NextIntlClientProvider>
