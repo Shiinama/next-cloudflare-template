@@ -2,7 +2,7 @@
 
 import { GoogleGenAI } from '@google/genai'
 
-import { hasEnoughTokens, updateUserTokenUsage } from '@/actions/token-management'
+import { hasEnoughTokens, updateUserTokenUsage } from '@/actions/payment/tokens'
 
 export type GeminiGenerationParams = {
   prompt: string
@@ -32,13 +32,12 @@ export async function getModelsWithGemini() {
 export async function generateWithGemini({
   prompt,
   userPrompt,
-  userId,
   model = 'gemini-pro',
   temperature = 0.7,
   maxOutputTokens = 2048,
   systemPrompt
 }: GeminiGenerationParams) {
-  const hasTokens = await hasEnoughTokens(userId, 0)
+  const hasTokens = await hasEnoughTokens(0)
 
   if (!hasTokens) {
     throw new Error('Not enough tokens')
@@ -84,7 +83,7 @@ export async function generateWithGemini({
     tokensUsed = inputTokens + outputTokens
   }
 
-  await updateUserTokenUsage(userId, tokensUsed)
+  await updateUserTokenUsage({ amount: tokensUsed })
 
   return {
     usageData: result.usageMetadata,

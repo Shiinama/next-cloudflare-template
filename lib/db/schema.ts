@@ -1,5 +1,5 @@
 import { sql } from 'drizzle-orm'
-import { integer, primaryKey, sqliteTable, text } from 'drizzle-orm/sqlite-core'
+import { integer, primaryKey, sqliteTable, text, real } from 'drizzle-orm/sqlite-core'
 
 import type { AdapterAccountType } from 'next-auth/adapters'
 
@@ -108,6 +108,102 @@ export const posts = sqliteTable('posts', {
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull(),
   updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull()
+})
+
+export type ProductType = 'one_time' | 'subscription'
+export type SubscriptionInterval = 'day' | 'week' | 'month' | 'year'
+export type OrderStatus = 'pending' | 'completed' | 'failed' | 'refunded'
+export type PaymentMethod = 'credit_card' | 'paypal' | 'upgrade.chat' | 'other'
+export type SubscriptionStatus = 'active' | 'canceled' | 'expired' | 'past_due'
+export type TransactionType = 'purchase' | 'usage' | 'refund' | 'subscription_renewal' | 'gift' | 'promotion'
+export type Currency = 'USD' | 'CNY' | 'EUR' | 'JPY' | 'GBP'
+
+// 产品表 - 存储可购买的产品或订阅计划
+export const products = sqliteTable('products', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  name: text('name').notNull(),
+  description: text('description').notNull(),
+  type: text('type').$type<ProductType>().notNull(),
+  price: real('price').notNull(),
+  currency: text('currency').$type<Currency>().notNull().default('USD'),
+  interval: text('interval').$type<SubscriptionInterval>(), // 仅用于订阅
+  tokenAmount: integer('tokenAmount'), // 如果产品提供tokens
+  active: integer('active', { mode: 'boolean' }).notNull().default(true),
+  createdAt: integer('created_at', { mode: 'timestamp_ms' })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull()
+})
+
+// 订单表 - 记录所有交易
+export const orders = sqliteTable('orders', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id),
+  productId: text('productId')
+    .notNull()
+    .references(() => products.id),
+  amount: real('amount').notNull(),
+  currency: text('currency').$type<Currency>().notNull(),
+  status: text('status').$type<OrderStatus>().notNull().default('pending'),
+  paymentMethod: text('paymentMethod').$type<PaymentMethod>(),
+  paymentIntentId: text('paymentIntentId'), // 支付网关的交易ID
+  metadata: text('metadata'), // 存储JSON格式的额外信息
+  createdAt: integer('created_at', { mode: 'timestamp_ms' })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull()
+})
+
+// 订阅表 - 记录用户的活跃订阅
+export const subscriptions = sqliteTable('subscriptions', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id),
+  productId: text('productId')
+    .notNull()
+    .references(() => products.id),
+  orderId: text('orderId').references(() => orders.id),
+  status: text('status').$type<SubscriptionStatus>().notNull().default('active'),
+  currentPeriodStart: integer('current_period_start', { mode: 'timestamp_ms' }).notNull(),
+  currentPeriodEnd: integer('current_period_end', { mode: 'timestamp_ms' }).notNull(),
+  cancelAtPeriodEnd: integer('cancel_at_period_end', { mode: 'boolean' }).default(false),
+  subscriptionId: text('subscriptionId'), // 支付网关的订阅ID
+  metadata: text('metadata'), // 存储JSON格式的额外信息
+  createdAt: integer('created_at', { mode: 'timestamp_ms' })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull()
+})
+
+// 交易历史表 - 记录所有token的变动
+export const transactions = sqliteTable('transactions', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  userId: text('userId')
+    .notNull()
+    .references(() => users.id),
+  orderId: text('orderId').references(() => orders.id),
+  type: text('type').$type<TransactionType>().notNull(),
+  amount: integer('amount').notNull(), // token数量，可以是正数(增加)或负数(消费)
+  createdAt: integer('created_at', { mode: 'timestamp_ms' })
     .default(sql`CURRENT_TIMESTAMP`)
     .notNull()
 })
