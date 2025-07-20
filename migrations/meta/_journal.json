@@ -36,6 +36,20 @@
       "when": 1751799369553,
       "tag": "0004_right_whizzer",
       "breakpoints": true
+    },
+    {
+      "idx": 5,
+      "version": "6",
+      "when": 1752994848328,
+      "tag": "0005_tough_typhoid_mary",
+      "breakpoints": true
+    },
+    {
+      "idx": 6,
+      "version": "6",
+      "when": 1752995090867,
+      "tag": "0006_illegal_screwball",
+      "breakpoints": true
     }
   ]
 }

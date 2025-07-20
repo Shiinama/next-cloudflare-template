@@ -5,10 +5,10 @@ import { eq } from 'drizzle-orm'
 import { createDb } from '@/lib/db'
 import { products } from '@/lib/db/schema'
 
-const db = createDb()
-
 // 获取所有激活的产品
 export async function getActiveProducts() {
+  const db = createDb()
+
   return await db.query.products.findMany({
     where: eq(products.active, true),
     orderBy: (products, { asc }) => [asc(products.price)]
@@ -17,6 +17,8 @@ export async function getActiveProducts() {
 
 // 获取单个产品详情
 export async function getProductById(productId: string) {
+  const db = createDb()
+
   const product = await db.query.products.findFirst({
     where: eq(products.id, productId)
   })

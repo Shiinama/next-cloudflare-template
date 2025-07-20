@@ -2,6 +2,7 @@
   "headers": {
     "blogs": "Blogs",
     "home": "Home",
+    "pricing": "Pricing",
     "navigation": "Site Navigation",
     "navigationDescription": "Access the main sections of our website"
   },

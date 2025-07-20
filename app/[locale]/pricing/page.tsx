@@ -1,20 +1,28 @@
-'use client'
+import { getActiveProducts } from '@/actions/payment/products'
+import { PlanComponent } from '@/components/plan/plan-card'
+import { TokenPackage } from '@/components/plan/token-card'
 
-export default function PricingPage() {
+async function Pricing() {
+  const products = await getActiveProducts()
+  const subscriptionProducts = products.filter((product) => product.type === 'subscription')
+  const oneTimeProducts = products.filter((product) => product.type === 'one_time')
   return (
-    <div className="flex gap-4">
-      <div
-        className="h-96 w-80"
-        data-upgrade-chat-embed="2d7ea31d-bcb0-4062-b476-327bd6d7a8d6"
-        data-upgrade-chat-products="be66b10a-69dd-42f0-bf0d-97083b46344e"
-        data-upgrade-chat-baseurl="https://upgrade.chat"
-      />
-      <div
-        className="h-96 w-80"
-        data-upgrade-chat-embed="2d7ea31d-bcb0-4062-b476-327bd6d7a8d6"
-        data-upgrade-chat-products="62312764-a2ce-4e71-b585-0eefc55ec27d"
-        data-upgrade-chat-baseurl="https://upgrade.chat"
-      ></div>
+    <div className="mb-20 flex flex-col items-center justify-center p-4">
+      <h1 className="text-foreground mb-8 text-4xl font-bold">Choose Your Plan</h1>
+      <div className="mb-16 grid grid-cols-1 gap-8 md:grid-cols-3">
+        {subscriptionProducts.map((i) => {
+          return <PlanComponent key={i.id} title={i.name} products={i.id} price={i.price} />
+        })}
+      </div>
+
+      <h2 className="text-foreground mb-8 text-3xl font-bold">Flow Tokens</h2>
+      <div className="grid grid-cols-1 gap-8 md:grid-cols-3">
+        {oneTimeProducts.map((i) => {
+          return <TokenPackage key={i.id} title={i.name} products={i.id} price={i.price} />
+        })}
+      </div>
     </div>
   )
 }
+
+export default Pricing

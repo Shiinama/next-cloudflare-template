@@ -6,46 +6,9 @@ import { auth } from '@/lib/auth'
 import { createDb } from '@/lib/db'
 import { transactions, userUsage, TransactionType } from '@/lib/db/schema'
 
-const db = createDb()
-
-// 更新用户token余额（内部函数）
-export async function updateUserTokens({
-  userId,
-  orderId,
-  amount,
-  type
-}: {
-  userId: string
-  orderId?: string
-  amount: number
-  type: TransactionType
-}) {
-  // 创建交易记录
-  await db.insert(transactions).values({
-    userId,
-    orderId,
-    type,
-    amount
-  })
-
-  // 获取用户当前使用情况
-  const usage = await db.query.userUsage.findFirst({
-    where: eq(userUsage.userId, userId)
-  })
-
-  if (usage) {
-    // 更新现有记录
-    await db
-      .update(userUsage)
-      .set({
-        totalTokens: usage.totalTokens + amount
-      })
-      .where(eq(userUsage.userId, userId))
-  }
-}
-
 // 使用token
 export async function updateUserTokenUsage({ amount }: { amount: number }) {
+  const db = createDb()
   const session = await auth()
   if (!session?.user?.id) {
     throw new Error('Unauthorized')
@@ -90,6 +53,7 @@ export async function updateUserTokenUsage({ amount }: { amount: number }) {
 }
 
 export async function hasEnoughTokens(requiredTokens: number) {
+  const db = createDb()
   const session = await auth()
   if (!session?.user?.id) {
     throw new Error('Unauthorized')
@@ -112,6 +76,7 @@ export async function hasEnoughTokens(requiredTokens: number) {
 
 // 获取用户token余额
 export async function getUserTokenBalance() {
+  const db = createDb()
   const session = await auth()
   if (!session?.user?.id) {
     throw new Error('Unauthorized')
@@ -136,19 +101,4 @@ export async function getUserTokenBalance() {
     usedTokens: usage.usedTokens,
     availableTokens: usage.totalTokens - usage.usedTokens
   }
-}
-
-// 获取用户的交易历史
-export async function getUserTransactionHistory() {
-  const session = await auth()
-  if (!session?.user?.id) {
-    throw new Error('Unauthorized')
-  }
-
-  const userId = session.user.id
-
-  return await db.query.transactions.findMany({
-    where: eq(transactions.userId, userId),
-    orderBy: (transactions, { desc }) => [desc(transactions.createdAt)]
-  })
 }

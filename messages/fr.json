@@ -53,7 +53,8 @@
     "home": "Accueil",
     "blogs": "Blogs",
     "navigation": "Navigation du site",
-    "navigationDescription": "Accédez aux principales sections de notre site Web"
+    "navigationDescription": "Accédez aux principales sections de notre site Web",
+    "pricing": "Prix"
   },
   "siteInfo": {
     "brandName": "Next Template",

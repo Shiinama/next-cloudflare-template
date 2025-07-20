@@ -53,7 +53,8 @@
     "home": "Главная",
     "blogs": "Блоги",
     "navigation": "Навигация по сайту",
-    "navigationDescription": "Доступ к основным разделам нашего веб-сайта"
+    "navigationDescription": "Доступ к основным разделам нашего веб-сайта",
+    "pricing": "Цены"
   },
   "siteInfo": {
     "brandName": "Next Template",

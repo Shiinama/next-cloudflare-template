@@ -116,7 +116,6 @@ export type ProductType = 'one_time' | 'subscription'
 export type SubscriptionInterval = 'day' | 'week' | 'month' | 'year'
 export type OrderStatus = 'pending' | 'completed' | 'failed' | 'refunded'
 export type PaymentMethod = 'credit_card' | 'paypal' | 'upgrade.chat' | 'other'
-export type SubscriptionStatus = 'active' | 'canceled' | 'expired' | 'past_due'
 export type TransactionType = 'purchase' | 'usage' | 'refund' | 'subscription_renewal' | 'gift' | 'promotion'
 export type Currency = 'USD' | 'CNY' | 'EUR' | 'JPY' | 'GBP'
 
@@ -126,7 +125,6 @@ export const products = sqliteTable('products', {
     .primaryKey()
     .$defaultFn(() => crypto.randomUUID()),
   name: text('name').notNull(),
-  description: text('description').notNull(),
   type: text('type').$type<ProductType>().notNull(),
   price: real('price').notNull(),
   currency: text('currency').$type<Currency>().notNull().default('USD'),
@@ -178,7 +176,6 @@ export const subscriptions = sqliteTable('subscriptions', {
     .notNull()
     .references(() => products.id),
   orderId: text('orderId').references(() => orders.id),
-  status: text('status').$type<SubscriptionStatus>().notNull().default('active'),
   currentPeriodStart: integer('current_period_start', { mode: 'timestamp_ms' }).notNull(),
   currentPeriodEnd: integer('current_period_end', { mode: 'timestamp_ms' }).notNull(),
   cancelAtPeriodEnd: integer('cancel_at_period_end', { mode: 'boolean' }).default(false),

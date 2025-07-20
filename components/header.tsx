@@ -17,7 +17,8 @@ export default async function Header({ className }: { className?: string }) {
 
   const navLinks = [
     { href: '/', label: t('home') },
-    { href: '/blogs', label: t('blogs') }
+    { href: '/blogs', label: t('blogs') },
+    { href: '/pricing', label: t('pricing') }
   ]
 
   return (

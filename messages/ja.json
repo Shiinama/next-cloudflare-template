@@ -53,7 +53,8 @@
     "home": "ホーム",
     "blogs": "ブログ",
     "navigation": "サイトのナビゲーション",
-    "navigationDescription": "ウェブサイトの主要セクションにアクセスする"
+    "navigationDescription": "ウェブサイトの主要セクションにアクセスする",
+    "pricing": "価格"
   },
   "siteInfo": {
     "brandName": "Next Template",

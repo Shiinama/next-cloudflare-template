@@ -53,7 +53,8 @@
     "home": "首页",
     "blogs": "博客",
     "navigation": "站点导航",
-    "navigationDescription": "访问我们网站的主要部分"
+    "navigationDescription": "访问我们网站的主要部分",
+    "pricing": "定价"
   },
   "siteInfo": {
     "brandName": "Next Template",
