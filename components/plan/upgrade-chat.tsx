@@ -1,6 +1,13 @@
 'use client'
 
-function UpgradeChat({ product }: { product: string }) {
+import { ArrowRight } from 'lucide-react'
+
+interface UpgradeChatProps {
+  product: string
+  variant?: 'default' | 'compact'
+}
+
+function UpgradeChat({ product, variant = 'default' }: UpgradeChatProps) {
   const toUpgradeChat = () => {
     let src = `https://upgrade.chat/view-embed/2d7ea31d-bcb0-4062-b476-327bd6d7a8d6`
     const queryParams = [`embedder_url=${encodeURIComponent(window.location.href)}`, `productId=${product}`]
@@ -16,6 +23,18 @@ function UpgradeChat({ product }: { product: string }) {
     const top = window.screen.height / 2 - height / 2
 
     window.open(src, '_blank', `width=${width},height=${height},top=${top},left=${left}`)
+  }
+
+  if (variant === 'compact') {
+    return (
+      <button
+        onClick={toUpgradeChat}
+        className="text-primary hover:text-primary/80 flex items-center gap-1 text-sm font-medium transition duration-200"
+      >
+        PayPal
+        <ArrowRight className="h-4 w-4" />
+      </button>
+    )
   }
 
   return (

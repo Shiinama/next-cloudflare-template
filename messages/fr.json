@@ -75,5 +75,60 @@
     "metaDescription": "Explorez nos derniers articles sur l'analyse de la beauté, la technologie de l'intelligence artificielle et l'esthétique faciale. Découvrez les informations d'experts, les conseils et les tendances dans le monde de l'évaluation de la beauté alimentée par l'IA.",
     "noArticles": "Aucun article disponible",
     "publishedAt": "Publié le {date}"
+  },
+  "plan": {
+    "notFound": "Plan non trouvé",
+    "priceUnit": "/ mois",
+    "tokens": "Tokens",
+    "featuresTitle": "Fonctionnalités",
+    "light": {
+      "name": "Plan Léger",
+      "description": "Parfait pour une utilisation légère et des tests",
+      "features": {
+        "0": "Création de contenu illimitée",
+        "1": "Jetons Flow",
+        "2": "Accès à la communauté Flow"
+      }
+    },
+    "standard": {
+      "name": "Plan Standard",
+      "description": "Idéal pour les utilisateurs réguliers et les petites équipes",
+      "features": {
+        "0": "Création de contenu illimitée",
+        "1": "Tokens Flow",
+        "2": "Accès à la communauté Flow",
+        "3": "Images de haute qualité"
+      }
+    },
+    "professional": {
+      "name": "Plan Professionnel",
+      "description": "Idéal pour les utilisateurs experts et les grands projets",
+      "features": {
+        "0": "Création de contenu illimitée",
+        "1": "Jetons Flow",
+        "2": "Accès à la communauté Flow",
+        "3": "Images de haute qualité",
+        "4": "Fonctionnalités premium"
+      }
+    }
+  },
+  "tokenPackage": {
+    "tokensLabel": "jetons",
+    "oneTime": "Unique",
+    "trial": {
+      "name": "Forfait d'essai"
+    },
+    "small": {
+      "name": "Petit paquet"
+    },
+    "medium": {
+      "name": "Paquet moyen"
+    }
+  },
+  "pricing": {
+    "metaTitle": "Plans tarifaires - Choisissez votre plan idéal",
+    "metaDescription": "Choisissez parmi nos plans tarifaires flexibles et nos forfaits de jetons. Commencez avec notre plan Léger ou passez à Professionnel pour des fonctionnalités avancées.",
+    "title": "Choisissez votre plan",
+    "tokensTitle": "Jetons de Flux"
   }
 }

@@ -75,5 +75,60 @@
     "metaDescription": "뷰티 분석, AI 기술 및 얼굴 미학에 관한 최신 기사를 탐색하세요. AI 기반 뷰티 평가 세계의 전문가 통찰력, 팁 및 트렌드를 발견하세요.",
     "noArticles": "사용 가능한 기사가 없습니다",
     "publishedAt": "{date}에 게시됨"
+  },
+  "plan": {
+    "notFound": "플랜을 찾을 수 없습니다",
+    "priceUnit": "/ 월",
+    "tokens": "토큰",
+    "featuresTitle": "기능",
+    "light": {
+      "name": "경량 플랜",
+      "description": "경량 사용 및 테스트에 적합",
+      "features": {
+        "0": "무제한 콘텐츠 제작",
+        "1": "Flow 토큰",
+        "2": "Flow 커뮤니티 액세스"
+      }
+    },
+    "standard": {
+      "name": "표준 플랜",
+      "description": "정기 사용자 및 소규모 팀에 적합합니다",
+      "features": {
+        "0": "무제한 콘텐츠 제작",
+        "1": "Flow 토큰",
+        "2": "Flow 커뮤니티 액세스",
+        "3": "고품질 이미지"
+      }
+    },
+    "professional": {
+      "name": "전문가용 플랜",
+      "description": "파워 유저 및 대규모 프로젝트에 최적화",
+      "features": {
+        "0": "무제한 콘텐츠 제작",
+        "1": "플로우 토큰",
+        "2": "Flow 커뮤니티 접근",
+        "3": "고품질 이미지",
+        "4": "프리미엄 기능"
+      }
+    }
+  },
+  "tokenPackage": {
+    "tokensLabel": "토큰",
+    "oneTime": "일회용",
+    "trial": {
+      "name": "시험용 팩"
+    },
+    "small": {
+      "name": "소형 팩"
+    },
+    "medium": {
+      "name": "중형 팩"
+    }
+  },
+  "pricing": {
+    "metaTitle": "가격 플랜 - 완벽한 플랜 선택",
+    "metaDescription": "유연한 가격 플랜 및 토큰 패키지 중에서 선택하세요. 라이트 플랜으로 시작하거나 고급 기능을 위해 프로페셔널로 업그레이드하세요.",
+    "title": "플랜 선택",
+    "tokensTitle": "플로우 토큰"
   }
 }

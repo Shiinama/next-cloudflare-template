@@ -75,5 +75,60 @@
     "metaDescription": "Entdecken Sie unsere neuesten Artikel über Beauty-Analyse, KI-Technologie und Gesichtsaesthetik. Erhalten Sie Experten-Einblicke, Tipps und Trends aus der Welt der KI-gestützten Schönheitsbewertung.",
     "noArticles": "Keine Artikel verfügbar",
     "publishedAt": "Veröffentlicht am {date}"
+  },
+  "plan": {
+    "notFound": "Plan nicht gefunden",
+    "priceUnit": "/ Monat",
+    "tokens": "Tokens",
+    "featuresTitle": "Funktionen",
+    "light": {
+      "name": "Light Plan",
+      "description": "Perfekt für leichte Nutzung und Tests",
+      "features": {
+        "0": "Unbegrenzte Inhaltserstellung",
+        "1": "Flow-Token",
+        "2": "Zugriff auf die Flow-Community"
+      }
+    },
+    "standard": {
+      "name": "Standard-Plan",
+      "description": "Ideal für regelmäßige Nutzer und kleine Teams",
+      "features": {
+        "0": "Unbegrenzte Inhaltserstellung",
+        "1": "Flow-Token",
+        "2": "Zugriff auf die Flow-Community",
+        "3": "Hochwertige Bilder"
+      }
+    },
+    "professional": {
+      "name": "Professioneller Plan",
+      "description": "Ideal für Power-User und große Projekte",
+      "features": {
+        "0": "Unbegrenzte Inhaltserstellung",
+        "1": "Flow-Token",
+        "2": "Zugriff auf die Flow-Community",
+        "3": "Hochwertige Bilder",
+        "4": "Premium-Funktionen"
+      }
+    }
+  },
+  "tokenPackage": {
+    "tokensLabel": "Token",
+    "oneTime": "Einmalig",
+    "trial": {
+      "name": "Testpaket"
+    },
+    "small": {
+      "name": "Kleines Paket"
+    },
+    "medium": {
+      "name": "Mittleres Paket"
+    }
+  },
+  "pricing": {
+    "metaTitle": "Preispläne - Wählen Sie Ihren perfekten Plan",
+    "metaDescription": "Wählen Sie aus unseren flexiblen Preisplänen und Token-Paketen. Beginnen Sie mit unserem Light Plan oder aktualisieren Sie auf Professional für erweiterte Funktionen.",
+    "title": "Wählen Sie Ihren Plan",
+    "tokensTitle": "Flow-Token"
   }
 }

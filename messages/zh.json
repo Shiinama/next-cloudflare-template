@@ -75,5 +75,60 @@
     "metaDescription": "探索我们关于美容分析、人工智能技术和面部美学的最新文章。发现专家见解、技巧和人工智能驱动的美容评估世界中的趋势。",
     "noArticles": "没有可用的文章",
     "publishedAt": "发布于 {date}"
+  },
+  "plan": {
+    "notFound": "未找到计划",
+    "priceUnit": "/ 月",
+    "tokens": "令牌",
+    "featuresTitle": "特性",
+    "light": {
+      "name": "轻量级方案",
+      "description": "非常适合轻量级使用和测试",
+      "features": {
+        "0": "无限内容创作",
+        "1": "Flow 代币",
+        "2": "访问 Flow 社区"
+      }
+    },
+    "standard": {
+      "name": "标准计划",
+      "description": "非常适合普通用户和小团队",
+      "features": {
+        "0": "无限内容创作",
+        "1": "流令牌",
+        "2": "访问 Flow 社区",
+        "3": "高质量图像"
+      }
+    },
+    "professional": {
+      "name": "专业版",
+      "description": "最适合高级用户和大项目",
+      "features": {
+        "0": "无限内容创作",
+        "1": "流体令牌",
+        "2": "访问 Flow 社区",
+        "3": "高质量图片",
+        "4": "高级功能"
+      }
+    }
+  },
+  "tokenPackage": {
+    "tokensLabel": "令牌",
+    "oneTime": "一次性",
+    "trial": {
+      "name": "试用包"
+    },
+    "small": {
+      "name": "小型包"
+    },
+    "medium": {
+      "name": "中型包"
+    }
+  },
+  "pricing": {
+    "metaTitle": "定价计划 - 选择您的完美计划",
+    "metaDescription": "从我们的灵活定价计划和令牌套餐中选择。 从我们的轻量级计划开始，或升级到专业版以获得高级功能。",
+    "title": "选择您的计划",
+    "tokensTitle": "流動性代币"
   }
 }

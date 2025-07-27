@@ -14,6 +14,61 @@
       "description": "A responsive, lightweight, and accessible front-end framework using Next.js, TypeScript, and Tailwind CSS."
     }
   },
+  "pricing": {
+    "metaTitle": "Pricing Plans - Choose Your Perfect Plan",
+    "metaDescription": "Choose from our flexible pricing plans and token packages. Get started with our Light Plan or upgrade to Professional for advanced features.",
+    "title": "Choose Your Plan",
+    "tokensTitle": "Flow Tokens"
+  },
+  "tokenPackage": {
+    "tokensLabel": "tokens",
+    "oneTime": "One-time",
+    "trial": {
+      "name": "Trial Pack"
+    },
+    "small": {
+      "name": "Small Pack"
+    },
+    "medium": {
+      "name": "Medium Pack"
+    }
+  },
+  "plan": {
+    "notFound": "Plan not found",
+    "priceUnit": "/ mo",
+    "tokens": "Tokens",
+    "featuresTitle": "Features",
+    "light": {
+      "name": "Light Plan",
+      "description": "Perfect for light usage and testing",
+      "features": {
+        "0": "Unlimited content creation",
+        "1": "Flow tokens",
+        "2": "Access to Flow community"
+      }
+    },
+    "standard": {
+      "name": "Standard Plan",
+      "description": "Great for regular users and small teams",
+      "features": {
+        "0": "Unlimited content creation",
+        "1": "Flow tokens",
+        "2": "Access to Flow community",
+        "3": "High-quality images"
+      }
+    },
+    "professional": {
+      "name": "Professional Plan",
+      "description": "Best for power users and large projects",
+      "features": {
+        "0": "Unlimited content creation",
+        "1": "Flow tokens",
+        "2": "Access to Flow community",
+        "3": "High-quality images",
+        "4": "Premium features"
+      }
+    }
+  },
   "footer": {
     "description": "Empowering conversations with AI. Experience the future of communication with Next Template.",
     "contact": {

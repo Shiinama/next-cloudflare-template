@@ -75,5 +75,60 @@
     "metaDescription": "Explora nuestros últimos artículos sobre análisis de belleza, tecnología de inteligencia artificial y estética facial. Descubre perspectivas expertas, consejos y tendencias en el mundo de la evaluación de belleza impulsada por IA.",
     "noArticles": "No hay artículos disponibles",
     "publishedAt": "Publicado en {date}"
+  },
+  "plan": {
+    "notFound": "Plan no encontrado",
+    "priceUnit": "/ mes",
+    "tokens": "Tokens",
+    "featuresTitle": "Características",
+    "light": {
+      "name": "Plan Ligero",
+      "description": "Perfecto para uso ligero y pruebas",
+      "features": {
+        "0": "Creación de contenido ilimitada",
+        "1": "Tokens de Flow",
+        "2": "Acceso a la comunidad de Flow"
+      }
+    },
+    "standard": {
+      "name": "Plan Estándar",
+      "description": "Ideal para usuarios habituales y equipos pequeños",
+      "features": {
+        "0": "Creación de contenido ilimitada",
+        "1": "Tokens de Flow",
+        "2": "Acceso a la comunidad de Flow",
+        "3": "Imágenes de alta calidad"
+      }
+    },
+    "professional": {
+      "name": "Plan Profesional",
+      "description": "Ideal para usuarios avanzados y proyectos grandes",
+      "features": {
+        "0": "Creación de contenido ilimitada",
+        "1": "Tokens de Flow",
+        "2": "Acceso a la comunidad de Flow",
+        "3": "Imágenes de alta calidad",
+        "4": "Características premium"
+      }
+    }
+  },
+  "tokenPackage": {
+    "tokensLabel": "tokens",
+    "oneTime": "Un solo uso",
+    "trial": {
+      "name": "Paquete de prueba"
+    },
+    "small": {
+      "name": "Paquete pequeño"
+    },
+    "medium": {
+      "name": "Paquete mediano"
+    }
+  },
+  "pricing": {
+    "metaTitle": "Planes de precios - Elija su plan perfecto",
+    "metaDescription": "Elija entre nuestros planes de precios flexibles y paquetes de tokens. Comience con nuestro Plan Ligero o actualice a Professional para obtener funciones avanzadas.",
+    "title": "Elija su plan",
+    "tokensTitle": "Tokens de Flujo"
   }
 }

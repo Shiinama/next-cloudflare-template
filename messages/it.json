@@ -75,5 +75,60 @@
     "metaDescription": "Esplora i nostri ultimi articoli sull'analisi della bellezza, la tecnologia dell'intelligenza artificiale e l'estetica facciale. Scopri informazioni approfondite di esperti, consigli e tendenze nel mondo della valutazione della bellezza basata sull'intelligenza artificiale.",
     "noArticles": "Nessun articolo disponibile",
     "publishedAt": "Pubblicato il {date}"
+  },
+  "plan": {
+    "notFound": "Piano non trovato",
+    "priceUnit": "/ mese",
+    "tokens": "Token",
+    "featuresTitle": "Funzionalità",
+    "light": {
+      "name": "Piano Light",
+      "description": "Perfetto per un utilizzo leggero e per i test",
+      "features": {
+        "0": "Creazione di contenuti illimitata",
+        "1": "Token Flow",
+        "2": "Accesso alla community Flow"
+      }
+    },
+    "standard": {
+      "name": "Piano Standard",
+      "description": "Ideale per utenti abituali e piccoli team",
+      "features": {
+        "0": "Creazione di contenuti illimitata",
+        "1": "Flow token",
+        "2": "Accesso alla community di Flow",
+        "3": "Immagini di alta qualità"
+      }
+    },
+    "professional": {
+      "name": "Piano Professionale",
+      "description": "Ideale per utenti esperti e progetti di grandi dimensioni",
+      "features": {
+        "0": "Creazione di contenuti illimitata",
+        "1": "Token Flow",
+        "2": "Accesso alla community di Flow",
+        "3": "Immagini di alta qualità",
+        "4": "Funzionalità premium"
+      }
+    }
+  },
+  "tokenPackage": {
+    "tokensLabel": "token",
+    "oneTime": "Una tantum",
+    "trial": {
+      "name": "Pacchetto di prova"
+    },
+    "small": {
+      "name": "Pacchetto piccolo"
+    },
+    "medium": {
+      "name": "Pacchetto medio"
+    }
+  },
+  "pricing": {
+    "metaTitle": "Piani tariffari - Scegli il tuo piano perfetto",
+    "metaDescription": "Scegli tra i nostri piani tariffari flessibili e pacchetti di token. Inizia con il nostro Piano Light o passa a Professional per funzionalità avanzate.",
+    "title": "Scegli il tuo piano",
+    "tokensTitle": "Token di flusso"
   }
 }

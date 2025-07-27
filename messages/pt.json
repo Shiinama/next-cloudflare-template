@@ -75,5 +75,60 @@
     "metaDescription": "Explore nossos artigos mais recentes sobre análise de beleza, tecnologia de inteligência artificial e estética facial. Descubra percepções de especialistas, dicas e tendências no mundo da avaliação de beleza baseada em IA.",
     "noArticles": "Nenhum artigo disponível",
     "publishedAt": "Publicado em {date}"
+  },
+  "plan": {
+    "notFound": "Plano não encontrado",
+    "priceUnit": "/ mês",
+    "tokens": "Tokens",
+    "featuresTitle": "Funcionalidades",
+    "light": {
+      "name": "Plano Light",
+      "description": "Perfeito para uso leve e testes",
+      "features": {
+        "0": "Criação de conteúdo ilimitada",
+        "1": "Tokens Flow",
+        "2": "Acesso à comunidade Flow"
+      }
+    },
+    "standard": {
+      "name": "Plano Padrão",
+      "description": "Ótimo para usuários regulares e pequenas equipes",
+      "features": {
+        "0": "Criação de conteúdo ilimitada",
+        "1": "Tokens de Flow",
+        "2": "Acesso à comunidade Flow",
+        "3": "Imagens de alta qualidade"
+      }
+    },
+    "professional": {
+      "name": "Plano Profissional",
+      "description": "Ideal para usuários avançados e grandes projetos",
+      "features": {
+        "0": "Criação de conteúdo ilimitada",
+        "1": "Tokens Flow",
+        "2": "Acesso à comunidade Flow",
+        "3": "Imagens de alta qualidade",
+        "4": "Recursos premium"
+      }
+    }
+  },
+  "tokenPackage": {
+    "tokensLabel": "tokens",
+    "oneTime": "Único",
+    "trial": {
+      "name": "Pacote de teste"
+    },
+    "small": {
+      "name": "Pacote pequeno"
+    },
+    "medium": {
+      "name": "Pacote médio"
+    }
+  },
+  "pricing": {
+    "metaTitle": "Planos de preços - Escolha o seu plano perfeito",
+    "metaDescription": "Escolha entre os nossos planos de preços flexíveis e pacotes de tokens. Comece com o nosso Plano Light ou atualize para Professional para obter funcionalidades avançadas.",
+    "title": "Escolha o seu plano",
+    "tokensTitle": "Tokens de Flow"
   }
 }
