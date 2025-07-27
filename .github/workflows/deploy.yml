@@ -49,6 +49,7 @@ jobs:
           GMI_API_KEY="${{ secrets.GMI_API_KEY }}"
           NEXT_PUBLIC_BASE_URL="${{ secrets.NEXT_PUBLIC_BASE_URL }}"
           NEXT_PUBLIC_ADMIN_ID="${{ secrets.NEXT_PUBLIC_ADMIN_ID }}"
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
           EOF
 
       - name: Run deploy script
@@ -67,6 +68,7 @@ jobs:
           NEXT_PUBLIC_BASE_URL: ${{ secrets.NEXT_PUBLIC_BASE_URL }}
           NEXT_PUBLIC_ADMIN_ID: ${{ secrets.NEXT_PUBLIC_ADMIN_ID }}
           NEXT_PUBLIC_R2_DOMAIN: ${{ secrets.NEXT_PUBLIC_R2_DOMAIN }}
+          ELEVENLABS_API_KEY: ${{ secrets.ELEVENLABS_API_KEY }}
 
         run: pnpm dlx tsx scripts/deploy/index.ts
 
