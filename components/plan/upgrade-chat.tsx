@@ -1,14 +1,10 @@
 'use client'
 
-function UpgradeChat({ products }: { products: string }) {
+function UpgradeChat({ product }: { product: string }) {
   const toUpgradeChat = () => {
     let src = `https://upgrade.chat/view-embed/2d7ea31d-bcb0-4062-b476-327bd6d7a8d6`
-    const queryParams = [`embedder_url=${encodeURIComponent(window.location.href)}`]
-    if (products) {
-      for (const product of products.split(',')) {
-        queryParams.push(`productId=${product}`)
-      }
-    }
+    const queryParams = [`embedder_url=${encodeURIComponent(window.location.href)}`, `productId=${product}`]
+
     if (queryParams.length > 0) {
       src += `?${queryParams.join('&')}`
     }
