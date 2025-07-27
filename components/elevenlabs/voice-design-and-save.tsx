@@ -30,7 +30,7 @@ export function VoiceDesignAndSave({ audioRef }: VoiceDesignAndSaveProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
 
-  const { checkIsLoggedIn } = useUser()
+  const { checkIsLoggedIn, refetchGetToken } = useUser()
 
   const handleDesignAndSave = async () => {
     if (!checkIsLoggedIn()) return
@@ -73,6 +73,7 @@ export function VoiceDesignAndSave({ audioRef }: VoiceDesignAndSaveProps) {
 
       // Step 3: Generate TTS with the new voice and play immediately
       await generateTTSWithNewVoice(savedVoiceResult.voiceId)
+      refetchGetToken()
       deleteVoice(savedVoiceResult.voiceId)
 
       toast.success(`Voice "${randomVoiceName}" created and speech generated!`)

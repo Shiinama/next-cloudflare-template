@@ -21,7 +21,7 @@ export function SpeechGenerator({ voices, audioRef }: SpeechGeneratorProps) {
     'My dearest love, do you remember that rainy evening when we first met? I was standing under the old oak tree, watching the raindrops dance on the pavement, when you appeared with your gentle smile and offered me your umbrella. In that moment, something inside me awakened - a feeling I had never experienced before. Your kindness touched my soul so deeply that I knew my life would never be the same. Every day since then, I find myself falling deeper in love with your beautiful heart, your infectious laughter, and the way you see magic in the simplest moments. You are my sunshine on cloudy days, my anchor in stormy seas, and the reason I believe in forever.'
   )
   const [isPlaying, setIsPlaying] = useState(false)
-  const { checkIsLoggedIn } = useUser()
+  const { checkIsLoggedIn, refetchGetToken } = useUser()
 
   const selectedVoiceId = useVoicesStore((state) => state.selectedVoiceId)
 
@@ -37,6 +37,7 @@ export function SpeechGenerator({ voices, audioRef }: SpeechGeneratorProps) {
       setIsPlaying(true)
 
       const result = await generateSpeech(message, selectedVoiceId)
+      refetchGetToken()
 
       const audioBuffer = Buffer.from(result.audio, 'base64')
 

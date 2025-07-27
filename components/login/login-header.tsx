@@ -4,7 +4,8 @@ import { LogIn, LogOut } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 
-import { Avatar, AvatarImage, AvatarFallback } from '@/components/ui/avatar'
+import { UsageCard } from '@/components/login/usage-card'
+import { AvatarWithProgress } from '@/components/ui/avatar-with-progress'
 import { Button } from '@/components/ui/button'
 import {
   DropdownMenu,
@@ -20,7 +21,14 @@ import { useIsMobile } from '@/hooks/use-mobile'
 export default function LoginHeader() {
   const t = useTranslations('login')
   const isMobile = useIsMobile()
-  const { status, user } = useUser()
+  const { status, user, usage } = useUser()
+
+  const getTokenProgress = () => {
+    if (!usage || !usage.totalTokens || usage.totalTokens === 0) return 0
+    return Math.min((usage.usedTokens / usage.totalTokens) * 100, 100)
+  }
+
+  const tokenProgress = getTokenProgress()
 
   if (status === 'loading') return null
 
@@ -29,10 +37,14 @@ export default function LoginHeader() {
       return (
         <div className="border-border/40 flex items-center justify-between gap-3 border-b px-1 py-3">
           <div className="flex min-w-0 flex-1 items-center gap-3">
-            <Avatar className="h-9 w-9">
-              <AvatarImage src={user?.image || ''} alt={user?.name || 'User'} />
-              <AvatarFallback>{user?.name?.[0] || user?.email?.[0] || '?'}</AvatarFallback>
-            </Avatar>
+            <AvatarWithProgress
+              src={user?.image || ''}
+              alt={user?.name || 'User'}
+              width={40}
+              height={40}
+              fallback={user?.name?.[0] || user?.email?.[0] || '?'}
+              progress={tokenProgress}
+            />
             <div className="min-w-0 flex-1">
               {user?.name && <p className="truncate font-medium">{user.name}</p>}
               {user?.email && <p className="text-muted-foreground truncate text-xs">{user.email}</p>}
@@ -54,14 +66,19 @@ export default function LoginHeader() {
     return (
       <DropdownMenu>
         <DropdownMenuTrigger asChild>
-          <Button variant="ghost" size="icon" className="h-8 w-8 rounded-full p-0">
-            <Avatar className="h-8 w-8">
-              <AvatarImage src={user?.image || ''} alt={user?.name || 'User'} />
-              <AvatarFallback>{user?.name?.[0] || user?.email?.[0] || '?'}</AvatarFallback>
-            </Avatar>
-          </Button>
+          <div>
+            <AvatarWithProgress
+              src={user?.image || ''}
+              alt={user?.name || 'User'}
+              width={40}
+              height={40}
+              fallback={user?.name?.[0] || user?.email?.[0] || '?'}
+              progress={40}
+            />
+          </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
+          <UsageCard />
           <DropdownMenuLabel>
             <div className="flex flex-col space-y-1">
               {user?.name && <p className="font-medium">{user.name}</p>}

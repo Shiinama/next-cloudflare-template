@@ -35,6 +35,7 @@ export interface UserOrder {
 interface UserContextType {
   user: User | null
   status: 'authenticated' | 'loading' | 'unauthenticated'
+  refetchGetToken: () => void
   checkIsLoggedIn: () => boolean
   checkIsPaid: () => boolean
   order?: UserOrder
@@ -57,7 +58,7 @@ export function UserProvider({ children }: UserProviderProps) {
   const { data: order } = useRequest(getUserOrder, {
     ready: !!user?.id
   })
-  const { data: usage } = useRequest(getUserTokenBalance, {
+  const { data: usage, run: refetchGetToken } = useRequest(getUserTokenBalance, {
     ready: !!user?.id
   })
 
@@ -85,6 +86,7 @@ export function UserProvider({ children }: UserProviderProps) {
   const value: UserContextType = {
     checkIsLoggedIn,
     checkIsPaid,
+    refetchGetToken,
     user,
     usage,
     order,
