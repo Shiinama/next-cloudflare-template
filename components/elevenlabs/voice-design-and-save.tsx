@@ -7,6 +7,7 @@ import { toast } from 'sonner'
 import { designVoice, saveVoice, generateSpeech, deleteVoice } from '@/actions/design-voice'
 import { Button } from '@/components/ui/button'
 import { Textarea } from '@/components/ui/textarea'
+import { useUser } from '@/contexts/user-context'
 
 interface VoiceDesignAndSaveProps {
   audioRef: RefObject<HTMLAudioElement | null>
@@ -29,7 +30,11 @@ export function VoiceDesignAndSave({ audioRef }: VoiceDesignAndSaveProps) {
   const [isProcessing, setIsProcessing] = useState(false)
   const [isPlaying, setIsPlaying] = useState(false)
 
+  const { checkIsLoggedIn } = useUser()
+
   const handleDesignAndSave = async () => {
+    if (!checkIsLoggedIn()) return
+
     if (!ttsMessage.trim()) {
       toast.error('Please enter a test message.')
       return

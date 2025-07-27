@@ -8,6 +8,7 @@ import { designVoice, saveVoice } from '@/actions/design-voice'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Textarea } from '@/components/ui/textarea'
+import { useUser } from '@/contexts/user-context'
 import { ProcessedVoicePreview } from '@/store/voices.store'
 
 export function VoiceDesigner({ getVoices }: { getVoices: () => Promise<void> }) {
@@ -19,7 +20,11 @@ export function VoiceDesigner({ getVoices }: { getVoices: () => Promise<void> })
   const [isGenerating, setIsGenerating] = useState(false)
   const [savingStates, setSavingStates] = useState<Record<string, boolean>>({})
 
+  const { checkIsPaid } = useUser()
+
   const handleGenerateVoices = async () => {
+    if (!checkIsPaid()) return
+
     if (!voicePrompt.trim()) return
 
     try {

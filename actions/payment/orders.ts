@@ -2,6 +2,7 @@
 
 import { and, eq } from 'drizzle-orm'
 
+import { auth } from '@/lib/auth'
 import { createDb } from '@/lib/db'
 import {
   orders,
@@ -195,4 +196,17 @@ export async function findUserProfileByEmail(email: string) {
   })
 
   return userProfile
+}
+
+export async function getUserOrder() {
+  const db = createDb()
+  const session = await auth()
+  if (!session?.user?.id) {
+    throw new Error('Unauthorized')
+  }
+  const order = await db.query.orders.findFirst({
+    where: eq(orders.id, session?.user?.id)
+  })
+
+  return order
 }

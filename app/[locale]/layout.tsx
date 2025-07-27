@@ -7,6 +7,7 @@ import Footer from '@/components/footer'
 import Header from '@/components/header'
 import NextTopLoader from '@/components/top-loader'
 import { Toaster } from '@/components/ui/sonner'
+import { UserProvider } from '@/contexts/user-context'
 import { locales, routing } from '@/i18n/routing'
 
 import type { Metadata, Viewport } from 'next'
@@ -68,11 +69,13 @@ export default async function RootLayout({
         <NextTopLoader />
         <NextIntlClientProvider>
           <SessionProvider>
-            <Header />
-            <main className="mx-auto flex w-full max-w-(--breakpoint-xl) flex-1 flex-col px-2.5 py-8 md:px-20">
-              {children}
-            </main>
-            <Footer />
+            <UserProvider>
+              <Header />
+              <main className="mx-auto flex w-full max-w-(--breakpoint-xl) flex-1 flex-col px-2.5 py-8 md:px-20">
+                {children}
+              </main>
+              <Footer />
+            </UserProvider>
           </SessionProvider>
           <Toaster richColors />
         </NextIntlClientProvider>

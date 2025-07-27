@@ -1,15 +1,17 @@
+'use client'
+
 import { Menu } from 'lucide-react'
-import { getTranslations } from 'next-intl/server'
+import { useTranslations } from 'next-intl'
 
 import { LocaleSwitcher } from '@/components/locale-switcher'
-import LoginModal from '@/components/login/login-modal'
+import LoginHeader from '@/components/login/login-header'
 import Logo from '@/components/logo'
 import { Sheet, SheetContent, SheetDescription, SheetHeader, SheetTitle, SheetTrigger } from '@/components/ui/sheet'
 import { Link } from '@/i18n/navigation'
 import { cn } from '@/lib/utils'
 
-export default async function Header({ className }: { className?: string }) {
-  const t = await getTranslations('headers')
+export default function Header({ className }: { className?: string }) {
+  const t = useTranslations('headers')
 
   const pcLinkStyle = 'text-foreground hover:text-primary group relative font-medium transition-colors'
   const mobileLinkStyle =
@@ -42,7 +44,7 @@ export default async function Header({ className }: { className?: string }) {
         </div>
         <div className="flex items-center gap-6">
           <LocaleSwitcher />
-          <LoginModal />
+          <LoginHeader />
         </div>
       </nav>
 
@@ -71,7 +73,7 @@ export default async function Header({ className }: { className?: string }) {
               </div>
 
               <div className="border-t pt-4">
-                <LoginModal />
+                <LoginHeader />
               </div>
             </SheetContent>
           </Sheet>
