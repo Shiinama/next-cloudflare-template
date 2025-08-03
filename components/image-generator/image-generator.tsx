@@ -39,7 +39,9 @@ const styleOptions: { value: ImageStyle; label: string; description: string }[] 
 
 export function ImageGenerator({ className }: ImageGeneratorProps) {
   const [prompt, setPrompt] = useState<string>('')
-  const [negativePrompt, setNegativePrompt] = useState<string>('')
+  const [negativePrompt, setNegativePrompt] = useState<string>(
+    'blurry, low quality, distorted, deformed, text, watermark, signature, username, logo, copyright'
+  )
   const [ratio, setRatio] = useState<ImageRatio>('16:9')
   const [style, setStyle] = useState<ImageStyle>('realistic')
   const [customWidth, setCustomWidth] = useState<number>(1024)

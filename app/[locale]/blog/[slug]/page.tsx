@@ -3,7 +3,7 @@ import { notFound } from 'next/navigation'
 import { getTranslations } from 'next-intl/server'
 
 import { getArticleBySlug } from '@/actions/ai-content'
-import BlogBody from '@/components/blog/blog-body'
+import MarkdownRender from '@/components/markdown/mark-down-render'
 import { formatDate } from '@/lib/utils'
 
 interface PostSlugPageProps {
@@ -43,7 +43,7 @@ const PostSlugPage = async ({ params }: PostSlugPageProps) => {
   }
 
   return (
-    <article className="prose prose-violet prose-invert prose-code:before:hidden prose-code:after:hidden max-w-none">
+    <article>
       <div className="text-sm">{t('publishedAt', { date: formatDate(article.publishedAt) })}</div>
       {article.coverImageUrl && (
         <div className="relative mb-16 w-full" style={{ paddingBottom: '56.25%' }}>
@@ -56,7 +56,7 @@ const PostSlugPage = async ({ params }: PostSlugPageProps) => {
           />
         </div>
       )}
-      <BlogBody content={article.content} />
+      <MarkdownRender content={article.content} />
     </article>
   )
 }

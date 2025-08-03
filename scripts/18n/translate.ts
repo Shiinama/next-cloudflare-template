@@ -256,6 +256,8 @@ export async function translateMessages(options: TranslationOptions): Promise<Tr
     Return only the JSON without any additional text or explanations.
     `
 
+    console.log(JSON.stringify(translationPayload, null, 2))
+
     // 调用AI模型进行批量翻译
     const response = await fetch(
       `https://api.cloudflare.com/client/v4/accounts/${process.env.CLOUDFLARE_ACCOUNT_ID}/ai/run/${model}`,

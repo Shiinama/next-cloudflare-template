@@ -54,7 +54,8 @@
     "blogs": "ブログ",
     "navigation": "サイトのナビゲーション",
     "navigationDescription": "ウェブサイトの主要セクションにアクセスする",
-    "pricing": "価格"
+    "pricing": "価格",
+    "voiceDesign": "音声デザイン"
   },
   "siteInfo": {
     "brandName": "Next Template",
@@ -130,5 +131,54 @@
     "metaDescription": "柔軟な価格プランとトークンパッケージからお選びください。ライトプランから始めて、より高度な機能のためにプロフェッショナルにアップグレードしてください。",
     "title": "プランを選択",
     "tokensTitle": "フロー トークン"
+  },
+  "home": {
+    "metaTitle": "無料AIテキスト読み上げジェネレーター - 高品質音声合成",
+    "metaDescription": "高度なAIボイスジェネレーターを使って、無料でテキストを音声に変換します。高品質で自然な音声で、即時変換が可能です。登録不要。",
+    "title": "無料AIテキスト読み上げジェネレーター",
+    "description": "当社の最先端AIテクノロジーを使用して、あらゆるテキストを自然で高品質な音声に変換します。完全に無料で、プロフェッショナルグレードの音声合成を提供します。",
+    "contentSections": {
+      "section1Title": "聴く：AIはもう、あなたが恋しい声で話せるようになりました",
+      "section1Content1": "あなたはもう、夜遅くになって、埃っぽい古いカセットテープを取り出し、再生ボタンを押して、亡くなった大切な人の馴染みのある声を聞くことがありませんか？時の彼方から、暖かく、身近に感じられる声が、まるで隣の部屋でささやくように名前を呼ぶ声を聞く。",
+      "section1Content2": "かつて私たちの記憶や夢の中に閉じ込められていたこの情景は、今、現実のものとなりつつあります。特に**AIオーディオ生成**分野における**AIGC（AI生成コンテンツ）**という広大な分野全体が、この夢を実現しています。その中核となる技術である**TTS（テキスト読み上げ）**は、私たちが恋しい声を蘇らせるだけでなく、その声を私たちが望むどんな言葉でも話させることができます。",
+      "section1Content3": "これは単なる技術的な飛躍ではなく、音、感情、そして記憶との私たちの関係を根本的に変えるものです。",
+      "section2Title": "機械が話し始めたとき",
+      "section2Content1": "私たちは皆、初期のコンピューターやGPSシステムのロボットのような、生気のない声に記憶があります。それぞれの単語は平板で、単調で、無菌的で、まるで缶詰から絞り出されたかのようでした。その音声合成の時代は、まるでロボットが人間の声を模倣しようとしているかのようでした。音を出すことはできましたが、少しの温かさも伝えることができませんでした。",
+      "section2Content2": "The earliest attempts date back to the 1930s with Bell Labs' Voder, a massive machine considered the ancestor of speech synthesis. An operator had to play it like an organ, using their hands and feet to manipulate its tone and pitch. It was an age of using the most complicated methods to achieve the simplest of greetings.",
+      "section2Content3": "It wasn't until the early 2000s, with methods based on statistical learning, that machines began to \"learn\" from vast libraries of human recordings. The resulting voice was an improvement, but it still sounded like an overly polite customer service rep: clear and intelligible, but utterly devoid of personality.",
+      "section3Title": "The Magic of Voice Cloning",
+      "section4Title": "Beyond Speech: AI Is Learning to Sing and Create",
+      "section4Content1": "AI's ambition in the audio space doesn't stop at speech. If you've been following tech news, you've undoubtedly heard of **Suno** and **Udio**. These are the breakout stars of the **Text-to-Music** world. A user can simply type in a description or a set of lyrics, and in seconds, the AI generates a fully produced song, complete with vocals, instruments, and arrangement. The boundaries of what's possible with sound are being redrawn before our eyes.",
+      "section5Title": "The Soul of a Voice: The Final Frontier of Emotional TTS",
+      "section5Content1": "音声クローンやAI生成音楽の場合、技術が「リアル」な音を出す問題を解決したとしても、究極の課題に直面します。それは感情をどのように伝えるか、という問題です。",
+      "section5Content2": "例えば、「愛してる」という言葉を考えてみましょう。情熱の中で囁けば、それは甘美に満ちています。涙ながらの別れの際に絞り出せば、それは後悔に重く、喜びの再会で叫べば、それは興奮に満ち溢れています。人間の声はこれらの非常に複雑な感情の層を運び、まさに**「表現力豊かなTTS」**や**「感情豊かなTTS」**を創造するための、最後のそして最も困難なフロンティアなのです。",
+      "section5Content3": "開発者たちは、**大規模言語モデル（LLM）**を「監督」として、TTSモデルを「俳優」として組み合わせるという優れた解決策を考案しました。LLM「監督」は脚本を読み、文脈と感情を理解し、次にTTS「俳優」に詳細な指示を出します。このアーキテクチャこそが、真に**「制御可能なTTS」**を実現するための鍵となります。将来的には、音声アシスタントやさらには**AIデジタルヒューマン**が、そのおかげでより説得力があり、リアルな魂を持つようになるでしょう。",
+      "section6Title": "感情の代償：AIはどこで人間性を学ぶのか？",
+      "section6Content1": "しかし、この解決策は深遠なパラドックスを提示します。AIに感情を教えるためには、大量の感情ラベル付きのオーディオデータが必要になるからです。感情は本質的に主観的で個人的なものです。どのようにして「軽い失望」と「深い絶望」の違いを定量化するのでしょうか？",
+      "section6Content2": "さらに重要なことは、これらのモデルをトレーニングするために使用される感情的なオーディオクリップはすべて、実際の人間から来ています。その「怒り」の録音は、俳優が痛みを伴う記憶を呼び起こしているかもしれません。その「悲しみ」の断片は、声優の真実の悲しみを背負っているかもしれません。AIは単に波形を学習しているのではなく、人間の感情の結晶化した本質を学習しています。",
+      "section7Title": "Final Thoughts: Beyond the Tech, What Should We Cherish?",
+      "section7Content1": "As we stand at this technological crossroads, on the verge of watching AI master one of humanity's warmest skills, we should pause and ask ourselves: what do we want this technology to do for us?",
+      "section7Content2": "Sound is a vessel for emotion, a container for memory, a bridge between souls. As AI becomes better and better at imitation, perhaps we will come to appreciate the authentic, irreplaceable, and heartfelt sounds of real human voices even more.",
+      "section7Content3": "技術がどれほど進歩しても、心を打つ音は常に、現実の感情、現実の経験、そして現実の生活を伝えるものです。",
+      "section7Content4": "それらの声には、私たちの過去、愛、そして未来へのすべての希望が宿っています。",
+      "section3Content1": "The real magic has happened in just the last few years. With the rise of deep learning and large-scale models, we have entered the era of **\"Zero-shot Voice Cloning.\"** This means an AI no longer needs hours of dedicated training on a specific voice. Now, it can capture the essence of a person's voice from just a few seconds of audio.",
+      "section3Content2": "Pioneering models like **ElevenLabs**, **OpenAI's Voice Engine**, and Microsoft's **VALL-E** are at the vanguard of this revolution. They can accurately capture not just the timbre of a voice but also its speaking style and subtle emotional nuances. Even more incredible is the advent of **Cross-lingual Voice Cloning**, a technology that allows you to speak fluent French or Japanese in your own unique voice, without ever having learned the language.",
+      "section3Content3": "What's truly heartening is that the power of open-source communities is preventing this technology from being monopolized by a few tech giants. Open-source projects like **GPT-SoVITS** empower anyone with basic technical skills to experiment with voice cloning on their own computer. A father away on a business trip can record a new bedtime story for his child in his own voice. A daughter can preserve the aging voice of her mother, keeping that warmth with her forever.",
+      "mainTitle": "機械が声を獲得した時：AI音声の物語",
+      "mainDescription": "機械的な音から記憶を蘇らせ、感情を伝え、デジタルと人間のつながりを繋ぐAIの声へと、テキスト読み上げ技術が劇的に変化した経緯を辿ります。"
+    },
+    "faq": {
+      "title": "よくあるご質問",
+      "question1": "テキスト読み上げとは何ですか？どのように動作しますか？",
+      "answer1": "テキスト読み上げ（TTS）は、書かれたテキストを自然な音声に変換する技術です。当社のプラットフォームは、ElevenLabsの高度なAIモデルを使用して、入力したテキストから高品質で人間のような声を生成します。テキストを入力し、音声を選択するだけで、すぐに音声出力が得られます。",
+      "question2": "どのような音声オプションが利用できますか？",
+      "answer2": "ElevenLabsを通じて、さまざまな性別、アクセント、話し方を備えた多様なAI生成音声を提供しています。また、希望する音声の特徴を記述することで、当社の音声デザイン機能を使用してカスタム音声を作成することもできます。",
+      "question3": "どの音声フォーマットがサポートされていますか？",
+      "answer3": "当社の TTS サービスは、44.1kHz で 64kbps のビットレートの高品質 MP3 音声ファイルを生成し、優れた音質を維持しながら、Web 配信およびダウンロードに適した適切なファイルサイズを確保します。",
+      "question4": "使用制限や料金はありますか？",
+      "answer4": "プラットフォームは、生成された音声の持続時間に基づいてトークンを消費するトークンベースのシステムを使用しています。生成された音声の1秒ごとに一定数のトークンが消費されます。アカウント ダッシュボードでトークンの使用状況を監視できます。",
+      "question5": "生成した音声を商用利用できますか？",
+      "answer5": "利用権は、ElevenLabs の利用規約とサブスクリプションプランによって異なります。一般的に、生成された音声を個人用および商用プロジェクトで使用できますが、具体的なライセンス条件を必ず確認してください。使用するテキストコンテンツの変換権があることを常に確認してください。"
+    }
   }
 }

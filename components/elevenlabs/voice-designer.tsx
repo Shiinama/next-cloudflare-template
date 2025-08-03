@@ -11,11 +11,12 @@ import { Textarea } from '@/components/ui/textarea'
 import { useUser } from '@/contexts/user-context'
 import { ProcessedVoicePreview } from '@/store/voices.store'
 
-export function VoiceDesigner({ getVoices }: { getVoices: () => Promise<void> }) {
+export function VoiceDesigner() {
   const [voicePreviews, setVoicePreviews] = useState<ProcessedVoicePreview[]>([])
   const [voicePrompt, setVoicePrompt] = useState(
     'A tiny, high-pitched female voice of a mouse with an adorable, squeaky timbre. Light and airy tone with a playful, mischievous energy. Speaking at a quick, excited pace with frequent giggles and animated inflections. Has a slight lisp that adds to the cuteness factor. The voice is sweet but with a hint of sassy confidence, like a cartoon character. Perfect audio quality.'
   )
+
   const [voiceNames, setVoiceNames] = useState<Record<string, string>>({})
   const [isGenerating, setIsGenerating] = useState(false)
   const [savingStates, setSavingStates] = useState<Record<string, boolean>>({})
@@ -70,8 +71,6 @@ export function VoiceDesigner({ getVoices }: { getVoices: () => Promise<void> })
         voiceDescription: voicePrompt,
         generatedVoiceId: voiceId
       })
-
-      getVoices()
 
       // 保存成功后移除这个预览
       const previewToRemove = voicePreviews.find((p) => p.voiceId === voiceId)

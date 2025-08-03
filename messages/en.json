@@ -2,6 +2,7 @@
   "headers": {
     "blogs": "Blogs",
     "home": "Home",
+    "voiceDesign": "Voice Design",
     "pricing": "Pricing",
     "navigation": "Site Navigation",
     "navigationDescription": "Access the main sections of our website"
@@ -12,6 +13,21 @@
     "meta": {
       "title": "Think, Write, Code",
       "description": "A responsive, lightweight, and accessible front-end framework using Next.js, TypeScript, and Tailwind CSS."
+    }
+  },
+  "login": {
+    "signOut": "Sign Out",
+    "login": "Login",
+    "modal": {
+      "description": "Sign in to continue your journey",
+      "triggerText": "Login"
+    },
+    "form": {
+      "continueWithGoogle": "Continue with Google",
+      "continueWithGithub": "Continue with GitHub",
+      "orContinueWith": "Or continue with",
+      "emailPlaceholder": "Enter your email",
+      "signInWithEmail": "Sign in with Email"
     }
   },
   "pricing": {
@@ -85,23 +101,53 @@
     },
     "copyright": "© 2024 Cozyai LLC. All rights reserved."
   },
-  "HomePage": {
-    "title": "Hello",
-    "about": "Go to the about page"
-  },
-  "login": {
-    "signOut": "Sign Out",
-    "login": "Login",
-    "modal": {
-      "description": "Sign in to continue your journey",
-      "triggerText": "Login"
+  "home": {
+    "metaTitle": "Free AI Text to Speech Generator - High Quality Voice Synthesis",
+    "metaDescription": "Convert text to speech for free with our advanced AI voice generator. High-quality, natural-sounding voices with instant conversion. No registration required.",
+    "title": "Free AI Text to Speech Generator",
+    "description": "Transform any text into natural, high-quality speech with our advanced AI technology. Completely free with professional-grade voice synthesis.",
+    "contentSections": {
+      "mainTitle": "When Machines Found Their Voice: The Story of AI Speech",
+      "mainDescription": "Explore the profound transformation of text-to-speech technology from cold, mechanical sounds to AI voices that can resurrect memories, convey emotions, and bridge the gap between digital and human connection.",
+      "section1Title": "Listen: AI Can Now Speak in the Voice You Miss",
+      "section1Content1": "Have you ever found yourself late at night, pulling out a dusty old cassette tape and pressing play, just to hear the familiar voice of a loved one who has passed away? To hear the crackle and hiss give way to a voice from across time, warm and present, as if they were just in the next room, whispering your name.",
+      "section1Content2": "This scene, once confined to our memories and daydreams, is now becoming a tangible reality. The entire field of **AIGC (AI-Generated Content)**, especially within the **AI Audio Generation** space, is making this dream come true. Its core technology—**TTS (Text-to-Speech)**—can not only resurrect a voice we long to hear but can even make that voice say anything we want.",
+      "section1Content3": "This isn't just a technological leap; it's a profound reshaping of our relationship with sound, emotion, and memory.",
+      "section2Title": "When Machines Started to Talk",
+      "section2Content1": "We all remember the robotic, lifeless voices of early computers and GPS systems. Each word was flat, monotone, and sterile, as if squeezed from a tin can. That era of speech synthesis was like a robot just learning to mimic human speech—it could make sounds, but it couldn't convey an ounce of warmth.",
+      "section2Content2": "The earliest attempts date back to the 1930s with Bell Labs' Voder, a massive machine considered the ancestor of speech synthesis. An operator had to play it like an organ, using their hands and feet to manipulate its tone and pitch. It was an age of using the most complicated methods to achieve the simplest of greetings.",
+      "section2Content3": "It wasn't until the early 2000s, with methods based on statistical learning, that machines began to \"learn\" from vast libraries of human recordings. The resulting voice was an improvement, but it still sounded like an overly polite customer service rep: clear and intelligible, but utterly devoid of personality.",
+      "section3Title": "The Magic of Voice Cloning",
+      "section3Content1": "The real magic has happened in just the last few years. With the rise of deep learning and large-scale models, we have entered the era of **\"Zero-shot Voice Cloning.\"** This means an AI no longer needs hours of dedicated training on a specific voice. Now, it can capture the essence of a person's voice from just a few seconds of audio.",
+      "section3Content2": "Pioneering models like **ElevenLabs**, **OpenAI's Voice Engine**, and Microsoft's **VALL-E** are at the vanguard of this revolution. They can accurately capture not just the timbre of a voice but also its speaking style and subtle emotional nuances. Even more incredible is the advent of **Cross-lingual Voice Cloning**, a technology that allows you to speak fluent French or Japanese in your own unique voice, without ever having learned the language.",
+      "section3Content3": "What's truly heartening is that the power of open-source communities is preventing this technology from being monopolized by a few tech giants. Open-source projects like **GPT-SoVITS** empower anyone with basic technical skills to experiment with voice cloning on their own computer. A father away on a business trip can record a new bedtime story for his child in his own voice. A daughter can preserve the aging voice of her mother, keeping that warmth with her forever.",
+      "section4Title": "Beyond Speech: AI Is Learning to Sing and Create",
+      "section4Content1": "AI's ambition in the audio space doesn't stop at speech. If you've been following tech news, you've undoubtedly heard of **Suno** and **Udio**. These are the breakout stars of the **Text-to-Music** world. A user can simply type in a description or a set of lyrics, and in seconds, the AI generates a fully produced song, complete with vocals, instruments, and arrangement. The boundaries of what's possible with sound are being redrawn before our eyes.",
+      "section5Title": "The Soul of a Voice: The Final Frontier of Emotional TTS",
+      "section5Content1": "Whether it's voice cloning or AI-generated music, once the technology solves the problem of sounding \"realistic,\" it faces the ultimate challenge: how to convey emotion.",
+      "section5Content2": "Take the phrase \"I love you.\" Whispered in the heat of passion, it's full of sweetness. Choked out in a tearful goodbye, it's heavy with regret. Cried out in a joyous reunion, it's bursting with excitement. The human voice carries these incredibly complex layers of emotion, and this is the final, most difficult frontier for creating truly **\"Expressive TTS\"** or **\"Emotional TTS.\"**",
+      "section5Content3": "Developers have devised a brilliant solution: pairing a **Large Language Model (LLM)** as the \"director\" with a TTS model as the \"actor.\" The LLM \"director\" reads the script, understands the context and emotion, and then gives detailed instructions to the TTS \"actor.\" This architecture is the key to achieving truly **\"Controllable TTS.\"** In the future, voice assistants and even **AI Digital Humans** will have more convincing and lifelike souls because of it.",
+      "section6Title": "The Price of Emotion: Where Does AI Learn Humanity?",
+      "section6Content1": "But this solution presents a profound paradox: to teach an AI emotion, you need massive amounts of emotionally labeled audio data. Emotion, however, is deeply subjective and private. How do you quantify the difference between \"mild disappointment\" and \"deep despair\"?",
+      "section6Content2": "More importantly, every clip of emotional audio used to train these models comes from a real human being. Those \"angry\" recordings may come from an actor channeling a painful memory. Those \"sad\" snippets may carry the weight of a voice actor's genuine sorrow. The AI isn't just learning waveforms; it's learning from the crystallized essence of human emotion.",
+      "section7Title": "Final Thoughts: Beyond the Tech, What Should We Cherish?",
+      "section7Content1": "As we stand at this technological crossroads, on the verge of watching AI master one of humanity's warmest skills, we should pause and ask ourselves: what do we want this technology to do for us?",
+      "section7Content2": "Sound is a vessel for emotion, a container for memory, a bridge between souls. As AI becomes better and better at imitation, perhaps we will come to appreciate the authentic, irreplaceable, and heartfelt sounds of real human voices even more.",
+      "section7Content3": "Because no matter how advanced the technology becomes, the most moving sounds will always be those that carry real emotion, real experience, and real life.",
+      "section7Content4": "Within those voices lie our past, our love, and all our hopes for the future."
     },
-    "form": {
-      "continueWithGoogle": "Continue with Google",
-      "continueWithGithub": "Continue with GitHub",
-      "orContinueWith": "Or continue with",
-      "emailPlaceholder": "Enter your email",
-      "signInWithEmail": "Sign in with Email"
+    "faq": {
+      "title": "Frequently Asked Questions",
+      "question1": "What is Text to Speech and how does it work?",
+      "answer1": "Text to Speech (TTS) is a technology that converts written text into natural-sounding speech. Our platform uses ElevenLabs' advanced AI models to generate high-quality, human-like voices from your text input. Simply enter your text, select a voice, and get instant audio output.",
+      "question2": "What voice options are available?",
+      "answer2": "We offer a variety of AI-generated voices through ElevenLabs, including different genders, accents, and speaking styles. You can also design custom voices using our voice design feature by providing a description of the desired voice characteristics.",
+      "question3": "What audio formats are supported?",
+      "answer3": "Our TTS service outputs high-quality MP3 audio files at 44.1kHz with 64kbps bitrate, ensuring excellent sound quality while maintaining reasonable file sizes for web delivery and downloads.",
+      "question4": "Are there any usage limits or costs?",
+      "answer4": "The platform uses a token-based system where speech generation consumes tokens based on the duration of the generated audio. Each second of generated speech costs a certain number of tokens. You can monitor your token usage in your account dashboard.",
+      "question5": "Can I use the generated speech commercially?",
+      "answer5": "Usage rights depend on ElevenLabs' terms of service and your subscription plan. Generally, you can use generated speech for personal and commercial projects, but please review the specific licensing terms for your use case. Always ensure you have the right to convert the text content you're using."
     }
   },
   "common": {

@@ -54,7 +54,8 @@
     "blogs": "Blogs",
     "navigation": "Navegação do site",
     "navigationDescription": "Acessar as principais seções do nosso site",
-    "pricing": "Preços"
+    "pricing": "Preços",
+    "voiceDesign": "Design de voz"
   },
   "siteInfo": {
     "brandName": "Next Template",
@@ -130,5 +131,54 @@
     "metaDescription": "Escolha entre os nossos planos de preços flexíveis e pacotes de tokens. Comece com o nosso Plano Light ou atualize para Professional para obter funcionalidades avançadas.",
     "title": "Escolha o seu plano",
     "tokensTitle": "Tokens de Flow"
+  },
+  "home": {
+    "metaTitle": "Gerador de Texto para Voz com IA Gratuito - Síntese de Voz de Alta Qualidade",
+    "metaDescription": "Converta texto em voz gratuitamente com nosso avançado gerador de voz com IA. Vozes de alta qualidade, com som natural e conversão instantânea. Não é necessário registro.",
+    "title": "Gerador de Texto para Voz com IA Gratuito",
+    "description": "Transforme qualquer texto em fala natural e de alta qualidade com a nossa tecnologia de IA avançada. Totalmente gratuito com síntese de voz de grau profissional.",
+    "contentSections": {
+      "section1Title": "Ouça: A IA agora pode falar com a voz que você sente falta",
+      "section1Content1": "Você já se viu tarde da noite, tirando uma velha fita cassete empoeirada e apertando o botão de reprodução, apenas para ouvir a voz familiar de um ente querido que faleceu? Para ouvir o chiado e o ruído darem lugar a uma voz do passado, calorosa e presente, como se estivesse apenas no quarto ao lado, sussurrando seu nome.",
+      "section1Content2": "Esta cena, antes confinada às nossas memórias e sonhos diurnos, está agora a tornar-se uma realidade tangível. Todo o campo da **AIGC (Conteúdo Gerado por IA)**, especialmente no espaço da **Geração de Áudio com IA**, está a tornar este sonho realidade. A sua tecnologia central, a **TTS (Texto para Voz)**, não só pode ressuscitar uma voz que ansiamos ouvir, como também pode fazer com que essa voz diga qualquer coisa que quisermos.",
+      "section1Content3": "Isto não é apenas um avanço tecnológico; é uma profunda reestruturação da nossa relação com o som, a emoção e a memória.",
+      "section2Title": "Quando as máquinas começaram a falar",
+      "section2Content1": "Todos nos lembramos das vozes robóticas e sem vida dos primeiros computadores e sistemas GPS. Cada palavra era plana, monótona e estéril, como se tivesse sido espremida de uma lata. Aquela era da síntese de voz foi como um robô aprendendo a imitar a fala humana - ele podia fazer sons, mas não podia transmitir nem uma pitada de calor.",
+      "section2Content2": "As primeiras tentativas remontam à década de 1930 com o Voder dos Bell Labs, uma máquina enorme considerada a antecessora da síntese de voz. Um operador tinha que tocá-la como um órgão, usando as mãos e os pés para manipular seu tom e entonação. Foi uma época em que os métodos mais complexos eram usados para alcançar as saudações mais simples.",
+      "section2Content3": "Não foi até o início dos anos 2000, com métodos baseados no aprendizado estatístico, que as máquinas começaram a \"aprender\" de vastas bibliotecas de gravações humanas. A voz resultante foi uma melhoria, mas ainda soava como um atendente de serviço ao cliente excessivamente educado: clara e inteligível, mas totalmente desprovida de personalidade.",
+      "section3Title": "A magia do clone de voz",
+      "section4Title": "Beyond Speech: AI Is Learning to Sing and Create",
+      "section4Content1": "A ambição da IA no espaço de áudio não se limita à fala. Se você tem acompanhado as notícias de tecnologia, certamente já ouviu falar de **Suno** e **Udio**. Estes são os destaques do mundo **Text-to-Music**. Um usuário pode simplesmente digitar uma descrição ou um conjunto de letras, e em segundos, a IA gera uma música totalmente produzida, completa com vocais, instrumentos e arranjos. Os limites do que é possível com o som estão sendo redefinidos diante de nossos olhos.",
+      "section5Title": "A Alma de uma Voz: A Última Fronteira do TTS Emocional",
+      "section5Content1": "Seja clonagem de voz ou música gerada por IA, uma vez que a tecnologia resolve o problema de soar \"realista\", ela enfrenta o desafio derradeiro: como transmitir emoção?",
+      "section5Content2": "Pegue a frase \"Eu te amo\". Sussurrada com paixão, está cheia de doçura. Sufocada em uma despedida cheia de lágrimas, está carregada de arrependimento. Gritada em um reencontro alegre, está cheia de excitação. A voz humana carrega essas camadas incrivelmente complexas de emoção, e esta é a fronteira final e mais difícil para criar um **\"TTS expressivo\"** ou um **\"TTS emocional\"** verdadeiramente.",
+      "section5Content3": "Os desenvolvedores elaboraram uma solução brilhante: combinar um **Large Language Model (LLM)** como o \"diretor\" com um modelo TTS como o \"ator\". O LLM \"diretor\" lê o roteiro, entende o contexto e a emoção, e então fornece instruções detalhadas ao \"ator\" TTS. Esta arquitetura é a chave para alcançar um **\"TTS controlável\"** verdadeiramente. No futuro, assistentes de voz e até mesmo **Humanos Digitais de IA** terão almas mais convincentes e realistas graças a isso.",
+      "section6Title": "O preço da emoção: onde a IA aprende a humanidade?",
+      "section6Content1": "Mas esta solução apresenta um paradoxo profundo: para ensinar uma IA uma emoção, é necessário um grande volume de dados de áudio com rótulos emocionais. No entanto, a emoção é profundamente subjetiva e privada. Como quantificar a diferença entre \"uma leve decepção\" e \"um profundo desespero?\"",
+      "section6Content2": "Mais importante, cada clipe de áudio emocional usado para treinar esses modelos vem de um ser humano real. Essas gravações \"raivosas\" podem vir de um ator canalizando uma memória dolorosa. Esses fragmentos \"tristes\" podem carregar o peso da verdadeira tristeza de um dublador. A IA não está apenas aprendendo formas de onda; está aprendendo com a essência cristalizada da emoção humana.",
+      "section7Title": "Final Thoughts: Beyond the Tech, What Should We Cherish?",
+      "section7Content1": "As we stand at this technological crossroads, on the verge of watching AI master one of humanity's warmest skills, we should pause and ask ourselves: what do we want this technology to do for us?",
+      "section7Content2": "Sound is a vessel for emotion, a container for memory, a bridge between souls. As AI becomes better and better at imitation, perhaps we will come to appreciate the authentic, irreplaceable, and heartfelt sounds of real human voices even more.",
+      "section7Content3": "Porque não importa o quão avançada a tecnologia se torne, os sons mais emocionantes serão sempre aqueles que carregam emoções reais, experiências reais e vida real.",
+      "section7Content4": "Dentro dessas vozes residem nosso passado, nosso amor e todas as nossas esperanças para o futuro.",
+      "section3Content1": "A verdadeira magia aconteceu nos últimos anos. Com o surgimento do aprendizado profundo e dos modelos em larga escala, entramos na era do **\"Zero-shot Voice Cloning\"**. Isso significa que uma IA não precisa mais de horas de treinamento dedicado a uma voz específica. Agora, ela pode capturar a essência da voz de uma pessoa com apenas alguns segundos de áudio.",
+      "section3Content2": "Modelos pioneiros como **ElevenLabs**, **Voice Engine da OpenAI** e **VALL-E** da Microsoft estão na vanguarda desta revolução. Eles podem capturar com precisão não apenas o timbre de uma voz, mas também seu estilo de fala e sutilezas emocionais. Ainda mais incrível é o surgimento do **Cross-lingual Voice Cloning**, uma tecnologia que permite falar francês ou japonês fluentemente com sua própria voz única, sem nunca ter aprendido o idioma.",
+      "section3Content3": "O que é realmente encorajador é que o poder das comunidades de código aberto está impedindo que esta tecnologia seja monopolizada por alguns poucos gigantes tecnológicos. Projetos de código aberto como **GPT-SoVITS** permitem que qualquer pessoa com habilidades técnicas básicas experimente o clonagem de voz em seu próprio computador. Um pai ausente em uma viagem de negócios pode gravar uma nova história para dormir para seu filho com sua própria voz. Uma filha pode preservar a voz envelhecida de sua mãe, mantendo esse calor para sempre.",
+      "mainTitle": "Quando as máquinas encontraram a sua voz: A história da fala da IA",
+      "mainDescription": "Explore a profunda transformação da tecnologia de conversão de texto em fala, de sons frios e mecânicos a vozes de IA que podem ressuscitar memórias, transmitir emoções e preencher a lacuna entre a conexão digital e humana."
+    },
+    "faq": {
+      "title": "Perguntas frequentes",
+      "question1": "O que é Text-to-Speech e como funciona?",
+      "answer1": "Text-to-Speech (TTS) é uma tecnologia que converte texto escrito em fala natural. Nossa plataforma utiliza modelos avançados de IA da ElevenLabs para gerar vozes de alta qualidade e semelhantes às humanas a partir de sua entrada de texto. Basta inserir seu texto, selecionar uma voz e obter uma saída de áudio instantânea.",
+      "question2": "Quais opções de voz estão disponíveis?",
+      "answer2": "Oferecemos uma variedade de vozes geradas por IA através da ElevenLabs, incluindo diferentes gêneros, sotaques e estilos de fala. Você também pode projetar vozes personalizadas usando nossa ferramenta de design de voz, fornecendo uma descrição das características de voz desejadas.",
+      "question3": "Quais formatos de áudio são suportados?",
+      "answer3": "Nosso serviço TTS gera arquivos de áudio MP3 de alta qualidade a 44,1 kHz com uma taxa de bits de 64 kbps, garantindo excelente qualidade de som, mantendo ao mesmo tempo tamanhos de arquivo razoáveis para entrega e download na web.",
+      "question4": "Existem limites de uso ou custos?",
+      "answer4": "A plataforma utiliza um sistema baseado em tokens, onde a geração de voz consome tokens com base na duração do áudio gerado. Cada segundo de fala gerada custa um certo número de tokens. Você pode monitorar o uso de seus tokens em seu painel de controle de conta.",
+      "question5": "Posso usar o discurso gerado comercialmente?",
+      "answer5": "Os direitos de uso dependem dos termos de serviço e do seu plano de assinatura da ElevenLabs. Geralmente, você pode usar o discurso gerado para projetos pessoais e comerciais, mas revise os termos de licença específicos para o seu caso de uso. Certifique-se sempre de ter o direito de converter o conteúdo de texto que está usando."
+    }
   }
 }

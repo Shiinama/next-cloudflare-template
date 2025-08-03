@@ -1,9 +1,10 @@
 'use client'
 
-import { Voice } from '@elevenlabs/elevenlabs-js/api'
+import { useRequest } from 'ahooks'
 import { Check, Filter, X } from 'lucide-react'
 import { useState, useMemo, RefObject } from 'react'
 
+import { getAllVoices } from '@/actions/design-voice'
 import { Badge } from '@/components/ui/badge'
 import { Button } from '@/components/ui/button'
 import {
@@ -23,10 +24,12 @@ import { VoiceCard } from './voice-card'
 
 interface VoiceSelectionDialogProps {
   audioRef: RefObject<HTMLAudioElement | null>
-  voices: Voice[]
 }
 
-export function VoiceSelectionDialog({ audioRef, voices }: VoiceSelectionDialogProps) {
+export function VoiceSelectionDialog({ audioRef }: VoiceSelectionDialogProps) {
+  const { data: voices } = useRequest(getAllVoices, {
+    cacheKey: 'voices'
+  })
   const [open, setOpen] = useState(false)
   const [playingVoiceId, setPlayingVoiceId] = useState<string | null>(null)
   const [loadingVoiceId, setLoadingVoiceId] = useState<string | null>(null)
@@ -35,11 +38,11 @@ export function VoiceSelectionDialog({ audioRef, voices }: VoiceSelectionDialogP
 
   const selectedVoiceId = useVoicesStore((state) => state.selectedVoiceId)
   const setSelectedVoiceId = useVoicesStore((state) => state.setSelectedVoiceId)
-  const savedVoices = voices.filter((i) => i.category === 'generated')
+  const savedVoices = voices?.filter((i) => i.category === 'generated')
 
   const genderOptions = useMemo(() => {
     const genders = new Set<string>()
-    voices.forEach((voice) => {
+    voices?.forEach((voice) => {
       if (voice?.labels?.gender) {
         genders.add(voice.labels.gender)
       }
@@ -49,7 +52,7 @@ export function VoiceSelectionDialog({ audioRef, voices }: VoiceSelectionDialogP
 
   const filteredVoices = useMemo(() => {
     if (!genderFilter) return voices
-    return voices.filter((voice) => voice?.labels?.gender === genderFilter)
+    return voices?.filter((voice) => voice?.labels?.gender === genderFilter)
   }, [genderFilter, voices])
 
   const formatLabel = (text: string) => {
@@ -109,7 +112,7 @@ export function VoiceSelectionDialog({ audioRef, voices }: VoiceSelectionDialogP
     <Dialog open={open} onOpenChange={setOpen}>
       <DialogTrigger asChild>
         <Button variant="outline">
-          {voices.find((voice) => voice.voiceId === selectedVoiceId)?.name}
+          {voices?.find((voice) => voice.voiceId === selectedVoiceId)?.name}
           {selectedVoiceId && <Check className="h-4 w-4" />}
         </Button>
       </DialogTrigger>
@@ -121,8 +124,8 @@ export function VoiceSelectionDialog({ audioRef, voices }: VoiceSelectionDialogP
 
         <Tabs value={activeTab} onValueChange={setActiveTab} className="w-full">
           <TabsList className="grid w-full grid-cols-2">
-            <TabsTrigger value="default">Default Voices ({voices.length})</TabsTrigger>
-            <TabsTrigger value="my-voices">My Voices ({savedVoices.length})</TabsTrigger>
+            <TabsTrigger value="default">Default Voices ({voices?.length})</TabsTrigger>
+            <TabsTrigger value="my-voices">My Voices ({savedVoices?.length})</TabsTrigger>
           </TabsList>
 
           <TabsContent value="default" className="mt-4">
@@ -150,13 +153,13 @@ export function VoiceSelectionDialog({ audioRef, voices }: VoiceSelectionDialogP
                 </Button>
               )}
               <Badge variant="secondary" className="text-xs">
-                {filteredVoices.length} voices
+                {filteredVoices?.length} voices
               </Badge>
             </div>
 
             <ScrollArea className="h-[400px]">
               <div className="space-y-2">
-                {filteredVoices.map((voice) => (
+                {filteredVoices?.map((voice) => (
                   <VoiceCard
                     key={voice.voiceId}
                     voice={voice}
@@ -173,13 +176,13 @@ export function VoiceSelectionDialog({ audioRef, voices }: VoiceSelectionDialogP
 
           <TabsContent value="my-voices" className="mt-4">
             <ScrollArea className="h-[400px]">
-              {savedVoices.length === 0 ? (
+              {savedVoices?.length === 0 ? (
                 <div className="flex h-32 items-center justify-center">
                   <p className="text-muted-foreground text-sm">No custom voices saved yet</p>
                 </div>
               ) : (
                 <div className="space-y-2">
-                  {savedVoices.map((voice) => (
+                  {savedVoices?.map((voice) => (
                     <VoiceCard
                       key={voice.voiceId}
                       voice={voice}

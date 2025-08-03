@@ -3,6 +3,7 @@ import NextAuth from 'next-auth'
 import Google from 'next-auth/providers/google'
 import ResendProvider from 'next-auth/providers/resend'
 
+import { FREE_USER_TOKENS } from '@/config/token'
 import { createDb } from '@/lib/db'
 
 import { accounts, sessions, users, userUsage, verificationTokens } from './db/schema'
@@ -46,7 +47,7 @@ export const { handlers, signIn, signOut, auth } = NextAuth(() => {
         await db.insert(userUsage).values({
           userId: user.id!,
           usedTokens: 0,
-          totalTokens: 1000
+          totalTokens: FREE_USER_TOKENS
         })
       }
     }

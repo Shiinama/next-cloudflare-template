@@ -54,7 +54,8 @@
     "blogs": "博客",
     "navigation": "站点导航",
     "navigationDescription": "访问我们网站的主要部分",
-    "pricing": "定价"
+    "pricing": "定价",
+    "voiceDesign": "语音设计"
   },
   "siteInfo": {
     "brandName": "Next Template",
@@ -130,5 +131,54 @@
     "metaDescription": "从我们的灵活定价计划和令牌套餐中选择。 从我们的轻量级计划开始，或升级到专业版以获得高级功能。",
     "title": "选择您的计划",
     "tokensTitle": "流動性代币"
+  },
+  "home": {
+    "metaTitle": "免费人工智能文本转语音生成器 - 高质量语音合成",
+    "metaDescription": "使用我们的先进人工智能语音生成器免费将文本转换为语音。高质量、听起来自然的语音，即时转换。无需注册。",
+    "title": "免费人工智能文本转语音生成器",
+    "description": "使用我们先进的 AI 技术，将任何文本转换为自然、高质量的语音。完全免费，并提供专业级别的语音合成。",
+    "contentSections": {
+      "section1Title": "聆听：AI现在可以模仿你怀念的声音",
+      "section1Content1": "你有没有在深夜里，翻出那盘积满灰尘的录音带，按下播放键，只是为了听到已故亲人熟悉的声音？听到噼啪作响的杂音让位于来自过去的、温暖而真实的声音，仿佛他们就在隔壁房间里，轻声地呼唤你的名字。",
+      "section1Content2": "这个场景，曾经被我们限制在记忆和白日梦中，现在正变得触手可及。整个**AIGC（人工智能生成内容）**领域，尤其是在**AI音频生成**领域，正在将这个梦想变为现实。其核心技术——**TTS（文本转语音）**，不仅可以复活我们渴望倾听的声音，还可以让这个声音说出我们想要说的任何话。",
+      "section1Content3": "这不仅仅是一项技术飞跃；它更是对我们与声音、情感和记忆之间关系的深刻重塑。",
+      "section2Title": "当机器开始说话时",
+      "section2Content1": "我们都还记得早期计算机和 GPS 系统的机器人式、毫无生气的声音。每个单词都平淡、单调且无菌，仿佛从一个铁罐里挤出来的。那个语音合成时代就像一个机器人正在学习模仿人类的语音——它能发出声音，但无法传递一丝温暖。",
+      "section2Content2": "The earliest attempts date back to the 1930s with Bell Labs' Voder, a massive machine considered the ancestor of speech synthesis. An operator had to play it like an organ, using their hands and feet to manipulate its tone and pitch. It was an age of using the most complicated methods to achieve the simplest of greetings.",
+      "section2Content3": "It wasn't until the early 2000s, with methods based on statistical learning, that machines began to \"learn\" from vast libraries of human recordings. The resulting voice was an improvement, but it still sounded like an overly polite customer service rep: clear and intelligible, but utterly devoid of personality.",
+      "section3Title": "The Magic of Voice Cloning",
+      "section4Title": "超越语音：人工智能正在学习唱歌和创作",
+      "section4Content1": "人工智能在音频领域的野心不止于语音。如果您关注科技新闻，肯定已经听说过 **Suno** 和 **Udio**。它们是 **文本转音乐** 世界的明星。用户只需输入一段描述或歌词，人工智能就能在几秒钟内生成一首完整的歌曲，包括人声、乐器和编曲。声音的可能性边界正在我们眼前重塑。",
+      "section5Title": "声音的灵魂：情感 TTS 的最终前沿",
+      "section5Content1": "一旦语音克隆或人工智能生成的音乐解决了声音“逼真”的问题，它将面临终极挑战：如何传达情感。",
+      "section5Content2": "拿一句“我爱你”作为例子。在激情中低语，它充满了甜蜜。在含泪的告别中哽咽，它充满了遗憾。在欢乐的重逢中哭喊，它充满了兴奋。人类的声音承载着这些极其复杂的感情层次，这是创建真正**“富有表现力的 TTS”**或**“情感 TTS”**的最终、最困难的领域。",
+      "section5Content3": "开发者想出了一个巧妙的解决方案：将**大型语言模型 (LLM)** 作为“导演”与 TTS 模型作为“演员”配对。LLM“导演”阅读剧本，理解上下文和情感，然后向 TTS“演员”发出详细的指示。这种架构是实现真正**“可控 TTS”**的关键。未来，语音助手甚至**人工智能数字人**会因为有了更具说服力和更逼真的灵魂而变得更加生动。",
+      "section6Title": "情感的代价：人工智能向人类何处学习？",
+      "section6Content1": "但这个解决方案呈现出一种深刻的悖论：为了教会人工智能情感，你需要大量的带有情感标签的音频数据。然而，情感本质上是主观和私密的。你如何量化“轻微的失望”和“深深的绝望”之间的区别？",
+      "section6Content2": "更重要的是，用于训练这些模型的每一段情感音频都来自真人。那些“愤怒”的录音可能来自演员，他们正在回忆痛苦的记忆。那些“悲伤”的片段可能承载着配音演员的真正悲伤。人工智能不仅仅是在学习声波；它是在学习人类情感的结晶。",
+      "section7Title": "科技之外，我们应该珍惜什么？最后的想法",
+      "section7Content1": "当我们站在这个技术交叉路口，眼看人工智能即将掌握人类最温暖的技能之一时，我们应该停下来问问自己：我们希望这项技术为我们做些什么？",
+      "section7Content2": "声音是情感的载体，是记忆的容器，是灵魂之间的桥梁。 随着人工智能变得越来越逼真，也许我们会更加珍惜真实的人类声音的真实、不可替代和发自内心的声音。",
+      "section7Content3": "无论技术如何进步，最动听的声音始终是那些承载着真实情感、真实体验和真实生活的声音。",
+      "section7Content4": "在这些声音中蕴藏着我们的过去、我们的爱以及我们对未来的所有希望。",
+      "section3Content1": "仅仅在过去几年中，真正的魔法就发生了。随着深度学习和大规模模型的兴起，我们已经进入了**“零样本语音克隆”**时代。这意味着人工智能不再需要针对特定语音进行数小时的专用训练。现在，它只需几秒钟的音频即可捕捉到一个人声音的本质。",
+      "section3Content2": "像**ElevenLabs**、**OpenAI的语音引擎**和微软的**VALL-E**等先驱模型正处于这场革命的最前沿。他们可以准确地捕捉到语音的音色，以及说话风格和微妙的情感细微差别。更令人难以置信的是**跨语言语音克隆**的出现，这是一种技术，它允许您用自己独特的嗓音流利地说法语或日语，而无需学习这门语言。",
+      "section3Content3": "真正令人欣慰的是，开源社区的力量正在阻止这项技术被少数科技巨头垄断。像**GPT-SoVITS**这样的开源项目使任何拥有基本技术技能的人都可以使用自己的电脑进行语音克隆实验。一位因出差而远在家中的父亲可以为他的孩子录制一个新的睡前故事，用他自己的声音。一个女儿可以保存她母亲衰老的嗓音，永远保留这种温暖。",
+      "mainTitle": "当机器找到它们的声音：人工智能语音的故事",
+      "mainDescription": "探索文本转语音技术从冰冷、机械的声音到能够唤起记忆、传递情感并弥合数字与人类连接之间的鸿沟的人工智能语音的深刻转变。"
+    },
+    "faq": {
+      "title": "常见问题解答",
+      "question1": "什么是文本转语音以及它是如何工作的？",
+      "answer1": "文本转语音 (TTS) 是一种将书面文本转换为自然语音的技术。我们的平台使用 ElevenLabs 的先进人工智能模型，从您的文本输入生成高质量、类人声音。只需输入您的文本，选择一个声音，即可获得即时音频输出。",
+      "question2": "有哪些语音选项可用？",
+      "answer2": "我们通过 ElevenLabs 提供各种 AI 生成的语音，包括不同的性别、口音和语音风格。您还可以使用我们的语音设计功能，通过提供所需语音特征的描述来设计自定义语音。",
+      "question3": "支持哪些音频格式？",
+      "answer3": "我们的 TTS 服务输出 44.1kHz、64kbps 比特率的高质量 MP3 音频文件，确保出色的音质，同时保持合理的尺寸，便于网络交付和下载。",
+      "question4": "是否有使用限制或费用？",
+      "answer4": "平台使用基于令牌的系统，语音生成会根据生成的音频时长消耗令牌。 每秒生成的语音需要消耗一定数量的令牌。 您可以在帐户仪表板中监控您的令牌使用情况。",
+      "question5": "我可以使用生成的语音进行商业用途吗？",
+      "answer5": "使用权取决于 ElevenLabs 的服务条款和您的订阅计划。一般来说，您可以将生成的语音用于个人和商业项目，但请务必查看适用于您的用例的具体许可条款。始终确保您有权转换您正在使用的文本内容。"
+    }
   }
 }

@@ -1,7 +1,6 @@
 'use client'
 
-import { Voice } from '@elevenlabs/elevenlabs-js/api'
-import { useState, RefObject } from 'react'
+import { useState, useRef } from 'react'
 import { toast } from 'sonner'
 
 import { generateSpeech } from '@/actions/design-voice'
@@ -11,12 +10,9 @@ import { Textarea } from '@/components/ui/textarea'
 import { useUser } from '@/contexts/user-context'
 import { useVoicesStore } from '@/store/voices.store'
 
-interface SpeechGeneratorProps {
-  audioRef: RefObject<HTMLAudioElement | null>
-  voices: Voice[]
-}
+export function SpeechGenerator() {
+  const audioRef = useRef<HTMLAudioElement | null>(null)
 
-export function SpeechGenerator({ voices, audioRef }: SpeechGeneratorProps) {
   const [message, setMessage] = useState(
     'My dearest love, do you remember that rainy evening when we first met? I was standing under the old oak tree, watching the raindrops dance on the pavement, when you appeared with your gentle smile and offered me your umbrella. In that moment, something inside me awakened - a feeling I had never experienced before. Your kindness touched my soul so deeply that I knew my life would never be the same. Every day since then, I find myself falling deeper in love with your beautiful heart, your infectious laughter, and the way you see magic in the simplest moments. You are my sunshine on cloudy days, my anchor in stormy seas, and the reason I believe in forever.'
   )
@@ -83,7 +79,7 @@ export function SpeechGenerator({ voices, audioRef }: SpeechGeneratorProps) {
           <h2 className="text-foreground text-2xl font-semibold">Voice Player</h2>
           <p className="text-muted-foreground mt-1">Pick a voice, type your text, and hear it come alive</p>
         </div>
-        <VoiceSelectionDialog voices={voices} audioRef={audioRef} />
+        <VoiceSelectionDialog audioRef={audioRef} />
       </div>
 
       <Textarea

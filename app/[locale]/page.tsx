@@ -1,17 +1,147 @@
-import ElevenLabsContainer from '@/components/elevenlabs/elevenlabs-container'
+import { Metadata } from 'next'
+import { getTranslations } from 'next-intl/server'
+
+import { SpeechGenerator } from '@/components/elevenlabs/speech-generator'
+import ContentSections from '@/components/ui/content-sections'
+import FAQSections from '@/components/ui/faq-sections'
+
+export async function generateMetadata(): Promise<Metadata> {
+  const t = await getTranslations('home')
+
+  return {
+    title: t('metaTitle'),
+    description: t('metaDescription')
+  }
+}
 
 export default async function Home() {
+  const t = await getTranslations('home')
+
+  // Reconstruct the sections array from the flattened structure
+  const contentSections = [
+    {
+      title: t('contentSections.section1Title'),
+      content: [
+        t('contentSections.section1Content1'),
+        t('contentSections.section1Content2'),
+        t('contentSections.section1Content3')
+      ],
+      image: {
+        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
+        alt: '123'
+      }
+    },
+    {
+      title: t('contentSections.section2Title'),
+      content: [
+        t('contentSections.section2Content1'),
+        t('contentSections.section2Content2'),
+        t('contentSections.section2Content3')
+      ],
+      image: {
+        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
+        alt: '123'
+      }
+    },
+    {
+      title: t('contentSections.section3Title'),
+      content: [
+        t('contentSections.section3Content1'),
+        t('contentSections.section3Content2'),
+        t('contentSections.section3Content3')
+      ],
+      image: {
+        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
+        alt: '123'
+      }
+    },
+    {
+      title: t('contentSections.section4Title'),
+      content: [t('contentSections.section4Content1')],
+      image: {
+        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
+        alt: '123'
+      }
+    },
+    {
+      title: t('contentSections.section5Title'),
+      content: [
+        t('contentSections.section5Content1'),
+        t('contentSections.section5Content2'),
+        t('contentSections.section5Content3')
+      ],
+      image: {
+        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
+        alt: '123'
+      }
+    },
+    {
+      title: t('contentSections.section6Title'),
+      content: [t('contentSections.section6Content1'), t('contentSections.section6Content2')],
+      image: {
+        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
+        alt: '123'
+      }
+    },
+    {
+      title: t('contentSections.section7Title'),
+      content: [
+        t('contentSections.section7Content1'),
+        t('contentSections.section7Content2'),
+        t('contentSections.section7Content3'),
+        t('contentSections.section7Content4')
+      ],
+      image: {
+        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
+        alt: '123'
+      }
+    }
+  ]
+
+  // FAQ sections
+  const faqSections = [
+    {
+      question: t('faq.question1'),
+      answer: t('faq.answer1')
+    },
+    {
+      question: t('faq.question2'),
+      answer: t('faq.answer2')
+    },
+    {
+      question: t('faq.question3'),
+      answer: t('faq.answer3')
+    },
+    {
+      question: t('faq.question4'),
+      answer: t('faq.answer4')
+    },
+    {
+      question: t('faq.question5'),
+      answer: t('faq.answer5')
+    }
+  ]
+
   return (
     <>
       <div className="mb-8 text-center">
         <h1 className="from-primary to-accent mb-4 bg-gradient-to-r bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
-          Simple AI Voice Generator
+          {t('title')}
         </h1>
-        <p className="text-muted-foreground mx-auto max-w-2xl text-lg">
-          Experience the most powerful AI audio generation technology available today
-        </p>
+        <p className="text-muted-foreground mx-auto max-w-2xl text-lg">{t('description')}</p>
       </div>
-      <ElevenLabsContainer />
+      <SpeechGenerator />
+      <ContentSections
+        // title={t('contentSections.mainTitle')}
+        // description={t('contentSections.mainDescription')}
+        sections={contentSections}
+        className="mt-12"
+      />
+
+      <div className="mt-16">
+        <h2 className="mb-8 text-center text-3xl font-bold">{t('faq.title')}</h2>
+        <FAQSections faqs={faqSections} />
+      </div>
     </>
   )
 }
