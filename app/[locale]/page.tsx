@@ -130,8 +130,6 @@ export default async function Home() {
       </div>
       <SpeechGenerator />
       <div className="mt-20">
-        <h2 className="text-primary mb-2 text-center text-3xl font-bold"> {t('contentSections.mainTitle')}</h2>
-        <p className="text-muted-foreground mb-8 text-center">{t('contentSections.mainDescription')}</p>
         <ContentSections sections={contentSections} className="mt-12" />
       </div>
 
