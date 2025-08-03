@@ -27,8 +27,8 @@ export default async function Home() {
         t('contentSections.section1Content3')
       ],
       image: {
-        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
-        alt: '123'
+        src: 'https://static.getwhynot.org/1754213623532-vintage-cassette-tape--warm-li-1024x1024.png',
+        alt: 'vintage cassette tape, warm lighting, nostalgic atmosphere, close-up'
       }
     },
     {
@@ -39,8 +39,8 @@ export default async function Home() {
         t('contentSections.section2Content3')
       ],
       image: {
-        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
-        alt: '123'
+        src: 'https://static.getwhynot.org/1754213671461-retro-computer--early-speech-s-1024x1024.png',
+        alt: 'retro computer, early speech synthesizer, 1980s technology, laboratory setting'
       }
     },
     {
@@ -51,16 +51,16 @@ export default async function Home() {
         t('contentSections.section3Content3')
       ],
       image: {
-        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
-        alt: '123'
+        src: 'https://static.getwhynot.org/1754213711434-AI-voice-waveform-visualizatio-1024x1024.png',
+        alt: 'AI voice waveform visualization, digital audio spectrum, futuristic interface, blue glow'
       }
     },
     {
       title: t('contentSections.section4Title'),
       content: [t('contentSections.section4Content1')],
       image: {
-        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
-        alt: '123'
+        src: 'https://static.getwhynot.org/1754213760592-musical-notes-floating--AI-mus-1024x1024.png',
+        alt: 'musical notes floating, AI music creation, digital sound waves, creative studio'
       }
     },
     {
@@ -71,16 +71,16 @@ export default async function Home() {
         t('contentSections.section5Content3')
       ],
       image: {
-        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
-        alt: '123'
+        src: 'https://static.getwhynot.org/1754213844196-emotional-voice-visualization--1024x1024.png',
+        alt: 'emotional voice visualization, heart-shaped sound waves, warm colors, human connection'
       }
     },
     {
       title: t('contentSections.section6Title'),
       content: [t('contentSections.section6Content1'), t('contentSections.section6Content2')],
       image: {
-        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
-        alt: '123'
+        src: 'https://static.getwhynot.org/1754213877479-data-streams--human-silhouette-1024x1024.png',
+        alt: 'data streams, human silhouette, emotional particles, abstract digital art'
       }
     },
     {
@@ -92,8 +92,8 @@ export default async function Home() {
         t('contentSections.section7Content4')
       ],
       image: {
-        src: 'https://static.destinyai.tools/1752300089926-april-5-astrological-sign-cover-image.png',
-        alt: '123'
+        src: 'https://static.getwhynot.org/1754213903175-human-voice-meeting-AI--bridge-1024x1024.png',
+        alt: 'human voice meeting AI, bridge of light, harmony, future technology'
       }
     }
   ]
@@ -125,21 +125,18 @@ export default async function Home() {
   return (
     <>
       <div className="mb-8 text-center">
-        <h1 className="from-primary to-accent mb-4 bg-gradient-to-r bg-clip-text text-4xl font-bold text-transparent md:text-5xl">
-          {t('title')}
-        </h1>
+        <h1 className="text-primary mb-4 text-4xl font-bold md:text-5xl">{t('title')}</h1>
         <p className="text-muted-foreground mx-auto max-w-2xl text-lg">{t('description')}</p>
       </div>
       <SpeechGenerator />
-      <ContentSections
-        // title={t('contentSections.mainTitle')}
-        // description={t('contentSections.mainDescription')}
-        sections={contentSections}
-        className="mt-12"
-      />
+      <div className="mt-20">
+        <h2 className="text-primary mb-2 text-center text-3xl font-bold"> {t('contentSections.mainTitle')}</h2>
+        <p className="text-muted-foreground mb-8 text-center">{t('contentSections.mainDescription')}</p>
+        <ContentSections sections={contentSections} className="mt-12" />
+      </div>
 
-      <div className="mt-16">
-        <h2 className="mb-8 text-center text-3xl font-bold">{t('faq.title')}</h2>
+      <div className="mt-20">
+        <h2 className="text-primary mb-8 text-center text-3xl font-bold">{t('faq.title')}</h2>
         <FAQSections faqs={faqSections} />
       </div>
     </>
