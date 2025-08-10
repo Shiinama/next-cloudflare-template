@@ -6,7 +6,7 @@ import { cloudflareTextToImage } from '@/actions/ai'
 import { locales } from '@/i18n/routing'
 import { createAI } from '@/lib/ai'
 import { createDb } from '@/lib/db'
-import { posts } from '@/lib/db/schema'
+import { posts, postTranslations } from '@/lib/db/schema'
 
 interface ArticleGenerationParams {
   keyword: string
@@ -187,26 +187,50 @@ export async function getPaginatedArticles({
   const itemsPerPage = Math.max(1, pageSize)
   const offset = (currentPage - 1) * itemsPerPage
 
-  const baseQuery = database.select().from(posts).orderBy(desc(posts.publishedAt))
+  if (!locale || locale === 'en') {
+    const baseQuery = database.select().from(posts).orderBy(desc(posts.publishedAt))
+    const query = baseQuery.where(eq(posts.locale, 'en'))
+    const countQuery = database.select({ count: count() }).from(posts).where(eq(posts.locale, 'en'))
 
-  const query = locale ? baseQuery.where(eq(posts.locale, locale)) : baseQuery
+    const [articles, countResult] = await Promise.all([query.limit(itemsPerPage).offset(offset), countQuery])
 
-  const countQuery = locale
-    ? database.select({ count: count() }).from(posts).where(eq(posts.locale, locale))
-    : database.select({ count: count() }).from(posts)
+    const totalItems = countResult[0]?.count || 0
+    const totalPages = Math.ceil(totalItems / itemsPerPage)
 
-  const [articles, countResult] = await Promise.all([query.limit(itemsPerPage).offset(offset), countQuery])
+    return {
+      articles,
+      pagination: {
+        currentPage,
+        pageSize: itemsPerPage,
+        totalItems,
+        totalPages
+      }
+    }
+  } else {
+    const baseQuery = database
+      .select()
+      .from(postTranslations)
+      .where(eq(postTranslations.locale, locale))
+      .orderBy(desc(postTranslations.createdAt)) // 使用翻译的创建时间排序
 
-  const totalItems = countResult[0]?.count || 0
-  const totalPages = Math.ceil(totalItems / itemsPerPage)
+    const countQuery = database
+      .select({ count: count() })
+      .from(postTranslations)
+      .where(eq(postTranslations.locale, locale))
 
-  return {
-    articles,
-    pagination: {
-      currentPage,
-      pageSize: itemsPerPage,
-      totalItems,
-      totalPages
+    const [articles, countResult] = await Promise.all([baseQuery.limit(itemsPerPage).offset(offset), countQuery])
+
+    const totalItems = countResult[0]?.count || 0
+    const totalPages = Math.ceil(totalItems / itemsPerPage)
+
+    return {
+      articles,
+      pagination: {
+        currentPage,
+        pageSize: itemsPerPage,
+        totalItems,
+        totalPages
+      }
     }
   }
 }

@@ -15,6 +15,8 @@ interface PostTranslateParams {
   locale: string
   originalTitle: string
   originalDescription: string
+  slug: string
+  originalCoverImageUrl: string | null
 }
 
 // 提取标题和描述的通用函数
@@ -91,10 +93,12 @@ const translateContent = async (content: string, locale: string): Promise<string
 
 export const postTranslate = async ({
   postId,
+  slug,
   content,
   locale,
   originalTitle,
-  originalDescription
+  originalDescription,
+  originalCoverImageUrl
 }: PostTranslateParams): Promise<TranslationResult> => {
   const db = createDb()
 
@@ -116,14 +120,10 @@ export const postTranslate = async ({
       .limit(1)
 
     if (existingTranslation.length > 0) {
-      // 如果已有翻译，直接返回数据库中的内容
-      const translatedContent = existingTranslation[0].content
-      const { title, description } = extractTitleAndDescription(translatedContent, originalTitle, originalDescription)
-
       return {
-        title,
-        description,
-        fullText: translatedContent
+        title: existingTranslation[0].title,
+        description: existingTranslation[0].excerpt,
+        fullText: existingTranslation[0].content
       }
     }
 
@@ -131,15 +131,19 @@ export const postTranslate = async ({
     const translatedText = await translateContent(content, locale)
 
     if (translatedText) {
+      const { title, description } = extractTitleAndDescription(translatedText, originalTitle, originalDescription)
+
       await db.insert(postTranslations).values({
         postId,
         locale,
+        slug,
         content: translatedText,
+        title: originalTitle,
+        excerpt: originalDescription,
+        coverImageUrl: originalCoverImageUrl,
         createdAt: new Date(),
         updatedAt: new Date()
       })
-
-      const { title, description } = extractTitleAndDescription(translatedText, originalTitle, originalDescription)
 
       return {
         title,

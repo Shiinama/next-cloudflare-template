@@ -18,9 +18,11 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const data = await postTranslate({
       postId: article.id,
       content: article.content,
+      slug: slug,
       locale,
       originalTitle: article.title,
-      originalDescription: article.excerpt
+      originalDescription: article.excerpt,
+      originalCoverImageUrl: article.coverImageUrl
     })
 
     return NextResponse.json({

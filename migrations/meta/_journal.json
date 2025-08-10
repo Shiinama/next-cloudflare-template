@@ -57,6 +57,13 @@
       "when": 1754838856112,
       "tag": "0007_abandoned_night_thrasher",
       "breakpoints": true
+    },
+    {
+      "idx": 8,
+      "version": "6",
+      "when": 1754842750325,
+      "tag": "0008_early_young_avengers",
+      "breakpoints": true
     }
   ]
 }

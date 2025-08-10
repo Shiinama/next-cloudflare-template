@@ -35,7 +35,7 @@ export default async function BlogPage({
 
   const t = await getTranslations('blogs')
 
-  const publishedArticles = articles.filter((article) => article.publishedAt)
+  const publishedArticles = articles.filter((article) => article.createdAt)
 
   return (
     <div className="container mx-auto py-8">
@@ -65,7 +65,7 @@ export default async function BlogPage({
                 <div className="w-3/4">
                   <h2 className="mb-1 text-xl font-semibold text-white">{article.title}</h2>
                   <p className="mb-2 text-sm text-gray-400">
-                    {t('publishedAt', { date: formatDate(article.publishedAt) })}
+                    {t('publishedAt', { date: formatDate(article.createdAt) })}
                   </p>
                   <p className="text-gray-300">{article.excerpt}</p>
                 </div>

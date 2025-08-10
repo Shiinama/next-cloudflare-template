@@ -119,6 +119,10 @@ export const postTranslations = sqliteTable('postTranslations', {
   postId: text('postId')
     .notNull()
     .references(() => posts.id, { onDelete: 'cascade' }),
+  slug: text('slug').notNull(),
+  title: text('title').notNull(),
+  excerpt: text('excerpt').notNull(),
+  coverImageUrl: text('cover_image_url'),
   locale: text('locale').notNull(),
   content: text('content').notNull(),
   createdAt: integer('created_at', { mode: 'timestamp_ms' })
