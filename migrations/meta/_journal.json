@@ -50,6 +50,13 @@
       "when": 1752995090867,
       "tag": "0006_illegal_screwball",
       "breakpoints": true
+    },
+    {
+      "idx": 7,
+      "version": "6",
+      "when": 1754838856112,
+      "tag": "0007_abandoned_night_thrasher",
+      "breakpoints": true
     }
   ]
 }

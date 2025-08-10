@@ -9,6 +9,7 @@ const nextConfig: NextConfig = {
   images: {
     remotePatterns: [new URL('https://static.getwhynot.org/**'), new URL('https://static.destinyai.tools/**')]
   },
+  reactStrictMode: false,
   experimental: {
     staleTimes: {
       dynamic: 3600,

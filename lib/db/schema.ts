@@ -112,6 +112,23 @@ export const posts = sqliteTable('posts', {
     .notNull()
 })
 
+export const postTranslations = sqliteTable('postTranslations', {
+  id: text('id')
+    .primaryKey()
+    .$defaultFn(() => crypto.randomUUID()),
+  postId: text('postId')
+    .notNull()
+    .references(() => posts.id, { onDelete: 'cascade' }),
+  locale: text('locale').notNull(),
+  content: text('content').notNull(),
+  createdAt: integer('created_at', { mode: 'timestamp_ms' })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull(),
+  updatedAt: integer('updated_at', { mode: 'timestamp_ms' })
+    .default(sql`CURRENT_TIMESTAMP`)
+    .notNull()
+})
+
 export type ProductType = 'one_time' | 'subscription'
 export type SubscriptionInterval = 'day' | 'week' | 'month' | 'year'
 export type OrderStatus = 'pending' | 'completed' | 'failed' | 'refunded'
