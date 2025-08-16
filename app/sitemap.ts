@@ -1,9 +1,13 @@
+import { unstable_noStore } from 'next/cache'
+
 import { getAllArticles } from '@/actions/ai-content'
 import { locales } from '@/i18n/routing'
 
 import type { MetadataRoute } from 'next'
 
 export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
+  unstable_noStore()
+
   const routes = ['', '/blogs', '/voice', '/voice-design', '/blogs']
 
   const entries: MetadataRoute.Sitemap = []
