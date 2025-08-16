@@ -3,30 +3,38 @@ import { locales } from '@/i18n/routing'
 
 import type { MetadataRoute } from 'next'
 
-export async function generateSitemaps() {
-  return locales.map((locale) => ({
-    id: locale.code
-  }))
-}
-
-export default async function sitemap({ id: locale }: { id: string }): Promise<MetadataRoute.Sitemap> {
-  const baseUrl = process.env.NEXT_PUBLIC_BASE_URL
-
+export default async function sitemap(): Promise<MetadataRoute.Sitemap> {
   const routes = ['', '/blogs', '/voice', '/voice-design', '/blogs']
 
   const entries: MetadataRoute.Sitemap = []
 
   for (const route of routes) {
     entries.push({
-      url: `${baseUrl}${locale === 'en' ? '' : `/${locale}`}${route}`
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}${route}`,
+      alternates: {
+        languages: Object.fromEntries(
+          locales
+            .filter((locale) => locale.code !== 'en')
+            .map((locale) => [locale.code, `${process.env.NEXT_PUBLIC_BASE_URL}/${locale.code}${route}`])
+        )
+      }
     })
   }
 
-  const allArticles = await getAllArticles(locale)
+  const allArticles = await getAllArticles()
 
-  const publishedArticles = allArticles.map((article) => ({
-    url: `${baseUrl}${locale === 'en' ? '' : `/${locale}`}/blog/${article.slug}`
-  }))
+  const publishedArticles: MetadataRoute.Sitemap = allArticles.map((article) => {
+    return {
+      url: `${process.env.NEXT_PUBLIC_BASE_URL}/blog/${article.slug}`,
+      alternates: {
+        languages: Object.fromEntries(
+          locales
+            .filter((locale) => locale.code !== 'en')
+            .map((locale) => [locale.code, `${process.env.NEXT_PUBLIC_BASE_URL}/${locale.code}/blog/${article.slug}`])
+        )
+      }
+    }
+  })
 
   return [...entries, ...publishedArticles]
 }
