@@ -60,6 +60,9 @@
                 "DOQueueHandler",
                 "DOShardedTagCache"
             ],
+        },
+        {
+            "tag": "v2",
             "new_classes": [
                 "Counter"
             ]
