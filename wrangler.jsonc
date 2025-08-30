@@ -59,7 +59,7 @@
             "new_sqlite_classes": [
                 "DOQueueHandler",
                 "DOShardedTagCache"
-            ],
+            ]
         },
         {
             "tag": "v2",
