@@ -1,7 +1,7 @@
 {
     "$schema": "node_modules/wrangler/config-schema.json",
     "name": "cloudflare-template",
-    "main": ".open-next/worker.js",
+    "main": "worker.ts",
     "compatibility_date": "2025-04-22",
     "compatibility_flags": [
         "nodejs_compat",
@@ -46,6 +46,10 @@
             {
                 "name": "NEXT_TAG_CACHE_DO_SHARDED",
                 "class_name": "DOShardedTagCache"
+            },
+            {
+                "name": "COUNTER_DO",
+                "class_name": "Counter"
             }
         ]
     },
@@ -55,6 +59,9 @@
             "new_sqlite_classes": [
                 "DOQueueHandler",
                 "DOShardedTagCache"
+            ],
+            "new_classes": [
+                "Counter"
             ]
         }
     ],
