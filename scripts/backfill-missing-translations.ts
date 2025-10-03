@@ -34,7 +34,6 @@ const ensureTrailingSlash = (value: string): string => (value.endsWith('/') ? va
 const BASE_LOCALE = 'en'
 const REQUEST_DELAY_MS = 500
 const REQUEST_TIMEOUT_MS = 20000
-const DEFAULT_BASE_URL = ensureTrailingSlash(process.env.NEXT_PUBLIC_BASE_URL || 'http://localhost:3000')
 const TRANSLATION_LOCALES = locales.map((locale) => locale.code).filter((code) => code !== BASE_LOCALE)
 
 if (TRANSLATION_LOCALES.length === 0) {
@@ -266,9 +265,7 @@ const runWithBackoff = async (task: MissingTask, baseUrl: string): Promise<void>
 const run = async (requestedMode: ExecutionMode) => {
   const client = getDbClient(requestedMode)
   const { db, close, mode } = client
-  const baseUrl = ensureTrailingSlash(
-    mode === 'local' ? process.env.LOCAL_BASE_URL || DEFAULT_BASE_URL : DEFAULT_BASE_URL
-  )
+  const baseUrl = ensureTrailingSlash(mode === 'local' ? 'http://localhost:3000' : 'https://demo.getwhynot.org')
 
   if (requestedMode !== 'auto' && requestedMode !== mode) {
     console.warn(`Requested mode "${requestedMode}" could not be used. Falling back to "${mode}".`)
