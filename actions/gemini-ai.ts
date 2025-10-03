@@ -2,8 +2,6 @@
 
 import { GoogleGenAI } from '@google/genai'
 
-import { hasEnoughTokens, updateUserTokenUsage } from '@/actions/payment/tokens'
-
 export type GeminiGenerationParams = {
   prompt: string
   userId: string
@@ -37,12 +35,6 @@ export async function generateWithGemini({
   maxOutputTokens = 2048,
   systemPrompt
 }: GeminiGenerationParams) {
-  const hasTokens = await hasEnoughTokens(0)
-
-  if (!hasTokens) {
-    throw new Error('Not enough tokens')
-  }
-
   const chats = genAI.chats.create({
     model: model,
     config: {
@@ -82,8 +74,6 @@ export async function generateWithGemini({
     const outputTokens = result.usageMetadata.candidatesTokenCount || 0
     tokensUsed = inputTokens + outputTokens
   }
-
-  await updateUserTokenUsage({ amount: tokensUsed })
 
   return {
     usageData: result.usageMetadata,

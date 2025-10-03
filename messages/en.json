@@ -148,6 +148,10 @@
       "answer4": "The platform uses a token-based system where speech generation consumes tokens based on the duration of the generated audio. Each second of generated speech costs a certain number of tokens. You can monitor your token usage in your account dashboard.",
       "question5": "Can I use the generated speech commercially?",
       "answer5": "Usage rights depend on ElevenLabs' terms of service and your subscription plan. Generally, you can use generated speech for personal and commercial projects, but please review the specific licensing terms for your use case. Always ensure you have the right to convert the text content you're using."
+    },
+    "imageGenerator": {
+      "title": "Cloudflare Image Generator",
+      "description": "Generate high-quality visuals with Cloudflare Workers AI. Complete the Turnstile challenge before each request."
     }
   },
   "common": {

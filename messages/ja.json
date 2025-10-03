@@ -179,6 +179,10 @@
       "answer4": "プラットフォームは、生成された音声の持続時間に基づいてトークンを消費するトークンベースのシステムを使用しています。生成された音声の1秒ごとに一定数のトークンが消費されます。アカウント ダッシュボードでトークンの使用状況を監視できます。",
       "question5": "生成した音声を商用利用できますか？",
       "answer5": "利用権は、ElevenLabs の利用規約とサブスクリプションプランによって異なります。一般的に、生成された音声を個人用および商用プロジェクトで使用できますが、具体的なライセンス条件を必ず確認してください。使用するテキストコンテンツの変換権があることを常に確認してください。"
+    },
+    "imageGenerator": {
+      "title": "Cloudflare Image Generator",
+      "description": "Generate high-quality visuals with Cloudflare Workers AI. Complete the Turnstile challenge before each request."
     }
   }
 }

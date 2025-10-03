@@ -179,6 +179,10 @@
       "answer4": "Die Plattform verwendet ein Token-basiertes System, bei dem die Sprachsynthese Token basierend auf der Dauer des generierten Audios verbraucht. Jede Sekunde generierter Sprache kostet eine bestimmte Anzahl von Token. Sie können Ihre Token-Nutzung in Ihrem Kontodashboard überwachen.",
       "question5": "Kann ich die generierte Sprache kommerziell nutzen?",
       "answer5": "Die Nutzungsrechte hängen von den Nutzungsbedingungen und Ihrem Abonnementplan von ElevenLabs ab. Im Allgemeinen können Sie die generierte Sprache für persönliche und kommerzielle Projekte verwenden, aber bitte überprüfen Sie die spezifischen Lizenzbedingungen für Ihren Anwendungsfall. Stellen Sie immer sicher, dass Sie das Recht haben, den Textinhalt zu konvertieren, den Sie verwenden."
+    },
+    "imageGenerator": {
+      "title": "Cloudflare Image Generator",
+      "description": "Generate high-quality visuals with Cloudflare Workers AI. Complete the Turnstile challenge before each request."
     }
   }
 }

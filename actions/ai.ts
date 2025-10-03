@@ -17,6 +17,58 @@ interface ImageGenerationOptions {
   seed?: number
 }
 
+type TurnstileVerifyResponse = {
+  success: boolean
+  'error-codes'?: string[]
+}
+
+const TURNSTILE_VERIFY_ENDPOINT = 'https://challenges.cloudflare.com/turnstile/v0/siteverify'
+
+async function verifyTurnstileToken(token: string) {
+  const secret = process.env.TURNSTILE_SECRET_KEY || process.env.TURNSTILE_SECRET
+
+  if (!secret) {
+    console.error('Turnstile secret not configured')
+    return { success: false, error: 'Turnstile secret not configured' as const }
+  }
+
+  if (!token) {
+    return { success: false, error: 'Turnstile verification is required' as const }
+  }
+
+  try {
+    const params = new URLSearchParams()
+    params.append('secret', secret)
+    params.append('response', token)
+
+    const response = await fetch(TURNSTILE_VERIFY_ENDPOINT, {
+      method: 'POST',
+      body: params
+    })
+
+    if (!response.ok) {
+      console.error('Turnstile verification failed with status:', response.status)
+      return { success: false, error: 'Unable to verify human check' as const }
+    }
+
+    const verification = (await response.json()) as TurnstileVerifyResponse
+
+    if (!verification.success) {
+      const errorCodes = verification['error-codes']?.join(', ')
+      console.warn('Turnstile verification rejected', errorCodes)
+      return {
+        success: false,
+        error: errorCodes ? `Human verification failed: ${errorCodes}` : 'Human verification failed'
+      } as const
+    }
+
+    return { success: true as const }
+  } catch (error) {
+    console.error('Error verifying Turnstile token:', error)
+    return { success: false as const, error: 'Human verification could not be completed' as const }
+  }
+}
+
 const styleEnhancers: Record<ImageStyle, string> = {
   realistic: 'highly detailed, photorealistic, sharp focus, professional photography, 8k',
   artistic: 'artistic style, vibrant colors, expressive, detailed brushstrokes, creative composition',
@@ -62,7 +114,7 @@ function getDimensions(
   }
 }
 
-export async function cloudflareTextToImage({
+async function generateCloudflareImage({
   prompt,
   negativePrompt,
   ratio = '16:9',
@@ -149,4 +201,25 @@ export async function cloudflareTextToImage({
       error: error instanceof Error ? error.message : 'Unknown error occurred'
     }
   }
+}
+
+export async function cloudflareTextToImage(options: ImageGenerationOptions) {
+  return generateCloudflareImage(options)
+}
+
+export async function cloudflareTextToImageWithCaptcha({
+  captchaToken,
+  ...options
+}: ImageGenerationOptions & { captchaToken: string }) {
+  const verification = await verifyTurnstileToken(captchaToken)
+  if (!verification.success) {
+    return {
+      success: false,
+      imageData: null,
+      imageUrl: null,
+      error: verification.error
+    }
+  }
+
+  return generateCloudflareImage(options)
 }

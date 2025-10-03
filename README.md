@@ -26,8 +26,8 @@
 - **Next.js 全栈最佳实践**：App Router、Server Actions、流式渲染、渐进式增强、客户端体验优化与 Turbopack 开发体验。
 - **内容与 SEO 能力**：Markdown 内容体系、Vditor 编辑器联动、结构化数据、批量 AI 文章生成脚本与全站 SEO 预设。
 - **全球化与本地化**：基于 `next-intl` 的多语言路由、消息包与翻译 CLI，支持自动补全缺失文案与批量删除冗余键。
-- **商业化脚手架**：内建订单、订阅、Token 计费模型与使用量统计，方便对接第三方支付网关。
-- **AI 多模态实践**：封装 Cloudflare Workers AI、Google GenAI、ElevenLabs TTS 等能力，覆盖文本、图像、音频生成。
+- **轻量化体验**：当前版本聚焦免费广告投放展示，临时移除了订单、订阅与 Token 计费逻辑。
+- **AI 生图体验**：封装 Cloudflare Workers AI 图像生成能力，快速产出广告素材，支持 Turnstile 验证保护资源。
 - **自动化运维**：一键部署脚本（`pnpm deploy:c`）串联数据库迁移、密钥同步、Pages 发布，内含环境变量校验。
 - **可观测与扩展**：Durable Object 计数器示例、R2 缓存、KV 可选配置，兼容 Cloudflare Logs；利用 `global.ts` 扩展运行时依赖。
 
@@ -36,9 +36,9 @@
 - **Web 框架**：Next.js 15、React 19
 - **数据库**：Cloudflare D1、Drizzle ORM、Drizzle Studio
 - **存储与缓存**：Cloudflare R2、KV（可选）、Durable Objects
-- **身份与业务**：NextAuth、Drizzle schema、Zustand、React Hook Form
+- **身份与业务**：NextAuth、Drizzle schema、React Hook Form
 - **UI & 内容**：Tailwind CSS、shadcn/ui、Vditor、markdown-to-jsx、Lucide Icons
-- **AI 能力**：Cloudflare AI binding、Google GenAI、ElevenLabs
+- **AI 能力**：Cloudflare AI binding、Google GenAI
 - **工程工具**：TypeScript、ESLint、Prettier、Turbopack、tsx、Wrangler、OpenNext for Cloudflare
 
 ## 🏗️ 架构概览
@@ -46,7 +46,7 @@
 - **运行时**：Next.js 应用由 OpenNext 构建为 Cloudflare Workers。
 - **数据层**：D1 作为主数据库，Drizzle 负责 schema 与迁移；R2 用于缓存/静态资产，KV 用于配置存储（可选）。
 - **状态与任务**：Durable Objects 提供缓存队列、标签缓存与业务计数器示例；Cron 触发器支持分钟级任务调度。
-- **AI 管道**：通过 `lib/ai.ts`、`lib/upgrade-chat-client.ts` 等封装使用 Cloudflare AI、Google GenAI、ElevenLabs，统一 Worker 运行时上下文。
+- **AI 管道**：通过 `lib/ai.ts` 封装使用 Cloudflare AI 与 Google GenAI，统一 Worker 运行时上下文。
 - **部署流程**：`scripts/deploy/index.ts` 串联环境校验、.env 生成、远程迁移、Secrets 同步与 Pages 发布，实现 CI/CD 友好流程。
 
 ## 🗂️ 项目结构
@@ -124,7 +124,8 @@
 ### AI 与第三方
 
 - `GMI_API_KEY`：Google GenAI API Key
-- `ELEVENLABS_API_KEY`：ElevenLabs TTS
+- `NEXT_PUBLIC_TURNSTILE_SITE_KEY`：前端 Turnstile 验证用站点密钥
+- `TURNSTILE_SECRET_KEY`：服务端 Turnstile 验证密钥
 - `AUTH_GOOGLE_ID` / `AUTH_GOOGLE_SECRET`：Google OAuth 登录
 - `AUTH_RESEND_KEY`：Resend 邮件服务
 
@@ -158,7 +159,7 @@
 - **Cron 作业不执行？**
   确保在 `wrangler.jsonc` 中配置 `triggers.crons`，并已在 Cloudflare Dashboard 中启用 Worker 定时任务。
 - **AI 调用失败？**
-  检查 `cloudflare.env` 或 Secrets 中是否配置 `AI` 绑定，以及外部服务（例如 Google GenAI、ElevenLabs）的 Key 是否有效。
+  检查 `cloudflare.env` 或 Secrets 中是否配置 `AI` 绑定，以及外部服务（例如 Google GenAI、Turnstile）的秘钥是否有效。
 
 ## 💡 贡献
 

@@ -179,6 +179,10 @@
       "answer4": "La plateforme utilise un système basé sur des jetons où la génération vocale consomme des jetons en fonction de la durée de l'audio généré. Chaque seconde de parole générée coûte un certain nombre de jetons. Vous pouvez surveiller l'utilisation de vos jetons dans votre tableau de bord.",
       "question5": "Puis-je utiliser la parole générée à des fins commerciales ?",
       "answer5": "Les droits d'utilisation dépendent des conditions d'utilisation et de votre plan d'abonnement ElevenLabs. En général, vous pouvez utiliser la parole générée pour des projets personnels et commerciaux, mais veuillez consulter les conditions de licence spécifiques à votre cas d'utilisation. Assurez-vous toujours d'avoir le droit de convertir le contenu textuel que vous utilisez."
+    },
+    "imageGenerator": {
+      "title": "Cloudflare Image Generator",
+      "description": "Generate high-quality visuals with Cloudflare Workers AI. Complete the Turnstile challenge before each request."
     }
   }
 }

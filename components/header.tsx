@@ -19,9 +19,7 @@ export default function Header({ className }: { className?: string }) {
 
   const navLinks = [
     { href: '/', label: t('home') },
-    { href: '/voice-design', label: t('voiceDesign') },
-    { href: '/blogs', label: t('blogs') },
-    { href: '/pricing', label: t('pricing') }
+    { href: '/blogs', label: t('blogs') }
   ]
 
   return (

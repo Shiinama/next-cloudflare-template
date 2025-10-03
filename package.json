@@ -33,7 +33,6 @@
   },
   "dependencies": {
     "@auth/drizzle-adapter": "^1.9.0",
-    "@elevenlabs/elevenlabs-js": "^2.7.0",
     "@google/genai": "^1.6.0",
     "@opennextjs/cloudflare": "^1.6.5",
     "@radix-ui/react-alert-dialog": "^1.1.14",
@@ -68,8 +67,7 @@
     "react-hook-form": "^7.58.1",
     "sonner": "^2.0.3",
     "tailwind-merge": "^3.2.0",
-    "tw-animate-css": "^1.2.9",
-    "zustand": "^5.0.6"
+    "tw-animate-css": "^1.2.9"
   },
   "devDependencies": {
     "@cloudflare/workers-types": "^4.20250409.0",

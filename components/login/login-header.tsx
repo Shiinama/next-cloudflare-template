@@ -4,7 +4,6 @@ import { LogIn, LogOut } from 'lucide-react'
 import { signOut } from 'next-auth/react'
 import { useTranslations } from 'next-intl'
 
-import { UsageCard } from '@/components/login/usage-card'
 import { AvatarWithProgress } from '@/components/ui/avatar-with-progress'
 import { Button } from '@/components/ui/button'
 import {
@@ -21,14 +20,7 @@ import { useIsMobile } from '@/hooks/use-mobile'
 export default function LoginHeader() {
   const t = useTranslations('login')
   const isMobile = useIsMobile()
-  const { status, user, usage, checkIsLoggedIn } = useUser()
-
-  const getTokenProgress = () => {
-    if (!usage || !usage.totalTokens || usage.totalTokens === 0) return 0
-    return Math.min((usage.usedTokens / usage.totalTokens) * 100, 100)
-  }
-
-  const tokenProgress = getTokenProgress()
+  const { status, user, checkIsLoggedIn } = useUser()
 
   if (status === 'loading') return null
 
@@ -43,7 +35,7 @@ export default function LoginHeader() {
               width={40}
               height={40}
               fallback={user?.name?.[0] || user?.email?.[0] || '?'}
-              progress={tokenProgress}
+              progress={0}
             />
             <div className="min-w-0 flex-1">
               {user?.name && <p className="truncate font-medium">{user.name}</p>}
@@ -73,12 +65,11 @@ export default function LoginHeader() {
               width={40}
               height={40}
               fallback={user?.name?.[0] || user?.email?.[0] || '?'}
-              progress={40}
+              progress={0}
             />
           </div>
         </DropdownMenuTrigger>
         <DropdownMenuContent align="end" className="w-56">
-          <UsageCard />
           <DropdownMenuLabel>
             <div className="flex flex-col space-y-1">
               {user?.name && <p className="font-medium">{user.name}</p>}

@@ -179,6 +179,10 @@
       "answer4": "플랫폼은 생성된 오디오의 지속 시간에 따라 토큰을 소비하는 토큰 기반 시스템을 사용합니다. 생성된 음성의 각 초마다 특정 수의 토큰이 소모됩니다. 계정 대시보드에서 토큰 사용량을 모니터링할 수 있습니다.",
       "question5": "생성된 음성을 상업적으로 사용할 수 있나요?",
       "answer5": "사용 권한은 ElevenLabs의 서비스 약관 및 구독 플랜에 따라 다릅니다. 일반적으로 생성된 음성은 개인 및 상업 프로젝트에 사용할 수 있지만, 사용 사례에 적용되는 특정 라이선스 조건을 검토해야 합니다. 사용하는 텍스트 콘텐츠를 변환할 권리가 있는지 항상 확인하십시오."
+    },
+    "imageGenerator": {
+      "title": "Cloudflare Image Generator",
+      "description": "Generate high-quality visuals with Cloudflare Workers AI. Complete the Turnstile challenge before each request."
     }
   }
 }

@@ -179,6 +179,10 @@
       "answer4": "La piattaforma utilizza un sistema basato su token in cui la generazione vocale consuma token in base alla durata dell'audio generato. Ogni secondo di parlato generato costa un certo numero di token. Puoi monitorare l'utilizzo dei tuoi token nel dashboard del tuo account.",
       "question5": "Posso usare il parlato generato a scopo commerciale?",
       "answer5": "I diritti di utilizzo dipendono dai termini di servizio e dal piano di abbonamento di ElevenLabs. In generale, puoi utilizzare il parlato generato per progetti personali e commerciali, ma ti preghiamo di consultare i termini di licenza specifici per il tuo caso d'uso. Assicurati sempre di avere il diritto di convertire il contenuto testuale che stai utilizzando."
+    },
+    "imageGenerator": {
+      "title": "Cloudflare Image Generator",
+      "description": "Generate high-quality visuals with Cloudflare Workers AI. Complete the Turnstile challenge before each request."
     }
   }
 }

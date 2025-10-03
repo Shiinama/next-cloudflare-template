@@ -1,7 +1,7 @@
 import { Metadata } from 'next'
 import { getTranslations } from 'next-intl/server'
 
-import { SpeechGenerator } from '@/components/elevenlabs/speech-generator'
+import { ImageGenerator } from '@/components/image-generator/image-generator'
 import ContentSections from '@/components/ui/content-sections'
 import FAQSections from '@/components/ui/faq-sections'
 
@@ -128,7 +128,18 @@ export default async function Home() {
         <h1 className="text-primary mb-4 text-4xl font-bold md:text-5xl">{t('title')}</h1>
         <p className="text-muted-foreground mx-auto max-w-2xl text-lg">{t('description')}</p>
       </div>
-      <SpeechGenerator />
+      <section id="generator" className="mt-12">
+        <div className="mx-auto max-w-3xl rounded-3xl border bg-muted/30 p-6 shadow-md">
+          <h2 className="text-foreground mb-4 text-2xl font-semibold md:text-3xl">
+            {t('imageGenerator.title')}
+          </h2>
+          <p className="text-muted-foreground mb-6 text-base">
+            {t('imageGenerator.description')}
+          </p>
+          <ImageGenerator />
+        </div>
+      </section>
+
       <div className="mt-20">
         <ContentSections sections={contentSections} className="mt-12" />
       </div>

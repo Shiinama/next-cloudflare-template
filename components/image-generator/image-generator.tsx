@@ -1,15 +1,24 @@
 'use client'
 
 import { Loader2 } from 'lucide-react'
-import { useState } from 'react'
+import { useEffect, useRef, useState } from 'react'
 
-import { cloudflareTextToImage, ImageRatio, ImageStyle } from '@/actions/ai'
+import { cloudflareTextToImageWithCaptcha, ImageRatio, ImageStyle } from '@/actions/ai'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Separator } from '@/components/ui/separator'
 import { Textarea } from '@/components/ui/textarea'
+
+declare global {
+  interface Window {
+    turnstile?: {
+      render: (container: Element, options: Record<string, any>) => string
+      reset: (widgetId?: string) => void
+    }
+  }
+}
 
 interface ImageGeneratorProps {
   className?: string
@@ -38,22 +47,93 @@ const styleOptions: { value: ImageStyle; label: string; description: string }[] 
 ]
 
 export function ImageGenerator({ className }: ImageGeneratorProps) {
-  const [prompt, setPrompt] = useState<string>('')
-  const [negativePrompt, setNegativePrompt] = useState<string>(
+  const [prompt, setPrompt] = useState('')
+  const [negativePrompt, setNegativePrompt] = useState(
     'blurry, low quality, distorted, deformed, text, watermark, signature, username, logo, copyright'
   )
   const [ratio, setRatio] = useState<ImageRatio>('16:9')
   const [style, setStyle] = useState<ImageStyle>('realistic')
-  const [customWidth, setCustomWidth] = useState<number>(1024)
-  const [customHeight, setCustomHeight] = useState<number>(1024)
-  const [steps, setSteps] = useState<number>(8)
+  const [customWidth, setCustomWidth] = useState(1024)
+  const [customHeight, setCustomHeight] = useState(1024)
+  const [steps, setSteps] = useState(8)
   const [seed, setSeed] = useState<number | undefined>(undefined)
-  const [isGenerating, setIsGenerating] = useState<boolean>(false)
+  const [isGenerating, setIsGenerating] = useState(false)
   const [generatedImage, setGeneratedImage] = useState<string | null>(null)
   const [imageUrl, setImageUrl] = useState<string | null>(null)
-  const [imageMetadata, setImageMetadata] = useState<any>(null)
+  const [imageMetadata, setImageMetadata] = useState<Record<string, any> | null>(null)
   const [error, setError] = useState<string | null>(null)
-  const [showAdvanced, setShowAdvanced] = useState<boolean>(false)
+  const [captchaError, setCaptchaError] = useState<string | null>(null)
+  const [showAdvanced, setShowAdvanced] = useState(false)
+  const [captchaToken, setCaptchaToken] = useState<string | null>(null)
+
+  const turnstileContainerRef = useRef<HTMLDivElement | null>(null)
+  const turnstileWidgetId = useRef<string | undefined>(undefined)
+  const turnstileSiteKey = process.env.NEXT_PUBLIC_TURNSTILE_SITE_KEY ?? ''
+
+  useEffect(() => {
+    if (!turnstileSiteKey || !turnstileContainerRef.current) {
+      return
+    }
+
+    const renderTurnstile = () => {
+      if (!turnstileContainerRef.current || turnstileWidgetId.current || !window.turnstile) {
+        return
+      }
+
+      turnstileWidgetId.current = window.turnstile.render(turnstileContainerRef.current, {
+        sitekey: turnstileSiteKey,
+        callback: (token: string) => {
+          setCaptchaError(null)
+          setCaptchaToken(token)
+        },
+        'expired-callback': () => {
+          setCaptchaToken(null)
+        },
+        'timeout-callback': () => {
+          setCaptchaToken(null)
+        },
+        'error-callback': () => {
+          setCaptchaToken(null)
+          setCaptchaError('Human verification failed. Please try again.')
+        }
+      })
+    }
+
+    if (window.turnstile) {
+      renderTurnstile()
+      return
+    }
+
+    const existingScript = document.querySelector<HTMLScriptElement>(
+      'script[src^="https://challenges.cloudflare.com/turnstile/v0/api.js"]'
+    )
+
+    if (existingScript) {
+      const handleLoad = () => renderTurnstile()
+      existingScript.addEventListener('load', handleLoad)
+      return () => existingScript.removeEventListener('load', handleLoad)
+    }
+
+    const script = document.createElement('script')
+    script.src = 'https://challenges.cloudflare.com/turnstile/v0/api.js?render=explicit'
+    script.async = true
+    script.defer = true
+    script.onload = () => renderTurnstile()
+
+    document.body.appendChild(script)
+
+    return () => {
+      script.onload = null
+    }
+  }, [turnstileSiteKey])
+
+  const resetTurnstile = () => {
+    if (turnstileWidgetId.current && window.turnstile) {
+      window.turnstile.reset(turnstileWidgetId.current)
+    }
+    setCaptchaToken(null)
+    setCaptchaError(null)
+  }
 
   const handleGenerateImage = async () => {
     if (!prompt.trim()) {
@@ -61,12 +141,23 @@ export function ImageGenerator({ className }: ImageGeneratorProps) {
       return
     }
 
+    if (!turnstileSiteKey) {
+      setError('Turnstile site key is not configured. Please contact the site administrator.')
+      return
+    }
+
+    if (!captchaToken) {
+      setCaptchaError('Please complete the human verification before generating an image.')
+      return
+    }
+
     try {
       setIsGenerating(true)
       setError(null)
 
-      const result = await cloudflareTextToImage({
+      const result = await cloudflareTextToImageWithCaptcha({
         prompt,
+        captchaToken,
         negativePrompt: negativePrompt || undefined,
         ratio,
         style,
@@ -78,19 +169,17 @@ export function ImageGenerator({ className }: ImageGeneratorProps) {
 
       if (result.success && result.imageData) {
         setGeneratedImage(result.imageData)
-        if (result.imageUrl) {
-          setImageUrl(result.imageUrl)
-        }
-        if (result.metadata) {
-          setImageMetadata(result.metadata)
-        }
+        setImageUrl(result.imageUrl)
+        setImageMetadata(result.metadata ?? null)
+        setCaptchaError(null)
       } else {
         setError(result.error || 'Failed to generate image')
       }
     } catch (err) {
-      setError('An unexpected error occurred')
       console.error(err)
+      setError('An unexpected error occurred')
     } finally {
+      resetTurnstile()
       setIsGenerating(false)
     }
   }
@@ -100,8 +189,22 @@ export function ImageGenerator({ className }: ImageGeneratorProps) {
   }
 
   return (
-    <div className={`flex flex-col space-y-6 ${className}`}>
+    <div className={`flex flex-col space-y-6 ${className ?? ''}`}>
       <div className="flex flex-col space-y-4">
+        <div className="space-y-2">
+          <Label className="text-sm font-medium">Human Verification</Label>
+          {turnstileSiteKey ? (
+            <div className="rounded-lg border bg-background p-3">
+              <div ref={turnstileContainerRef} className="flex justify-center" />
+              {captchaError && <p className="text-destructive mt-3 text-sm">{captchaError}</p>}
+            </div>
+          ) : (
+            <p className="text-destructive text-sm">
+              Turnstile site key missing. Configure `NEXT_PUBLIC_TURNSTILE_SITE_KEY` to enable image generation.
+            </p>
+          )}
+        </div>
+
         <div className="space-y-2">
           <Label htmlFor="prompt" className="text-base font-medium">
             Image Prompt
@@ -170,7 +273,7 @@ export function ImageGenerator({ className }: ImageGeneratorProps) {
                 id="customWidth"
                 type="number"
                 value={customWidth}
-                onChange={(e) => setCustomWidth(parseInt(e.target.value))}
+                onChange={(e) => setCustomWidth(parseInt(e.target.value) || 0)}
                 min={256}
                 max={2048}
                 disabled={isGenerating}
@@ -184,7 +287,7 @@ export function ImageGenerator({ className }: ImageGeneratorProps) {
                 id="customHeight"
                 type="number"
                 value={customHeight}
-                onChange={(e) => setCustomHeight(parseInt(e.target.value))}
+                onChange={(e) => setCustomHeight(parseInt(e.target.value) || 0)}
                 min={256}
                 max={2048}
                 disabled={isGenerating}
@@ -215,7 +318,7 @@ export function ImageGenerator({ className }: ImageGeneratorProps) {
               />
             </div>
 
-            <div className="grid grid-cols-2 gap-4">
+            <div className="grid grid-cols-1 gap-4 md:grid-cols-2">
               <div className="space-y-2">
                 <Label htmlFor="steps" className="text-sm font-medium">
                   Generation Steps
@@ -225,7 +328,7 @@ export function ImageGenerator({ className }: ImageGeneratorProps) {
                     id="steps"
                     type="number"
                     value={steps}
-                    onChange={(e) => setSteps(parseInt(e.target.value))}
+                    onChange={(e) => setSteps(parseInt(e.target.value) || 0)}
                     min={4}
                     max={50}
                     disabled={isGenerating}
@@ -244,7 +347,7 @@ export function ImageGenerator({ className }: ImageGeneratorProps) {
                   <Input
                     id="seed"
                     type="number"
-                    value={seed || ''}
+                    value={seed ?? ''}
                     onChange={(e) => setSeed(e.target.value ? parseInt(e.target.value) : undefined)}
                     placeholder="Random"
                     disabled={isGenerating}
