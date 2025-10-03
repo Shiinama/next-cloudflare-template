@@ -8,6 +8,7 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
     const { slug } = await params
     const { searchParams } = new URL(request.url)
     const locale = searchParams.get('locale') || 'en'
+    const script = Boolean(searchParams.get('script'))
 
     const article = await getArticleBySlug(slug)
 
@@ -15,15 +16,18 @@ export async function GET(request: NextRequest, { params }: { params: Promise<{ 
       return NextResponse.json({ error: 'Article not found' }, { status: 404 })
     }
 
-    const data = await postTranslate({
-      postId: article.id,
-      content: article.content,
-      slug: slug,
-      locale,
-      originalTitle: article.title,
-      originalDescription: article.excerpt,
-      originalCoverImageUrl: article.coverImageUrl
-    })
+    const data = await postTranslate(
+      {
+        postId: article.id,
+        content: article.content,
+        slug: slug,
+        locale,
+        originalTitle: article.title,
+        originalDescription: article.excerpt,
+        originalCoverImageUrl: article.coverImageUrl
+      },
+      script
+    )
 
     return NextResponse.json({
       ...article,

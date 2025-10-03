@@ -21,7 +21,7 @@ import { useIsMobile } from '@/hooks/use-mobile'
 export default function LoginHeader() {
   const t = useTranslations('login')
   const isMobile = useIsMobile()
-  const { status, user, usage } = useUser()
+  const { status, user, usage, checkIsLoggedIn } = useUser()
 
   const getTokenProgress = () => {
     if (!usage || !usage.totalTokens || usage.totalTokens === 0) return 0
@@ -99,7 +99,10 @@ export default function LoginHeader() {
   }
 
   return (
-    <div className="text-foreground hover:text-primary group relative flex cursor-pointer items-center font-medium transition-colors">
+    <div
+      onClick={checkIsLoggedIn}
+      className="text-foreground hover:text-primary group relative flex cursor-pointer items-center font-medium transition-colors"
+    >
       <LogIn className="mr-2 h-4 w-4" />
       {t('login')}
       <span className="bg-primary absolute -bottom-1 left-0 h-0.5 w-0 transition-all duration-300 group-hover:w-full"></span>

@@ -7,6 +7,7 @@ const { LOCAL_DB_PATH, DATABASE_ID, CLOUDFLARE_API_TOKEN, CLOUDFLARE_ACCOUNT_ID 
 export default LOCAL_DB_PATH
   ? ({
       schema: './lib/db/schema.ts',
+      out: './migrations',
       dialect: 'sqlite',
       dbCredentials: {
         url: LOCAL_DB_PATH

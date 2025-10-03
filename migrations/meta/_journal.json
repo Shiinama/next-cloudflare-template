@@ -64,6 +64,13 @@
       "when": 1754842750325,
       "tag": "0008_early_young_avengers",
       "breakpoints": true
+    },
+    {
+      "idx": 9,
+      "version": "6",
+      "when": 1759321692289,
+      "tag": "0009_clever_fallen_one",
+      "breakpoints": true
     }
   ]
 }

@@ -102,7 +102,6 @@ export const posts = sqliteTable('posts', {
   coverImageUrl: text('cover_image_url'),
   excerpt: text('excerpt').notNull(),
   content: text('content').notNull(),
-  locale: text('locale').notNull().default('en'),
   publishedAt: integer('published_at', { mode: 'timestamp_ms' }),
   createdAt: integer('created_at', { mode: 'timestamp_ms' })
     .default(sql`CURRENT_TIMESTAMP`)

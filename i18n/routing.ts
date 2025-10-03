@@ -1,5 +1,7 @@
 import { defineRouting } from 'next-intl/routing'
 
+export const DEFAULT_LOCALE = 'en'
+
 export const locales = [
   {
     code: 'en',
@@ -65,6 +67,6 @@ export const locales = [
 
 export const routing = defineRouting({
   locales: locales.map((i) => i.code),
-  defaultLocale: 'en',
+  defaultLocale: DEFAULT_LOCALE,
   localePrefix: 'as-needed'
 })

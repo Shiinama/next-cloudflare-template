@@ -9,11 +9,10 @@ import { generateArticle, saveGeneratedArticle } from '@/actions/ai-content'
 import { Button } from '@/components/ui/button'
 import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { useRouter } from '@/i18n/navigation'
-import { locales } from '@/i18n/routing'
+import { locales, routing } from '@/i18n/routing'
 
 export default function NewArticlePage() {
   const router = useRouter()
@@ -27,10 +26,12 @@ export default function NewArticlePage() {
   }>()
   const [isSaving, setIsSaving] = useState(false)
   const [publishImmediately, setPublishImmediately] = useState(true)
-  const [selectedLocale, setSelectedLocale] = useState('en') // 默认英语
 
   const [coverImageUrl, setCoverImageUrl] = useState<string | null>(null)
   const [isGeneratingImage, setIsGeneratingImage] = useState(false)
+
+  const defaultLocaleCode = routing.defaultLocale
+  const defaultLocale = locales.find((item) => item.code === defaultLocaleCode) ?? locales[0]
 
   const handleGenerate = async () => {
     if (!keyword.trim()) {
@@ -41,11 +42,13 @@ export default function NewArticlePage() {
     setIsGenerating(true)
     try {
       const article = await generateArticle({
-        keyword: keyword.trim(),
-        locale: selectedLocale // 传递选择的语言到API
+        keyword: keyword.trim()
       })
-      setGeneratedArticle(article)
-      toast.success('文章生成成功')
+      if (article) {
+        setGeneratedArticle(article)
+        setCoverImageUrl(article.coverImageUrl ?? null)
+        toast.success('文章生成成功')
+      }
     } catch (error) {
       console.error('生成文章时出错:', error)
       toast.error('生成文章失败')
@@ -63,13 +66,12 @@ export default function NewArticlePage() {
       await saveGeneratedArticle(
         {
           ...generatedArticle,
-          locale: selectedLocale,
           coverImageUrl: coverImageUrl || undefined
         },
         publishImmediately
       )
       toast.success(publishImmediately ? '文章已发布' : '文章已保存为草稿')
-      router.push('/admin/articles')
+      router.back()
     } catch (error) {
       console.error('保存文章时出错:', error)
       toast.error('保存文章失败')
@@ -121,7 +123,7 @@ export default function NewArticlePage() {
     <>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">新建文章</h1>
-        <Button variant="outline" onClick={() => router.push('/admin/articles')}>
+        <Button variant="outline" onClick={() => router.back()}>
           返回文章列表
         </Button>
       </div>
@@ -144,23 +146,13 @@ export default function NewArticlePage() {
           </div>
         </div>
 
-        {/* 语言选择下拉框 */}
+        {/* 默认语言展示 */}
         <div className="mb-4">
-          <Label htmlFor="language" className="mb-2 block">
-            语言
-          </Label>
-          <Select value={selectedLocale} onValueChange={setSelectedLocale}>
-            <SelectTrigger className="w-full sm:w-[240px]">
-              <SelectValue placeholder="选择语言" />
-            </SelectTrigger>
-            <SelectContent>
-              {locales.map((locale) => (
-                <SelectItem key={locale.code} value={locale.code}>
-                  {locale.name}
-                </SelectItem>
-              ))}
-            </SelectContent>
-          </Select>
+          <Label className="mb-2 block">语言</Label>
+          <div className="w-full rounded-md border px-3 py-2 text-sm sm:w-[240px]">
+            {defaultLocale?.name ?? defaultLocaleCode.toUpperCase()} ({defaultLocaleCode.toUpperCase()})
+          </div>
+          <p className="text-muted-foreground mt-1 text-xs">新文章将以默认语言创建。</p>
         </div>
       </div>
 
@@ -230,7 +222,7 @@ export default function NewArticlePage() {
           </div>
 
           <div className="flex justify-end gap-2">
-            <Button variant="outline" onClick={() => router.push('/admin/articles')}>
+            <Button variant="outline" onClick={() => router.back()}>
               取消
             </Button>
             <Button onClick={handleSave} disabled={isSaving}>

@@ -1,16 +1,48 @@
 'use server'
 
-import { count, desc, eq } from 'drizzle-orm'
+import { and, count, desc, eq, SQL, sql } from 'drizzle-orm'
 
 import { cloudflareTextToImage } from '@/actions/ai'
-import { locales } from '@/i18n/routing'
+import { DEFAULT_LOCALE, locales } from '@/i18n/routing'
 import { createAI } from '@/lib/ai'
+import {
+  ALL_LANGUAGES,
+  mapToArticleDetail,
+  mapToArticleListItem,
+  type ArticleDetail,
+  type PostRow,
+  type PostTranslationRow
+} from '@/lib/articles/article-helpers'
 import { createDb } from '@/lib/db'
 import { posts, postTranslations } from '@/lib/db/schema'
+import {
+  buildLikeSearch,
+  calculateTotalPages,
+  combineConditions,
+  pushCondition,
+  resolvePagination
+} from '@/lib/db/sql-utils'
+import { withOptionalField } from '@/lib/utils/object'
+import { isDefined, normalizeNullable } from '@/lib/utils/value'
 
 interface ArticleGenerationParams {
   keyword: string
   locale?: string
+}
+
+export type ArticleStatusFilter = 'all' | 'published' | 'draft'
+
+interface ArticleFilters {
+  language?: string
+  search?: string
+  status?: ArticleStatusFilter
+}
+
+interface GetPaginatedArticlesParams {
+  locale?: string
+  page?: number
+  pageSize?: number
+  filters?: ArticleFilters
 }
 
 export async function generateArticleCoverImage(articleContent: string, title: string) {
@@ -82,7 +114,7 @@ function getLanguageNameFromLocale(localeCode: string): string {
   return 'English'
 }
 
-export async function generateArticle({ keyword, locale = 'en' }: ArticleGenerationParams) {
+export async function generateArticle({ keyword, locale = DEFAULT_LOCALE }: ArticleGenerationParams) {
   const languageName = getLanguageNameFromLocale(locale)
 
   const systemPrompt = `
@@ -172,30 +204,140 @@ export async function generateArticle({ keyword, locale = 'en' }: ArticleGenerat
   }
 }
 
-export async function getPaginatedArticles({
-  locale,
-  page = 1,
-  pageSize = 10
-}: {
-  locale?: string
-  page?: number
-  pageSize?: number
-}) {
+export async function getPaginatedArticles({ locale, page = 1, pageSize = 10, filters }: GetPaginatedArticlesParams) {
   const database = createDb()
 
-  const currentPage = Math.max(1, page)
-  const itemsPerPage = Math.max(1, pageSize)
-  const offset = (currentPage - 1) * itemsPerPage
+  const { page: currentPage, pageSize: itemsPerPage, offset } = resolvePagination({ page, pageSize })
 
-  if (!locale || locale === 'en') {
-    const baseQuery = database.select().from(posts).orderBy(desc(posts.publishedAt))
-    const query = baseQuery.where(eq(posts.locale, 'en'))
-    const countQuery = database.select({ count: count() }).from(posts).where(eq(posts.locale, 'en'))
+  const languageFilter = filters?.language ?? locale
+  const statusFilter: ArticleStatusFilter = filters?.status ?? 'all'
+  const rawSearch = filters?.search?.trim() ?? ''
+  const normalizedSearch = rawSearch.toLowerCase()
+  const hasSearch = normalizedSearch.length > 0
 
-    const [articles, countResult] = await Promise.all([query.limit(itemsPerPage).offset(offset), countQuery])
+  const buildPostSearchCondition = (): SQL | undefined =>
+    hasSearch ? buildLikeSearch([posts.title, posts.slug, posts.excerpt], { value: normalizedSearch }) : undefined
 
+  const buildTranslationSearchCondition = (): SQL | undefined =>
+    hasSearch
+      ? buildLikeSearch(
+          [postTranslations.title, postTranslations.slug, postTranslations.excerpt, posts.title, posts.slug],
+          { value: normalizedSearch }
+        )
+      : undefined
+
+  const buildPostStatusCondition = (): SQL | undefined => {
+    if (statusFilter === 'published') {
+      return sql`${posts.publishedAt} IS NOT NULL`
+    }
+    if (statusFilter === 'draft') {
+      return sql`${posts.publishedAt} IS NULL`
+    }
+    return undefined
+  }
+
+  const buildJoinedPostStatusCondition = (): SQL | undefined => {
+    if (statusFilter === 'published') {
+      return sql`${posts.publishedAt} IS NOT NULL`
+    }
+    if (statusFilter === 'draft') {
+      return sql`${posts.publishedAt} IS NULL`
+    }
+    return undefined
+  }
+
+  const fetchPosts = async (limit?: number, queryOffset?: number) => {
+    const conditions: SQL[] = []
+    pushCondition(conditions, buildPostSearchCondition())
+    pushCondition(conditions, buildPostStatusCondition())
+
+    const whereCondition = combineConditions(conditions)
+
+    const selectBase = database.select({ post: posts }).from(posts)
+    const selectFiltered = whereCondition ? selectBase.where(whereCondition) : selectBase
+    const selectOrdered = selectFiltered.orderBy(desc(posts.createdAt))
+    const selectLimited = typeof limit === 'number' ? selectOrdered.limit(limit) : selectOrdered
+    const selectPaginated = typeof queryOffset === 'number' ? selectLimited.offset(queryOffset) : selectLimited
+
+    const countBase = database.select({ count: count() }).from(posts)
+    const countQuery = whereCondition ? countBase.where(whereCondition) : countBase
+
+    const [rows, countResult] = await Promise.all([selectPaginated, countQuery])
     const totalItems = countResult[0]?.count || 0
-    const totalPages = Math.ceil(totalItems / itemsPerPage)
+
+    const articles = rows.map(({ post }) => mapToArticleListItem(post))
+
+    return { articles, totalItems }
+  }
+
+  const fetchTranslations = async (localeFilter?: string, limit?: number, queryOffset?: number) => {
+    const conditions: SQL[] = []
+    if (localeFilter) {
+      conditions.push(eq(postTranslations.locale, localeFilter))
+    }
+
+    pushCondition(conditions, buildTranslationSearchCondition())
+    pushCondition(conditions, buildJoinedPostStatusCondition())
+
+    const whereCondition = combineConditions(conditions)
+
+    const selectBase = database
+      .select({ translation: postTranslations, post: posts })
+      .from(postTranslations)
+      .innerJoin(posts, eq(postTranslations.postId, posts.id))
+
+    const selectFiltered = whereCondition ? selectBase.where(whereCondition) : selectBase
+    const selectOrdered = selectFiltered.orderBy(desc(postTranslations.createdAt))
+    const selectLimited = typeof limit === 'number' ? selectOrdered.limit(limit) : selectOrdered
+    const selectPaginated = typeof queryOffset === 'number' ? selectLimited.offset(queryOffset) : selectLimited
+
+    const countBase = database
+      .select({ count: count() })
+      .from(postTranslations)
+      .innerJoin(posts, eq(postTranslations.postId, posts.id))
+
+    const countQuery = whereCondition ? countBase.where(whereCondition) : countBase
+
+    const [rows, countResult] = await Promise.all([selectPaginated, countQuery])
+    const totalItems = countResult[0]?.count || 0
+
+    const articles = rows.map(({ translation, post }) => mapToArticleListItem(post, translation))
+
+    return { articles, totalItems }
+  }
+
+  if (languageFilter === ALL_LANGUAGES) {
+    const [
+      { articles: defaultArticles, totalItems: defaultTotal },
+      { articles: translationArticles, totalItems: translationTotal }
+    ] = await Promise.all([fetchPosts(), fetchTranslations(undefined)])
+
+    const combinedArticles = [...defaultArticles, ...translationArticles].sort((a, b) => {
+      const aDate = Number(a.createdAt ?? 0)
+      const bDate = Number(b.createdAt ?? 0)
+      return bDate - aDate
+    })
+
+    const totalItems = defaultTotal + translationTotal
+    const paginatedArticles = combinedArticles.slice(offset, offset + itemsPerPage)
+    const totalPages = calculateTotalPages(totalItems, itemsPerPage)
+
+    return {
+      articles: paginatedArticles,
+      pagination: {
+        currentPage,
+        pageSize: itemsPerPage,
+        totalItems,
+        totalPages
+      }
+    }
+  }
+
+  const resolvedLocale = languageFilter ?? DEFAULT_LOCALE
+
+  if (resolvedLocale === DEFAULT_LOCALE) {
+    const { articles, totalItems } = await fetchPosts(itemsPerPage, offset)
+    const totalPages = calculateTotalPages(totalItems, itemsPerPage)
 
     return {
       articles,
@@ -206,74 +348,148 @@ export async function getPaginatedArticles({
         totalPages
       }
     }
-  } else {
-    const baseQuery = database
-      .select()
-      .from(postTranslations)
-      .where(eq(postTranslations.locale, locale))
-      .orderBy(desc(postTranslations.createdAt)) // 使用翻译的创建时间排序
+  }
 
-    const countQuery = database
-      .select({ count: count() })
-      .from(postTranslations)
-      .where(eq(postTranslations.locale, locale))
+  const { articles, totalItems } = await fetchTranslations(resolvedLocale, itemsPerPage, offset)
+  const totalPages = calculateTotalPages(totalItems, itemsPerPage)
 
-    const [articles, countResult] = await Promise.all([baseQuery.limit(itemsPerPage).offset(offset), countQuery])
-
-    const totalItems = countResult[0]?.count || 0
-    const totalPages = Math.ceil(totalItems / itemsPerPage)
-
-    return {
-      articles,
-      pagination: {
-        currentPage,
-        pageSize: itemsPerPage,
-        totalItems,
-        totalPages
-      }
+  return {
+    articles,
+    pagination: {
+      currentPage,
+      pageSize: itemsPerPage,
+      totalItems,
+      totalPages
     }
   }
 }
 
 export async function getAllArticles(locale?: string) {
   const database = createDb()
-  const query = database.select().from(posts).orderBy(desc(posts.publishedAt))
+  const resolvedLocale = locale ?? DEFAULT_LOCALE
 
-  if (locale) {
-    return await query.where(eq(posts.locale, locale))
-  }
+  const rows = await database
+    .select({
+      post: posts,
+      translation: postTranslations
+    })
+    .from(posts)
+    .leftJoin(postTranslations, and(eq(postTranslations.postId, posts.id), eq(postTranslations.locale, resolvedLocale)))
+    .orderBy(desc(posts.createdAt))
 
-  return await query
+  return rows.map(({ post, translation }) => mapToArticleListItem(post, translation, { createdAtSource: 'post' }))
 }
 
 // 根据 slug 获取单篇文章
-export async function getArticleBySlug(slug: string) {
+export async function getArticleBySlug(slug: string, locale: string = DEFAULT_LOCALE): Promise<ArticleDetail | null> {
   const database = createDb()
-  const result = await database.select().from(posts).where(eq(posts.slug, slug))
-  return result[0] || null
+
+  const rows = await database
+    .select({ post: posts, translation: postTranslations })
+    .from(posts)
+    .leftJoin(postTranslations, and(eq(postTranslations.postId, posts.id), eq(postTranslations.locale, locale)))
+    .where(eq(posts.slug, slug))
+    .limit(1)
+
+  if (rows.length === 0) {
+    return null
+  }
+
+  const { post, translation } = rows[0]
+
+  return mapToArticleDetail(post, translation, locale)
 }
 
 // 更新文章
 export async function updateArticle(
   slug: string,
   data: {
+    locale?: string
     title?: string
     content?: string
     excerpt?: string
+    coverImageUrl?: string | null
     publishedAt?: Date | null
-    locale?: string
+    slug?: string
   }
 ) {
   const database = createDb()
-  const updateData = {
-    ...data,
-    updatedAt: new Date()
+  const targetLocale = data.locale ?? DEFAULT_LOCALE
+  const now = new Date()
+
+  const postResult = await database.select().from(posts).where(eq(posts.slug, slug)).limit(1)
+  const post = postResult[0]
+
+  if (!post) {
+    throw new Error('Article not found')
   }
 
-  await database.update(posts).set(updateData).where(eq(posts.slug, slug))
+  if (targetLocale === DEFAULT_LOCALE) {
+    const updatePayload: Partial<PostRow> = { updatedAt: now }
 
-  // 返回更新后的文章
-  return getArticleBySlug(slug)
+    withOptionalField(updatePayload, 'title', data.title)
+    withOptionalField(updatePayload, 'content', data.content)
+    withOptionalField(updatePayload, 'excerpt', data.excerpt)
+
+    if (isDefined(data.coverImageUrl)) {
+      updatePayload.coverImageUrl = normalizeNullable(data.coverImageUrl)
+    }
+
+    if (Object.prototype.hasOwnProperty.call(data, 'publishedAt')) {
+      updatePayload.publishedAt = data.publishedAt ?? null
+    }
+
+    if (isDefined(data.slug) && data.slug.trim().length > 0 && data.slug !== post.slug) {
+      updatePayload.slug = data.slug
+    }
+
+    await database.update(posts).set(updatePayload).where(eq(posts.id, post.id))
+
+    const nextSlug = typeof updatePayload.slug === 'string' ? updatePayload.slug : slug
+    return getArticleBySlug(nextSlug, DEFAULT_LOCALE)
+  }
+
+  const translationResult = await database
+    .select()
+    .from(postTranslations)
+    .where(and(eq(postTranslations.postId, post.id), eq(postTranslations.locale, targetLocale)))
+    .limit(1)
+
+  const existingTranslation = translationResult[0]
+
+  if (existingTranslation) {
+    const updatePayload: Partial<PostTranslationRow> = { updatedAt: now }
+
+    withOptionalField(updatePayload, 'title', data.title)
+    withOptionalField(updatePayload, 'content', data.content)
+    withOptionalField(updatePayload, 'excerpt', data.excerpt)
+
+    if (isDefined(data.coverImageUrl)) {
+      updatePayload.coverImageUrl = normalizeNullable(data.coverImageUrl)
+    }
+
+    if (isDefined(data.slug) && data.slug.trim().length > 0) {
+      updatePayload.slug = data.slug
+    }
+
+    await database.update(postTranslations).set(updatePayload).where(eq(postTranslations.id, existingTranslation.id))
+
+    return getArticleBySlug(slug, targetLocale)
+  }
+
+  await database.insert(postTranslations).values({
+    postId: post.id,
+    locale: targetLocale,
+    slug: data.slug ?? post.slug,
+    title: data.title ?? post.title,
+    excerpt: data.excerpt ?? post.excerpt,
+    content: data.content ?? post.content,
+    coverImageUrl: normalizeNullable(data.coverImageUrl ?? post.coverImageUrl ?? null),
+    createdAt: now,
+    updatedAt: now
+  })
+
+  return getArticleBySlug(slug, targetLocale)
 }
 
 // 删除文章
@@ -284,33 +500,32 @@ export async function deleteArticle(slug: string) {
 }
 
 // 将生成的文章保存到数据库
+
 export async function saveGeneratedArticle(
   article: {
     title: string
     slug: string
     content: string
     excerpt: string
-    locale?: string
     coverImageUrl?: string
   },
   publishImmediately = true
 ) {
   const database = createDb()
+  const now = new Date()
+  const postId = crypto.randomUUID()
 
-  // 准备文章数据
-  const postData = {
+  await database.insert(posts).values({
+    id: postId,
     slug: article.slug,
     title: article.title,
     excerpt: article.excerpt,
     content: article.content,
-    locale: article.locale || 'en',
     coverImageUrl: article.coverImageUrl,
-    publishedAt: publishImmediately ? new Date() : undefined,
-    createdAt: new Date(),
-    updatedAt: new Date()
-  }
-
-  await database.insert(posts).values(postData)
+    publishedAt: publishImmediately ? now : undefined,
+    createdAt: now,
+    updatedAt: now
+  })
 }
 
 export async function saveBatchArticles(
@@ -319,7 +534,6 @@ export async function saveBatchArticles(
     slug: string
     content: string
     excerpt: string
-    locale?: string
     coverImageUrl?: string
     selected?: boolean
   }>,
@@ -336,19 +550,21 @@ export async function saveBatchArticles(
 
     const savePromises = batch.map(async (article) => {
       try {
-        const postData = {
+        const now = new Date()
+        const postId = crypto.randomUUID()
+
+        await database.insert(posts).values({
+          id: postId,
           slug: article.slug,
           title: article.title,
           excerpt: article.excerpt,
           content: article.content,
-          locale: article.locale || 'en',
           coverImageUrl: article.coverImageUrl,
-          publishedAt: publishImmediately ? new Date() : undefined,
-          createdAt: new Date(),
-          updatedAt: new Date()
-        }
+          publishedAt: publishImmediately ? now : undefined,
+          createdAt: now,
+          updatedAt: now
+        })
 
-        await database.insert(posts).values(postData)
         return {
           title: article.title,
           status: 'success'

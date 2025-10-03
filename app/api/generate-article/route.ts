@@ -5,7 +5,6 @@ import { auth } from '@/lib/auth'
 
 interface RequestBody {
   keyword: string
-  locale?: string
 }
 
 export async function POST(request: NextRequest) {
@@ -15,13 +14,13 @@ export async function POST(request: NextRequest) {
   }
   try {
     const body: RequestBody = await request.json()
-    const { keyword, locale } = body
+    const { keyword } = body
 
     if (!keyword) {
       return NextResponse.json({ error: 'Keyword is required' }, { status: 400 })
     }
 
-    const article = await generateArticle({ keyword, locale })
+    const article = await generateArticle({ keyword })
     return NextResponse.json(article)
   } catch (error: any) {
     console.error('Error generating article:', error)

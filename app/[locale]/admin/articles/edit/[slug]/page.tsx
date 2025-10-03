@@ -1,10 +1,11 @@
 'use client'
 
+import { useRequest, useSetState } from 'ahooks'
 import { Loader2, RefreshCw } from 'lucide-react'
-import { use, useEffect, useState } from 'react'
+import { use, useState, type ChangeEvent } from 'react'
 import { toast } from 'sonner'
 
-import { getArticleBySlug, updateArticle, deleteArticle, generateArticleCoverImage } from '@/actions/ai-content'
+import { deleteArticle, generateArticleCoverImage, getArticleBySlug, updateArticle } from '@/actions/ai-content'
 import {
   AlertDialog,
   AlertDialogAction,
@@ -23,113 +24,176 @@ import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { useRouter } from '@/i18n/navigation'
 
-export default function EditArticlePage({ params }: { params: Promise<{ slug: string }> }) {
+type FormState = {
+  title: string
+  excerpt: string
+  content: string
+  coverImageUrl: string
+}
+
+const EMPTY_FORM_STATE: FormState = {
+  title: '',
+  excerpt: '',
+  content: '',
+  coverImageUrl: ''
+}
+
+export default function EditArticlePage({ params }: { params: Promise<{ slug: string; locale: string }> }) {
   const router = useRouter()
-  const { slug } = use(params)
+  const { slug, locale } = use(params)
 
-  const [article, setArticle] = useState<any>(null)
-  const [isLoading, setIsLoading] = useState(true)
-  const [isSaving, setIsSaving] = useState(false)
-  const [isDeleting, setIsDeleting] = useState(false)
+  const [formState, setFormState] = useSetState<FormState>(EMPTY_FORM_STATE)
   const [isPublished, setIsPublished] = useState(false)
-  const [isGeneratingCover, setIsGeneratingCover] = useState(false)
 
-  useEffect(() => {
-    const fetchArticle = async () => {
-      try {
-        const data = await getArticleBySlug(slug)
-        if (data) {
-          setArticle(data)
-          setIsPublished(!!data.publishedAt)
-        } else {
-          toast.error('文章未找到')
-          router.push('/admin/articles')
-        }
-      } catch (error) {
+  const {
+    data: article = null,
+    loading: isLoading,
+    mutate: mutateArticle
+  } = useRequest(
+    async () => {
+      const data = await getArticleBySlug(slug, locale)
+
+      if (!data) {
+        toast.error('文章未找到')
+        router.back()
+        return null
+      }
+
+      return data
+    },
+    {
+      refreshDeps: [slug, locale],
+      onSuccess: (data) => {
+        if (!data) return
+        setFormState({
+          title: data.title ?? '',
+          excerpt: data.excerpt ?? '',
+          content: data.content ?? '',
+          coverImageUrl: data.coverImageUrl ?? ''
+        })
+        setIsPublished(Boolean(data.publishedAt))
+      },
+      onError: (error) => {
         console.error('获取文章时出错:', error)
         toast.error('获取文章失败')
-      } finally {
-        setIsLoading(false)
       }
     }
+  )
 
-    fetchArticle()
-  }, [slug, router])
+  const { runAsync: saveArticle, loading: isSaving } = useRequest(
+    async () => {
+      if (!article) return
 
-  const handleInputChange = (e: React.ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: string) => {
-    setArticle({
-      ...article,
-      [field]: e.target.value
-    })
-  }
-
-  const handlePublishToggle = () => {
-    setIsPublished(!isPublished)
-  }
-
-  const handleSave = async () => {
-    if (!article) return
-
-    setIsSaving(true)
-    try {
-      const updatedData = {
-        title: article.title,
-        content: article.content,
-        excerpt: article.excerpt,
-        coverImageUrl: article.coverImageUrl,
-        publishedAt: isPublished ? new Date() : null
+      const payload = {
+        locale: article.locale,
+        title: formState.title,
+        content: formState.content,
+        excerpt: formState.excerpt,
+        coverImageUrl: formState.coverImageUrl.trim().length > 0 ? formState.coverImageUrl : null,
+        ...(article.isDefaultLocale ? { publishedAt: isPublished ? new Date() : null } : {})
       }
 
-      await updateArticle(slug, updatedData)
+      const updated = await updateArticle(article.baseSlug, payload)
+
+      if (!updated) {
+        throw new Error('未能获取更新后的文章信息')
+      }
+
+      mutateArticle(updated)
+      setFormState({
+        title: updated.title ?? '',
+        excerpt: updated.excerpt ?? '',
+        content: updated.content ?? '',
+        coverImageUrl: updated.coverImageUrl ?? ''
+      })
+      setIsPublished(Boolean(updated.publishedAt))
+
       toast.success('文章已更新')
-      router.push('/admin/articles')
-    } catch (error) {
-      console.error('更新文章时出错:', error)
-      toast.error('更新文章失败')
-    } finally {
-      setIsSaving(false)
+      router.back()
+    },
+    {
+      manual: true,
+      onError: (error) => {
+        console.error('更新文章时出错:', error)
+        toast.error('更新文章失败')
+      }
     }
-  }
+  )
 
-  const handleDelete = async () => {
-    setIsDeleting(true)
-    try {
-      await deleteArticle(slug)
+  const { runAsync: removeArticle, loading: isDeleting } = useRequest(
+    async () => {
+      if (!article) return
+
+      await deleteArticle(article.baseSlug)
       toast.success('文章已删除')
-      router.push('/admin/articles')
-    } catch (error) {
-      console.error('删除文章时出错:', error)
-      toast.error('删除文章失败')
-    } finally {
-      setIsDeleting(false)
+      router.back()
+    },
+    {
+      manual: true,
+      onError: (error) => {
+        console.error('删除文章时出错:', error)
+        toast.error('删除文章失败')
+      }
     }
-  }
+  )
 
-  const handleRegenerateCover = async () => {
-    if (!article || !article.content) {
-      toast.error('需要文章内容才能生成封面图')
-      return
-    }
+  const { runAsync: regenerateCover, loading: isGeneratingCover } = useRequest(
+    async () => {
+      const contentSource = formState.content.trim()
+      if (!contentSource) return
 
-    setIsGeneratingCover(true)
-    try {
-      const imageUrl = await generateArticleCoverImage(article.content, article.title)
+      const imageUrl = await generateArticleCoverImage(
+        contentSource,
+        formState.title || article?.baseArticle.title || 'Article Cover'
+      )
 
       if (imageUrl) {
-        setArticle({
-          ...article,
-          coverImageUrl: imageUrl
-        })
+        setFormState({ coverImageUrl: imageUrl })
+        mutateArticle((prev) => (prev ? { ...prev, coverImageUrl: imageUrl } : prev))
         toast.success('封面图已重新生成')
       } else {
         toast.error('生成封面图失败')
       }
-    } catch (error) {
-      console.error('生成封面图时出错:', error)
-      toast.error('生成封面图失败')
-    } finally {
-      setIsGeneratingCover(false)
+    },
+    {
+      manual: true,
+      onError: (error) => {
+        console.error('生成封面图时出错:', error)
+        toast.error('生成封面图失败')
+      }
     }
+  )
+
+  const handleInputChange = (event: ChangeEvent<HTMLInputElement | HTMLTextAreaElement>, field: keyof FormState) => {
+    const { value } = event.target
+    setFormState({ [field]: value } as any)
+  }
+
+  const handlePublishToggle = () => {
+    if (!article) return
+    if (!article.isDefaultLocale) {
+      toast.warning('仅可在默认语言下更改发布状态')
+      return
+    }
+    setIsPublished((prev) => !prev)
+  }
+
+  const handleSave = () => {
+    if (!article) return
+    saveArticle()
+  }
+
+  const handleDelete = () => {
+    if (!article) return
+    removeArticle()
+  }
+
+  const handleRegenerateCover = () => {
+    if (!formState.content.trim()) {
+      toast.error('需要文章内容才能生成封面图')
+      return
+    }
+    regenerateCover()
   }
 
   if (isLoading) {
@@ -139,6 +203,12 @@ export default function EditArticlePage({ params }: { params: Promise<{ slug: st
       </div>
     )
   }
+
+  if (!article) {
+    return null
+  }
+
+  const displayImageKey = formState.coverImageUrl || article.coverImageUrl || article.baseArticle.coverImageUrl
 
   return (
     <>
@@ -165,15 +235,27 @@ export default function EditArticlePage({ params }: { params: Promise<{ slug: st
         </div>
       </div>
 
+      {!article.isDefaultLocale && (
+        <div className="text-muted-foreground mb-6 rounded-md border border-dashed p-4 text-sm">
+          当前正在编辑 <span className="font-medium">{article.locale.toUpperCase()}</span> 版本， 基础语言为{' '}
+          <span className="font-medium">{article.defaultLocale.toUpperCase()}</span>。 发布状态由基础语言统一管理。
+        </div>
+      )}
+
       <div className="bg-card rounded-lg border p-6 shadow">
         <div className="mb-4">
           <Label htmlFor="title">标题</Label>
-          <Input id="title" value={article.title} onChange={(e) => handleInputChange(e, 'title')} />
+          <Input id="title" value={formState.title} onChange={(event) => handleInputChange(event, 'title')} />
         </div>
 
         <div className="mb-4">
           <Label htmlFor="excerpt">摘要</Label>
-          <Textarea id="excerpt" value={article.excerpt} onChange={(e) => handleInputChange(e, 'excerpt')} rows={3} />
+          <Textarea
+            id="excerpt"
+            value={formState.excerpt}
+            onChange={(event) => handleInputChange(event, 'excerpt')}
+            rows={3}
+          />
         </div>
 
         <div className="mb-6">
@@ -200,11 +282,11 @@ export default function EditArticlePage({ params }: { params: Promise<{ slug: st
             </Button>
           </div>
           <div className="mt-2 rounded-md border">
-            {article.coverImageUrl ? (
+            {displayImageKey ? (
               <figure className="relative">
                 <img
-                  src={`${process.env.NEXT_PUBLIC_R2_DOMAIN}/${article.coverImageUrl}`}
-                  alt={article.title}
+                  src={`${process.env.NEXT_PUBLIC_R2_DOMAIN}/${displayImageKey}`}
+                  alt={formState.title || article.baseArticle.title}
                   className="h-auto w-full rounded-md"
                   style={{ aspectRatio: '16/9', objectFit: 'cover' }}
                 />
@@ -222,20 +304,25 @@ export default function EditArticlePage({ params }: { params: Promise<{ slug: st
           <Label htmlFor="content">内容</Label>
           <Textarea
             id="content"
-            value={article.content}
-            onChange={(e) => handleInputChange(e, 'content')}
+            value={formState.content}
+            onChange={(event) => handleInputChange(event, 'content')}
             rows={20}
             className="font-mono"
           />
         </div>
 
         <div className="mb-6 flex items-center space-x-2">
-          <Switch id="published" checked={isPublished} onCheckedChange={handlePublishToggle} />
+          <Switch
+            id="published"
+            checked={isPublished}
+            onCheckedChange={handlePublishToggle}
+            disabled={!article.isDefaultLocale}
+          />
           <Label htmlFor="published">发布文章</Label>
         </div>
 
         <div className="flex justify-end gap-2">
-          <Button variant="outline" onClick={() => router.push('/admin/articles')}>
+          <Button variant="outline" onClick={() => router.back()}>
             取消
           </Button>
           <Button onClick={handleSave} disabled={isSaving}>

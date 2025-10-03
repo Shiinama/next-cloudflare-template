@@ -9,11 +9,10 @@ import { Button } from '@/components/ui/button'
 import { Card, CardContent, CardHeader, CardTitle } from '@/components/ui/card'
 import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
-import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
 import { useRouter } from '@/i18n/navigation'
-import { locales } from '@/i18n/routing'
+import { locales, routing } from '@/i18n/routing'
 
 export default function BatchArticlesPage() {
   const router = useRouter()
@@ -24,7 +23,8 @@ export default function BatchArticlesPage() {
   const [generatedArticles, setGeneratedArticles] = useState<Array<any>>([])
   const [results, setResults] = useState<Array<any>>([])
   const [selectAll, setSelectAll] = useState(true)
-  const [selectedLocale, setSelectedLocale] = useState('en')
+  const defaultLocaleCode = routing.defaultLocale
+  const defaultLocale = locales.find((item) => item.code === defaultLocaleCode) ?? locales[0]
 
   const handleGenerate = async () => {
     if (!keywordsInput.trim()) {
@@ -56,7 +56,7 @@ export default function BatchArticlesPage() {
             headers: {
               'Content-Type': 'application/json'
             },
-            body: JSON.stringify({ keyword, locale: selectedLocale })
+            body: JSON.stringify({ keyword })
           })
 
           if (!response.ok) {
@@ -120,8 +120,7 @@ export default function BatchArticlesPage() {
       .filter((item) => item.status === 'success' && item.selected)
       .map((item) => ({
         ...item.article,
-        selected: true,
-        locale: selectedLocale // 确保将语言传递给保存函数
+        selected: true
       }))
 
     if (selectedArticles.length === 0) {
@@ -182,7 +181,7 @@ export default function BatchArticlesPage() {
     <>
       <div className="mb-6 flex items-center justify-between">
         <h1 className="text-2xl font-bold">批量生成文章</h1>
-        <Button variant="outline" onClick={() => router.push('/admin/articles')}>
+        <Button variant="outline" onClick={() => router.back()}>
           返回文章列表
         </Button>
       </div>
@@ -205,23 +204,13 @@ export default function BatchArticlesPage() {
             />
           </div>
 
-          {/* 语言选择下拉框 */}
+          {/* 默认语言展示 */}
           <div className="mb-4">
-            <Label htmlFor="language" className="mb-2 block">
-              语言
-            </Label>
-            <Select value={selectedLocale} onValueChange={setSelectedLocale}>
-              <SelectTrigger className="w-full sm:w-[240px]">
-                <SelectValue placeholder="选择语言" />
-              </SelectTrigger>
-              <SelectContent>
-                {locales.map((locale) => (
-                  <SelectItem key={locale.code} value={locale.code}>
-                    {locale.name}
-                  </SelectItem>
-                ))}
-              </SelectContent>
-            </Select>
+            <Label className="mb-2 block">语言</Label>
+            <div className="w-full rounded-md border px-3 py-2 text-sm sm:w-[240px]">
+              {defaultLocale?.name ?? defaultLocaleCode.toUpperCase()} ({defaultLocaleCode.toUpperCase()})
+            </div>
+            <p className="text-muted-foreground mt-1 text-xs">批量文章将以默认语言创建。</p>
           </div>
 
           <div className="mb-4 flex items-center space-x-2">

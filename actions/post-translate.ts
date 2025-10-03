@@ -61,45 +61,35 @@ const normalizeText = (text: string): string => {
 }
 
 // 调用翻译API
-const translateContent = async (content: string, locale: string): Promise<string | null> => {
+const translateContent = async (content: string, locale: string, script = false): Promise<string | null> => {
   const translateUrl = `https://translate.googleapis.com/translate_a/single?client=gtx&dt=t&sl=en&tl=${locale}`
 
-  try {
-    const response = await fetch(translateUrl, {
-      method: 'POST',
-      headers: {
-        'Content-Type': 'application/x-www-form-urlencoded'
-      },
-      body: 'q=' + encodeURIComponent(content)
-    })
+  const response = await fetch(translateUrl, {
+    method: 'POST',
+    headers: {
+      'Content-Type': 'application/x-www-form-urlencoded'
+    },
+    body: 'q=' + encodeURIComponent(content)
+  })
 
-    if (!response.ok) {
-      console.error(`Translation API error: ${response.status} ${response.statusText}`)
-      return null
-    }
-
-    const data: Array<string[]> = await response.json()
-    const translatedText = data[0]
-      .map((item) => item[0])
-      .join('')
-      .trim()
-
-    return normalizeText(translatedText)
-  } catch (error) {
-    console.error('Translation API request failed:', error)
+  if (!response.ok) {
+    if (script) throw new Error(`Translation API error: ${response.status} ${response.statusText}`)
     return null
   }
+
+  const data: Array<string[]> = await response.json()
+  const translatedText = data[0]
+    .map((item) => item[0])
+    .join('')
+    .trim()
+
+  return normalizeText(translatedText)
 }
 
-export const postTranslate = async ({
-  postId,
-  slug,
-  content,
-  locale,
-  originalTitle,
-  originalDescription,
-  originalCoverImageUrl
-}: PostTranslateParams): Promise<TranslationResult> => {
+export const postTranslate = async (
+  { postId, slug, content, locale, originalTitle, originalDescription, originalCoverImageUrl }: PostTranslateParams,
+  script = false
+): Promise<TranslationResult> => {
   const db = createDb()
 
   // 如果是英文，直接返回原内容
@@ -111,48 +101,44 @@ export const postTranslate = async ({
     }
   }
 
-  try {
-    // 检查数据库中是否已有该文章的该语言翻译
-    const existingTranslation = await db
-      .select()
-      .from(postTranslations)
-      .where(and(eq(postTranslations.postId, postId), eq(postTranslations.locale, locale)))
-      .limit(1)
+  // 检查数据库中是否已有该文章的该语言翻译
+  const existingTranslation = await db
+    .select()
+    .from(postTranslations)
+    .where(and(eq(postTranslations.postId, postId), eq(postTranslations.locale, locale)))
+    .limit(1)
 
-    if (existingTranslation.length > 0) {
-      return {
-        title: existingTranslation[0].title,
-        description: existingTranslation[0].excerpt,
-        fullText: existingTranslation[0].content
-      }
+  if (existingTranslation.length > 0) {
+    return {
+      title: existingTranslation[0].title,
+      description: existingTranslation[0].excerpt,
+      fullText: existingTranslation[0].content
     }
+  }
 
-    // 如果没有翻译，进行翻译
-    const translatedText = await translateContent(content, locale)
+  // 如果没有翻译，进行翻译
+  const translatedText = await translateContent(content, locale, script)
 
-    if (translatedText) {
-      const { title, description } = extractTitleAndDescription(translatedText, originalTitle, originalDescription)
+  if (translatedText) {
+    const { title, description } = extractTitleAndDescription(translatedText, originalTitle, originalDescription)
 
-      await db.insert(postTranslations).values({
-        postId,
-        locale,
-        slug,
-        content: translatedText,
-        title: originalTitle,
-        excerpt: originalDescription,
-        coverImageUrl: originalCoverImageUrl,
-        createdAt: new Date(),
-        updatedAt: new Date()
-      })
+    await db.insert(postTranslations).values({
+      postId,
+      locale,
+      slug,
+      content: translatedText,
+      title,
+      excerpt: description,
+      coverImageUrl: originalCoverImageUrl,
+      createdAt: new Date(),
+      updatedAt: new Date()
+    })
 
-      return {
-        title,
-        description,
-        fullText: translatedText
-      }
+    return {
+      title,
+      description,
+      fullText: translatedText
     }
-  } catch (error) {
-    console.error('Database operation failed:', error)
   }
 
   // 如果翻译失败或数据库操作失败，返回原内容
