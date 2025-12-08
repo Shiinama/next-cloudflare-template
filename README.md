@@ -67,7 +67,6 @@
 ## 🚀 快速开始
 
 1. **准备环境**
-
    - Node.js ≥ 20
    - pnpm ≥ 9
    - Cloudflare 账户与 API Token（Pages, D1, R2, AI 权限）
@@ -81,7 +80,6 @@
    ```
 
 3. **配置 Cloudflare 资源**
-
    - 在 `wrangler.jsonc` 中更新 D1 数据库名称/ID，配置 R2、KV、Durable Object 等绑定。
    - 如果尚未创建资源，可使用 `wrangler d1 create`、`wrangler r2 bucket create` 等命令。
 

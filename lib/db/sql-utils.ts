@@ -6,8 +6,7 @@ export const pushCondition = (conditions: SQL[], condition?: SQL) => {
   }
 }
 
-export const combineConditions = (conditions: SQL[]) =>
-  conditions.length ? and(...conditions) : undefined
+export const combineConditions = (conditions: SQL[]) => (conditions.length ? and(...conditions) : undefined)
 
 export const escapeLikePattern = (value: string): string => value.replace(/[%_]/g, '\\$&')
 

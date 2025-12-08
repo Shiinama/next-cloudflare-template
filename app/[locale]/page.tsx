@@ -129,13 +129,9 @@ export default async function Home() {
         <p className="text-muted-foreground mx-auto max-w-2xl text-lg">{t('description')}</p>
       </div>
       <section id="generator" className="mt-12">
-        <div className="mx-auto max-w-3xl rounded-3xl border bg-muted/30 p-6 shadow-md">
-          <h2 className="text-foreground mb-4 text-2xl font-semibold md:text-3xl">
-            {t('imageGenerator.title')}
-          </h2>
-          <p className="text-muted-foreground mb-6 text-base">
-            {t('imageGenerator.description')}
-          </p>
+        <div className="bg-muted/30 mx-auto max-w-3xl rounded-3xl border p-6 shadow-md">
+          <h2 className="text-foreground mb-4 text-2xl font-semibold md:text-3xl">{t('imageGenerator.title')}</h2>
+          <p className="text-muted-foreground mb-6 text-base">{t('imageGenerator.description')}</p>
           <ImageGenerator />
         </div>
       </section>

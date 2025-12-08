@@ -7,6 +7,7 @@ initOpenNextCloudflareForDev()
 const nextConfig: NextConfig = {
   devIndicators: false,
   images: {
+    unoptimized: true,
     remotePatterns: [new URL('https://static.getwhynot.org/**'), new URL('https://static.destinyai.tools/**')]
   },
   reactStrictMode: false,

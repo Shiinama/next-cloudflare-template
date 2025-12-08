@@ -194,7 +194,7 @@ export function ImageGenerator({ className }: ImageGeneratorProps) {
         <div className="space-y-2">
           <Label className="text-sm font-medium">Human Verification</Label>
           {turnstileSiteKey ? (
-            <div className="rounded-lg border bg-background p-3">
+            <div className="bg-background rounded-lg border p-3">
               <div ref={turnstileContainerRef} className="flex justify-center" />
               {captchaError && <p className="text-destructive mt-3 text-sm">{captchaError}</p>}
             </div>

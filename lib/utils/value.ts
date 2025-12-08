@@ -4,8 +4,7 @@ export const isNullish = (value: unknown): value is null | undefined => value ==
 
 export const isPresent = <T>(value: T | null | undefined): value is T => !isNullish(value)
 
-export const normalizeNullable = <T>(value: T | null | undefined): T | null =>
-  value === undefined ? null : value
+export const normalizeNullable = <T>(value: T | null | undefined): T | null => (value === undefined ? null : value)
 
 export const ensureArray = <T>(input: T | T[] | null | undefined): T[] => {
   if (Array.isArray(input)) return input
