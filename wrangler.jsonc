@@ -42,5 +42,12 @@
             "binding": "WORKER_SELF_REFERENCE",
             "service": "cloudflare-template"
         }
-    ]
+    ],
+    // "triggers": {
+    //     "crons": [
+    //         "*/3 * * * *",
+    //         "*/10 * * * *",
+    //         "*/45 * * * *"
+    //     ]
+    // }
 }
