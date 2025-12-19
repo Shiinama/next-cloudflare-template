@@ -1,12 +1,13 @@
 import 'dotenv/config'
 
-import Database from 'better-sqlite3'
 import { existsSync, readdirSync } from 'fs'
 import { join } from 'path'
 import { desc, inArray } from 'drizzle-orm'
-import { drizzle as drizzleBetter } from 'drizzle-orm/better-sqlite3'
+import { createClient } from '@libsql/client'
+import { drizzle as drizzleLibsql } from 'drizzle-orm/libsql'
 import { drizzle as drizzleProxy } from 'drizzle-orm/sqlite-proxy'
-import type { AsyncRemoteCallback, SqliteRemoteDatabase } from 'drizzle-orm/sqlite-proxy'
+import type { AsyncRemoteCallback } from 'drizzle-orm/sqlite-proxy'
+import type { BaseSQLiteDatabase } from 'drizzle-orm/sqlite-core'
 
 import { locales } from '@/i18n/routing'
 import { d1HttpDriver } from '@/lib/db/d1-http-driver'
@@ -119,13 +120,15 @@ const findSqliteFile = (): string | null => {
 }
 
 const openLocalDb = (filePath: string) => {
-  const sqlite = new Database(filePath)
+  const sqlite = createClient({ url: `file:${filePath}` })
   return {
-    db: drizzleBetter(sqlite, { schema }),
+    db: drizzleLibsql(sqlite, { schema }),
     close: () => sqlite.close(),
     mode: 'local'
   }
 }
+
+type DbClient = BaseSQLiteDatabase<'async', any, typeof schema>
 
 const getDbClient = (mode: ExecutionMode) => {
   if (mode !== 'remote') {
@@ -158,7 +161,7 @@ const getDbClient = (mode: ExecutionMode) => {
 }
 
 const findMissingTranslations = async (
-  db: SqliteRemoteDatabase<typeof schema>,
+  db: DbClient,
   baseLocale: string,
   targetLocales: string[]
 ): Promise<MissingTask[]> => {
@@ -275,7 +278,7 @@ const run = async (requestedMode: ExecutionMode) => {
   console.log(`Locales: ${[BASE_LOCALE, ...TRANSLATION_LOCALES].join(' -> ')}`)
 
   try {
-    const tasks = await findMissingTranslations(db as any, BASE_LOCALE, TRANSLATION_LOCALES)
+    const tasks = await findMissingTranslations(db, BASE_LOCALE, TRANSLATION_LOCALES)
 
     if (tasks.length === 0) {
       console.log('All translations are up to date.')
@@ -301,7 +304,7 @@ const run = async (requestedMode: ExecutionMode) => {
       }
     }
   } finally {
-    close()
+    await close()
   }
 }
 

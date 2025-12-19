@@ -11,7 +11,7 @@ import { Checkbox } from '@/components/ui/checkbox'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
-import { useRouter } from '@/i18n/navigation'
+import useRouter from '@/hooks/use-router'
 import { locales, routing } from '@/i18n/routing'
 
 export default function BatchArticlesPage() {

@@ -2,12 +2,12 @@ import { notFound } from 'next/navigation'
 import { SessionProvider } from 'next-auth/react'
 import { NextIntlClientProvider, hasLocale } from 'next-intl'
 import { getTranslations } from 'next-intl/server'
-import { UserProvider } from '@/contexts/user-context'
 
 import Footer from '@/components/footer'
-import { Toaster } from '@/components/ui/sonner'
 import Header from '@/components/header'
 import NextTopLoader from '@/components/top-loader'
+import { Toaster } from '@/components/ui/sonner'
+import { UserProvider } from '@/contexts/user-context'
 import { locales, routing } from '@/i18n/routing'
 
 import type { Metadata, Viewport } from 'next'
@@ -15,9 +15,7 @@ import '../globals.css'
 
 export const viewport: Viewport = {
   width: 'device-width',
-  initialScale: 1,
-  maximumScale: 1,
-  userScalable: false
+  initialScale: 1
 }
 
 export async function generateMetadata(): Promise<Metadata> {

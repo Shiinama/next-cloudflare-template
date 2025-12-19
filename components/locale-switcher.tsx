@@ -8,7 +8,8 @@ import { startTransition } from 'react'
 import { Button } from '@/components/ui/button'
 import { DropdownMenu, DropdownMenuContent, DropdownMenuItem, DropdownMenuTrigger } from '@/components/ui/dropdown-menu'
 import { useIsMobile } from '@/hooks/use-mobile'
-import { usePathname, useRouter } from '@/i18n/navigation'
+import useRouter from '@/hooks/use-router'
+import { usePathname } from '@/i18n/navigation'
 import { locales } from '@/i18n/routing'
 
 type Props = {

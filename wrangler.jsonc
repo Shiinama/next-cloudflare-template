@@ -1,46 +1,49 @@
 {
-    "$schema": "node_modules/wrangler/config-schema.json",
-    "name": "cloudflare-template",
-    "main": "worker.ts",
-    "compatibility_date": "2025-04-22",
-    "compatibility_flags": [
-        "nodejs_compat",
-        "global_fetch_strictly_public"
-    ],
-    "observability": {
-        "logs": {
-            "enabled": true
-        }
-    },
-    "assets": {
-        "directory": ".open-next/assets",
-        "binding": "ASSETS"
-    },
-    "d1_databases": [
-        {
-            "binding": "DB",
-            "database_name": "next-template",
-            "database_id": "76508c42-476a-458d-ae33-045e333d8bf4",
-            "migrations_dir": "migrations"
-        }
-    ],
-    "ai": {
-        "binding": "AI"
-    },
-    "r2_buckets": [
-        {
-            "bucket_name": "demo",
-            "binding": "NEXT_INC_CACHE_R2_BUCKET"
-        },
-        {
-            "bucket_name": "static",
-            "binding": "static"
-        }
-    ],
-    "services": [
-        {
-            "binding": "WORKER_SELF_REFERENCE",
-            "service": "cloudflare-template"
-        }
-    ]
+	"$schema": "node_modules/wrangler/config-schema.json",
+	"name": "next-cloudflare-template",
+	"main": "worker.ts",
+	"compatibility_date": "2025-04-22",
+	"compatibility_flags": [
+		"nodejs_compat",
+		"global_fetch_strictly_public"
+	],
+	"observability": {
+		"logs": {
+			"enabled": true
+		}
+	},
+	"assets": {
+		"directory": ".open-next/assets",
+		"binding": "ASSETS"
+	},
+	"d1_databases": [
+		{
+			"binding": "next_cloudflare_template_db",
+			"database_name": "next-cloudflare-template-db",
+			"database_id": "159210a1-aedf-4030-b783-5d5da069efc5",
+			"remote": true
+		}
+	],
+	"ai": {
+		"binding": "AI",
+		"remote": true
+	},
+	"r2_buckets": [
+		{
+			"bucket_name": "next-cloudflare-template-cache",
+			"binding": "next_cloudflare_template_cache",
+			"remote": true
+		},
+		{
+			"bucket_name": "next-cloudflare-template-static",
+			"binding": "next_cloudflare_template_static",
+			"remote": true
+		}
+	],
+	"services": [
+		{
+			"binding": "WORKER_SELF_REFERENCE",
+			"service": "next-cloudflare-template"
+		}
+	]
 }

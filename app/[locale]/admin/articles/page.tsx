@@ -20,7 +20,8 @@ import {
 } from '@/components/ui/pagination-client'
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from '@/components/ui/select'
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table'
-import { Link, usePathname, useRouter } from '@/i18n/navigation'
+import useRouter from '@/hooks/use-router'
+import { Link, usePathname } from '@/i18n/navigation'
 import { locales } from '@/i18n/routing'
 import { formatDate } from '@/lib/utils'
 

@@ -14,6 +14,8 @@ const withNextIntl = createNextIntlPlugin({
  */
 const nextConfig = {
   output: 'standalone',
+  reactStrictMode: false,
+  reactCompiler: true,
   images: {
     unoptimized: true,
     remotePatterns: [
@@ -22,7 +24,7 @@ const nextConfig = {
         hostname: process.env.NEXT_PUBLIC_R2_DOMAIN,
         port: '',
         pathname: '/**'
-      },
+      }
     ]
   }
 }

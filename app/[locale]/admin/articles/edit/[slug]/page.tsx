@@ -22,7 +22,7 @@ import { Input } from '@/components/ui/input'
 import { Label } from '@/components/ui/label'
 import { Switch } from '@/components/ui/switch'
 import { Textarea } from '@/components/ui/textarea'
-import { useRouter } from '@/i18n/navigation'
+import useRouter from '@/hooks/use-router'
 
 type FormState = {
   title: string
