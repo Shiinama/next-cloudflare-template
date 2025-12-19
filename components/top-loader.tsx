@@ -277,7 +277,7 @@ const NextTopLoader = ({
             NProgress.start()
           }
         }
-      } catch (err) {
+      } catch {
         // 捕获错误并确保进度条完成
         // 开发环境可以取消注释下面的日志
         // console.log('NextTopLoader error: ', err);
@@ -342,6 +342,8 @@ const NextTopLoader = ({
       window.removeEventListener('pagehide', handlePageHide)
       window.removeEventListener('popstate', handleBackAndForth)
     }
+    // These event handlers intentionally capture props/state at render time and should not be recreated on every prop change
+    // eslint-disable-next-line react-hooks/exhaustive-deps
   }, [])
 
   // 返回样式元素

@@ -1,4 +1,3 @@
-/* eslint-disable react/jsx-no-literals */
 import { DeepSeekProver } from '@/components/deepseek-prover/deepseek-prover'
 
 export default function DeepSeekProverPage() {

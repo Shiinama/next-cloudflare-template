@@ -2,17 +2,20 @@ import 'dotenv/config'
 
 import { existsSync, readdirSync } from 'fs'
 import { join } from 'path'
-import { desc, inArray } from 'drizzle-orm'
+
 import { createClient } from '@libsql/client'
+import { desc, inArray } from 'drizzle-orm'
 import { drizzle as drizzleLibsql } from 'drizzle-orm/libsql'
 import { drizzle as drizzleProxy } from 'drizzle-orm/sqlite-proxy'
-import type { AsyncRemoteCallback } from 'drizzle-orm/sqlite-proxy'
-import type { BaseSQLiteDatabase } from 'drizzle-orm/sqlite-core'
+
 
 import { locales } from '@/i18n/routing'
 import { d1HttpDriver } from '@/lib/db/d1-http-driver'
 import * as schema from '@/lib/db/schema'
 import { postTranslations, posts } from '@/lib/db/schema'
+
+import type { BaseSQLiteDatabase } from 'drizzle-orm/sqlite-core'
+import type { AsyncRemoteCallback } from 'drizzle-orm/sqlite-proxy'
 
 type MissingTask = {
   postId: string

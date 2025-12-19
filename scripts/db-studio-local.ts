@@ -1,7 +1,7 @@
 import { execSync } from 'child_process'
-import { join } from 'path'
 import { existsSync, readdirSync } from 'fs'
 import { platform } from 'os'
+import { join } from 'path'
 
 function findSqliteFile(): string | null {
   const basePath = join('.wrangler', 'state', 'v3', 'd1', 'miniflare-D1DatabaseObject')

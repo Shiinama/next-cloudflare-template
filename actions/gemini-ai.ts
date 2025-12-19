@@ -67,13 +67,7 @@ export async function generateWithGemini({
     message: [{ text: userPrompt || prompt }]
   })
 
-  let tokensUsed = 0
-
-  if (result.usageMetadata) {
-    const inputTokens = result.usageMetadata.promptTokenCount || 0
-    const outputTokens = result.usageMetadata.candidatesTokenCount || 0
-    tokensUsed = inputTokens + outputTokens
-  }
+  // Token usage is tracked in result.usageMetadata which is returned below
 
   return {
     usageData: result.usageMetadata,

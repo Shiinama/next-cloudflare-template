@@ -7,6 +7,7 @@ import path from 'path'
 import 'dotenv/config'
 
 import { locales } from '@/i18n/routing'
+
 import { extractKeys, findMissingKeys, deepMerge } from './utils'
 
 /**
@@ -78,7 +79,6 @@ export async function translateMessages(options: TranslationOptions): Promise<Tr
     }
 
     // 根据模式确定要翻译的内容
-    let sourceToTranslate: any
     let missingKeysByLocale: Record<string, string[]> = {}
 
     switch (mode) {
@@ -86,9 +86,7 @@ export async function translateMessages(options: TranslationOptions): Promise<Tr
         if (keys.length === 0) {
           throw new Error('Keys模式需要至少一个要翻译的键')
         }
-        // 过滤掉不需要翻译的键
-        const keysToTranslate = keys.filter((key) => !noTranslateKeys.includes(key))
-        sourceToTranslate = extractKeys(englishMessages, keysToTranslate)
+        // Keys are extracted when needed in the translation payload preparation
         break
 
       case 'missing':
@@ -100,7 +98,7 @@ export async function translateMessages(options: TranslationOptions): Promise<Tr
           try {
             const existingContent = await fs.readFile(localeFilePath, 'utf-8')
             existingTranslations = JSON.parse(existingContent)
-          } catch (err) {
+          } catch {
             console.log(`未找到 ${locale.code} 的现有翻译，将创建新文件。`)
           }
 
@@ -121,11 +119,7 @@ export async function translateMessages(options: TranslationOptions): Promise<Tr
           }))
         }
 
-        // 使用所有缺失键的并集作为源
-        const allMissingKeys = [...new Set(Object.values(missingKeysByLocale).flat())]
-        // 过滤掉不需要翻译的键
-        const missingKeysToTranslate = allMissingKeys.filter((key) => !noTranslateKeys.includes(key))
-        sourceToTranslate = extractKeys(englishMessages, missingKeysToTranslate)
+        // Keys are extracted when needed in the translation payload preparation
         break
     }
 
@@ -189,7 +183,7 @@ export async function translateMessages(options: TranslationOptions): Promise<Tr
         try {
           const existingContent = await fs.readFile(localeFilePath, 'utf-8')
           existingTranslations = JSON.parse(existingContent)
-        } catch (err) {
+        } catch {
           // 文件不存在，将创建新文件
         }
 
@@ -329,7 +323,7 @@ export async function translateMessages(options: TranslationOptions): Promise<Tr
         try {
           const existingContent = await fs.readFile(localeFilePath, 'utf-8')
           existingTranslations = JSON.parse(existingContent)
-        } catch (err) {
+        } catch {
           // 文件不存在，将创建新文件
         }
 

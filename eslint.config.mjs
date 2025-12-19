@@ -1,13 +1,10 @@
-import nextCoreWebVitals from 'eslint-config-next/core-web-vitals'
-import eslintConfigPrettier from 'eslint-config-prettier'
+import { defineConfig, globalIgnores } from 'eslint/config'
+import nextVitals from 'eslint-config-next/core-web-vitals'
 import pluginImport from 'eslint-plugin-import'
 import pluginUnusedImports from 'eslint-plugin-unused-imports'
 
-const config = [
-  {
-    ignores: ['scripts/**/*', '.open-next/**', '.wrangler/**']
-  },
-  ...nextCoreWebVitals,
+const eslintConfig = defineConfig([
+  ...nextVitals,
   {
     files: ['**/*.{js,jsx,ts,tsx,mjs,cjs,mts,cts}'],
     plugins: {
@@ -65,7 +62,21 @@ const config = [
       ]
     }
   },
-  eslintConfigPrettier
-]
+  globalIgnores([
+    // Default ignores of eslint-config-next:
+    '.next/**',
+    '.wrangler/**',
+    '.open-next/**',
+    '.idea/**',
+    '.vscode/**',
+    '.git/**',
+    '.github/**',
+    '.husky/**',
+    '.commitlintrc.json',
+    'out/**',
+    'build/**',
+    'next-env.d.ts'
+  ])
+])
 
-export default config
+export default eslintConfig

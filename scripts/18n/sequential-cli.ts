@@ -1,5 +1,6 @@
-import { hideBin } from 'yargs/helpers'
 import yargs from 'yargs'
+import { hideBin } from 'yargs/helpers'
+
 import { sequentialTranslate } from './sequential-translate'
 
 async function main() {

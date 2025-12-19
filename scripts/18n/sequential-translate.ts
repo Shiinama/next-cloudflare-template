@@ -1,8 +1,10 @@
-import { translateMessages, TranslationOptions, TranslationResult } from './translate'
 import fs from 'fs/promises'
 import path from 'path'
+
 import 'dotenv/config'
 import { locales } from '@/i18n/routing'
+
+import { translateMessages, TranslationOptions } from './translate'
 
 /**
  * 递归查找缺失或空值的键
@@ -119,11 +121,11 @@ export async function sequentialTranslate(options: Omit<TranslationOptions, 'mod
         const existingContent = await fs.readFile(localeFilePath, 'utf-8')
         try {
           existingTranslations = JSON.parse(existingContent)
-        } catch (parseErr) {
+        } catch {
           console.log(`⚠️ ${locale.code} 文件解析失败，将视为空文件`)
           fileExists = false
         }
-      } catch (err) {
+      } catch {
         console.log(`⚠️ 未找到 ${locale.code} 的现有翻译文件，将创建新文件`)
         fileExists = false
       }

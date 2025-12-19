@@ -1,8 +1,9 @@
 import yargs from 'yargs'
 import { hideBin } from 'yargs/helpers'
 
-import { translateMessages, TranslationMode, TranslationOptions, deleteKeysFromMessages } from './translate'
 import { locales } from '@/i18n/routing'
+
+import { translateMessages, TranslationMode, TranslationOptions, deleteKeysFromMessages } from './translate'
 
 const noTranslates = ['siteInfo', 'footer.copyright']
 

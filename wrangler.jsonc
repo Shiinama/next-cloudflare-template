@@ -18,7 +18,7 @@
 	},
 	"d1_databases": [
 		{
-			"binding": "next_cloudflare_template_db",
+			"binding": "DB",
 			"database_name": "next-cloudflare-template-db",
 			"database_id": "159210a1-aedf-4030-b783-5d5da069efc5",
 			"remote": true
@@ -31,12 +31,12 @@
 	"r2_buckets": [
 		{
 			"bucket_name": "next-cloudflare-template-cache",
-			"binding": "next_cloudflare_template_cache",
+			"binding": "NEXT_INC_CACHE_R2_BUCKET",
 			"remote": true
 		},
 		{
 			"bucket_name": "next-cloudflare-template-static",
-			"binding": "next_cloudflare_template_static",
+			"binding": "STATIC",
 			"remote": true
 		}
 	],
